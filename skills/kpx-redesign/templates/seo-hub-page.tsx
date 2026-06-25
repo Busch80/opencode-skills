@@ -17,8 +17,8 @@
 export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { ArrowRight, Calendar, CheckCircle2, ChevronDown, MapPin, Phone,
-         Users, TrendingUp, Clock, Shield /* , <...weitere lucide-icons...> */ } from "lucide-react";
+import { ArrowRight, Calendar, CheckCircle2, ChevronDown, MapPin,
+         Users, TrendingUp, Clock, Shield, Info /* , <...weitere lucide-icons...> */ } from "lucide-react";
 import ServiceModelArrowsFull from "@/components/ServiceModelArrowsFull";
 // alternativ: import ServiceModelArrows from "@/components/ServiceModelArrows";
 import FaqAccordion from "@/components/FaqAccordion";   // für light-FAQ-Variante
@@ -82,7 +82,23 @@ const ratgeber: { heading: string; items: string[] }[] = [
 ];
 // Alternativ: <article> mit max-w-3xl, Absätzen, Zwischenüberschriften — Vorbild externe-it-abteilung
 
-const infobalkenTitle  = "Allgemeine Informationen rund um <Thema – z. B. IT Outsourcing>";
+/* Sektion-6-Context-Block (Infobalken + 5 Fakten + Quellen).
+   - Max 5 Kacheln, je max 20 Wörter.
+   - Faktenbasiert, keine Empfehlung, keine Verkaufsabsicht.
+   - Schweizer Quellen bevorzugt. Siehe references/tone-voice.md §12. */
+const contextBlock = {
+  heading: "Allgemeine Informationen rund um <Thema – z. B. IT Outsourcing>",
+  sub:     "Daten und Fakten, die fuer Ihre <Thema>-Strategie relevant sind.",
+  facts: [
+    { icon: Info, text: "<Fakt 1 – max. 20 Woerter, mit Schweizer Quelle untermauert.>" },
+    { icon: Info, text: "<Fakt 2 – max. 20 Woerter.>" },
+    { icon: Info, text: "<Fakt 3 – max. 20 Woerter.>" },
+    { icon: Info, text: "<Fakt 4 – max. 20 Woerter.>" },
+    { icon: Info, text: "<Fakt 5 – max. 20 Woerter.>" },
+  ],
+  sourcesLabel: "Quellen:",
+  sources:      "Bundesamt fuer Cybersicherheit BACS (Lagebericht), SwissICT, SECO, kpx-it.ch Branchenkenntnisse.",
+};
 
 const benefits: { title: string; desc: string }[] = [
   // 6 Benefits
@@ -297,14 +313,45 @@ export default function SeoHubPage() {
         </div>
       </section>
 
-      {/* ── 6. Infobalken ────────────────────────────────────────────── */}
-      <div style={{ backgroundColor: "oklch(0.22 0.07 250)" }}>
+      {/* ── 6. Infobalken + Context-Block (dunkel, TRENNELEMENT) ───────
+          - Heading + Sub-Heading
+          - Grid mit 5 Fact-Kacheln
+          - Quellenangabe klein am Ende
+          - KEINE Empfehlung, KEIN direkter CTA
+          - Siehe references/tone-voice.md §12. */}
+      <section style={{ backgroundColor: "oklch(0.22 0.07 250)" }}>
         <div className="container">
-          <div className="max-w-5xl mx-auto py-5">
-            <p className="text-white text-xl md:text-2xl font-bold text-center">{infobalkenTitle}</p>
+          <div className="max-w-5xl mx-auto py-12">
+            <h2 className="text-2xl md:text-3xl font-extrabold text-white text-center mb-3">
+              {contextBlock.heading}
+            </h2>
+            <p className="text-center text-sm md:text-base mb-8 max-w-3xl mx-auto"
+              style={{ color: "oklch(0.82 0.04 220)" }}>
+              {contextBlock.sub}
+            </p>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+              {contextBlock.facts.map((fact, i) => {
+                const Icon = fact.icon;
+                return (
+                  <div key={i} className="rounded-lg p-4 flex items-start gap-3"
+                    style={{ backgroundColor: "oklch(0.28 0.07 250)",
+                             border: "1px solid oklch(0.35 0.07 250)" }}>
+                    <Icon className="w-4 h-4 flex-shrink-0 mt-0.5"
+                      style={{ color: "oklch(0.72 0.18 145)" }} />
+                    <p className="text-sm leading-relaxed"
+                      style={{ color: "oklch(0.92 0.02 220)" }}>
+                      {fact.text}
+                    </p>
+                  </div>
+                );
+              })}
+            </div>
+            <p className="text-center text-xs" style={{ color: "oklch(0.65 0.04 220)" }}>
+              <span className="font-semibold">{contextBlock.sourcesLabel}</span> {contextBlock.sources}
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
       {/* ── 7. Ratgeber-Checkliste / Artikel (light) ─────────────────── */}
       {/* Variante A: 3-4 Spalten Checkliste (it-outsourcing-kmu Stil) */}
@@ -469,34 +516,8 @@ export default function SeoHubPage() {
         </div>
       </section>
 
-      {/* ── 12. Abschluss-CTA (dunkel) ────────────────────────────────── */}
-      <section style={{ backgroundColor: "oklch(0.22 0.07 250)", borderTop: "3px solid oklch(0.62 0.14 225)" }}
-        className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-4xl md:text-5xl font-extrabold text-white mb-4">
-              Ihre IT in zuverlässigen Händen.
-            </h2>
-            <p className="text-lg mb-8" style={{ color: "oklch(0.82 0.04 220)" }}>
-              Lernen Sie uns in einem unverbindlichen Erstgespräch kennen. Wir hören zu,
-              analysieren und zeigen Ihnen ehrlich, wo wir Ihnen helfen können.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/kontakt"
-                className="inline-flex items-center justify-center gap-2 font-semibold px-8 py-3 rounded-lg transition-all duration-200 text-base"
-                style={{ backgroundColor: "oklch(0.62 0.14 225)", color: "white" }}>
-                Gratis Erstgespräch vereinbaren
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <a href="tel:0445896955"
-                className="inline-flex items-center justify-center gap-2 font-semibold px-8 py-3 rounded-lg transition-all duration-200 text-base border-2"
-                style={{ borderColor: "oklch(0.62 0.14 225)", color: "oklch(0.62 0.14 225)", backgroundColor: "transparent" }}>
-                <Phone className="w-5 h-5" /> 044 589 695 5
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* KEINE Abschluss-CTA-Sektion mehr.
+          ServicePageFooter (im Layout eingebunden) uebernimmt den Schluss-CTA. */}
 
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaJsonLd) }} />
     </div>

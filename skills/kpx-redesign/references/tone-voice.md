@@ -152,3 +152,65 @@ Antworten sind **nicht** für Schema-dedupliziert — genau der gleiche Text in 
 - Falls du auf eine ß/SS-Umwandlung im Code stößt: `global case-sensitive find & replace`, Erlaube-Ausnahmen sind Zeichennamen wie „Baßgeige" (nicht relevant für IT-Texte aber princiof).
 - Kürzere Sätze: aus 40-Wort-Sätzen 2 × 20-Wort.
 - Vermeide Modalverb-Stacking („sollten könnten müssen")
+
+## 12. Infobalken-Context-Block (Sektion 9) — Regeln
+
+Der Infobalken zwischen Vertriebsblock und Fachtext-Block ist **mehr als ein dekorativer Trenner**. Er liefert **faktenbasierte Context-Informationen** zum Thema der Seite.
+
+### Aufbau
+
+```
+[Heading: Allgemeine Informationen rund um <Thema> für KMU]
+[Sub-Heading: Daten und Fakten, die für Ihre <Thema>-Strategie relevant sind]
+
+[Kachel 1]   [Kachel 2]   [Kachel 3]
+[Kachel 4]   [Kachel 5]
+
+[Quellenangabe klein: Quellen: BACS, Microsoft Security Response Center, ...]
+```
+
+### 7 Regeln
+
+1. **Maximal 5 Kacheln pro Block** — nicht mehr.
+2. **Maximal 20 Wörter pro Kachel** — knapp und prägnant.
+3. **Faktenbasiert** — keine Meinungen, keine Werbung, keine Behauptungen ohne Beleg.
+4. **Schweizer Quellen bevorzugt** — Bundesamt für Cybersicherheit (BACS), MELANI/NCSC, ISB, SECO, SwissICT, kantonale Datenschutz. Bei Vendor-Fakten: Microsoft, SentinelOne etc.
+5. **Quellenangabe klein am Ende** — z. B. „Quellen: BACS Lagebericht zur Cyber-Sicherheit Schweiz, Microsoft Security Response Center."
+6. **KEINE Empfehlung für ein Betreuungsmodell** — der Block ist neutral, faktenbasiert. Empfehlungen kommen in Sektion 8 (3 Betreuungsmodelle).
+7. **KEIN direkter CTA** — keine „Jetzt kaufen"-Buttons, keine Telefonnummern. Die Conversion läuft später.
+
+### Themenbezogene Beispiele (Vorlagen)
+
+**Für Endpoint-Theme:**
+- Microsoft veröffentlicht Windows-Sicherheits-Patches monatlich (Patch Tuesday); verzögerte Patches sind laut BACS eine häufige Angriffsfläche für KMU.
+- Windows 10 hat im Oktober 2025 das offizielle Support-Ende erreicht; ein Weiterbetrieb ohne Updates erhöht das Risiko erheblich.
+- Browser, PDF-Reader und Adobe-Produkte gehören laut BACS zu den am häufigsten angegriffenen Drittanbieter-Programmen bei KMU.
+- Viele Cyber-Versicherer verlangen bei Schweizer KMU den Nachweis regelmässiger Patch- und Update-Prozesse als Policen-Voraussetzung.
+- Laut BACS-Lagebericht ist Phishing der häufigste initiale Angriffsvektor auf KMU-Endpunkte; Patches schliessen diese Lücken nur teilweise.
+
+**Quellenangabe:** Bundesamt für Cybersicherheit BACS (Lagebericht zur Cyber-Sicherheit Schweiz), Microsoft Security Response Center, Microsoft Lifecycle Policy.
+
+**Für Server-Theme (Platzhalter):**
+- Server-Ausfallzeiten verursachen bei KMU messbare Kosten pro Stunde; konkrete Zahlen je nach Branche.
+- RMM-Plattformen überwachen pro Server hunderte Metriken; manuelle Überwachung skaliert nicht mit dem Wachstum.
+- …
+
+**Quellenangabe:** [Brancheverband, BACS, andere].
+
+### Workflow für neue Bullets
+
+1. **DataForSEO-Validierung** der Hauptkeywords — was suchen Nutzer tatsächlich?
+2. **SERP-Analyse** der Top-Rankings — welche Fakten erwähnen diese?
+3. **Schweizer Quellen bevorzugen** — BACS, NCSC, ISB, SwissICT.
+4. **5 Bullets ausarbeiten** (max. 20 Wörter pro Bullet).
+5. **Cross-Check mit Skill-Vorgaben** (kpx-schweiz-marketing §4, §9) — keine Superlative, keine leeren Versprechen.
+6. **Quellenangabe klein** unter dem Block.
+
+### Verstöße gegen diese Regeln (sind zu vermeiden)
+
+- ❌ „Wir empfehlen das Gemeinsam-Modell, weil..." — direkte Empfehlung im Infobalken
+- ❌ „Mit KPX sind Sie immer auf der sicheren Seite." — Marketing-Floskel ohne Beleg
+- ❌ „Unser Managed Endpoint ist der beste der Schweiz." — Superlativ
+- ❌ 6 oder mehr Kacheln — Information-Overload
+- ❌ 30+ Wörter pro Bullet — wird nicht gelesen
+- ❌ Quellenlose Aussagen mit konkreten Zahlen — wirkt unseriös

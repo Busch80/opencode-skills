@@ -5,7 +5,7 @@ description: Use when creating, editing, or migrating pages on the KPX AG websit
 
 # KPX Redesign — Neues Design-System für kpx-itch
 
-Dieser Skill richtet dich ein, das **neue KPX-Design-System** (oklch-basiert, 15-Sektionen-Rhythmus, de-CH-Sprache) auf alle weiteren Seiten des Next.js-Repo `Busch80/kpx-itch` anzuwenden — sowohl beim **Migrieren** bestehender `app/**/page.tsx` als auch beim **Neuerstellen** von Seiten im neuen Stil.
+Dieser Skill richtet dich ein, das **neue KPX-Design-System** (oklch-basiert, 13-Sektionen-Rhythmus, de-CH-Sprache) auf alle weiteren Seiten des Next.js-Repo `Busch80/kpx-itch` anzuwenden — sowohl beim **Migrieren** bestehender `app/**/page.tsx` als auch beim **Neuerstellen** von Seiten im neuen Stil.
 
 ## 1. Kanonische Referenzseiten
 
@@ -14,7 +14,7 @@ Vier Seiten sind bereits im neuen Stil implementiert und sind die alleinige Wahr
 | Route | Datei | Template-Typ | Spezialität |
 |---|---|---|---|
 | `/` | `app/page.tsx` | Hub | Hero mit CloudFront-Hintergrundbild + Gradient-Overlay, Cliffhanger-Quote, `<BranchenTabs />`, `<PartnerSlider />`, light FAQ |
-| `/managed-it-services/backup` | `app/managed-it-services/backup/page.tsx` | **Service-Subpage (Master)** | Vollständiger 15-Sektionen-Rhythmus, `<BackupDiagram />`, dark FAQ (native `<details>` mit grünem Chevron) |
+| `/managed-it-services/endpoint` | `app/managed-it-services/endpoint/page.tsx` | **Service-Subpage (Master)** | Vollständiger 13-Sektionen-Rhythmus mit Infobalken+Context-Block (Sektion 9) und 3 Betreuungsmodellen (Sektion 8), dark FAQ (native `<details>` mit grünem Chevron) |
 | `/externe-it-abteilung` | `app/externe-it-abteilung/page.tsx` | Service-Hub | `<ServiceModelArrowsFull />` (3 Modelle), Vergleichstabelle, Ratgeber-Artikel (`max-w-3xl`) |
 | `/it-outsourcing-kmu` | `app/it-outsourcing-kmu/page.tsx` | SEO-Hub | `<ServiceModelArrows />` (2 Modelle), 2-Karten-Vergleich, 3-Spalten-Checkliste, light FAQ, compact-`produkte` Array vor Ort |
 
@@ -45,7 +45,7 @@ Diese Dateien liegen neben der `SKILL.md` und enthalten die vollständigen Spezi
 | Datei | Inhalt |
 |---|---|
 | `references/design-tokens.md` | Alle oklch-Farbwerte, Layout-Helper-Klassen, Typografie, Buttons, Card-Varianten, Animations-Klassen |
-| `references/section-rhythm.md` | Kanonischer 15-Sektionen-Rhythmus, Stats, 4-Step-Prozess, Infobalken, Mischungsregeln |
+| `references/section-rhythm.md` | Kanonischer 13-Sektionen-Rhythmus, Stats, 4-Step-Prozess, 3 Betreuungsmodelle, Infobalken+Context-Block, Mischungsregeln |
 | `references/components.md` | Snippets für alle wiederkehrenden Blöcke (Hero, Stats, Infobalken, Steps, Benefits, FAQ hell/dunkel, Services-Grid, Blog, Servicegebiet, Final-CTA) |
 | `references/seo-schema.md` | Metadata-Export, JSON-LD `@graph` (BreadcrumbList, FAQPage, Organization `@id:#organization`, Service), Robot/Sitemap |
 | `references/tone-voice.md` | de-CH Regeln (kein ß → ss), Wortliste, kanonische Phrasen, harte Fakten statt Marketing |
@@ -66,7 +66,7 @@ Beim Migrieren einer bestehenden `app/<route>/page.tsx` ins neue Design:
 2. **Bestehenden Inhalt inventarisieren**: Titel (H1), Hauptaussage, Benefits, Features, FAQ, Blog-Referenzen, Schematyp, Canonical. Behalte alle Inhalte und Fakten bei, nur Design/Sprache/SEO werden auf neuen Stil gesetzt.
 3. **Schemafeld-Belegung vorbereiten**: `PAGE_TITLE`, `PAGE_DESC`, Canonical (ohne Trailing-Slash), Breadcrumb-Levels, Service-Name, FAQ-Array.
 4. **Neue Datei aus Template bauen** ( Kopiere `templates/<passend>.tsx` als Startpunkt, passe Slots aus. Nutze `references/components.md` für Snippets.
-5. **Sektionen-Modell prüfen** anhand `references/section-rhythm.md`. Page-spezifische Grafiken (Backup-Diagram → ServiceModelArrows etc.) ersetzen. Optional Sections (Cliffhanger, BranchenTabs, PartnerSlider) nur dort, wo das Vorbild sie hat.
+5. **Sektionen-Modell prüfen** anhand `references/section-rhythm.md`. Page-spezifische Grafiken (Backup-Diagram → ServiceModelArrows etc.) ersetzen. Optional Sections (Cliffhanger, BranchenTabs, PartnerSlider) nur dort, wo das Vorbild sie hat. Sektion 9 (Infobalken+Context-Block) IMMER mit echtem Content befüllen (Heading, Sub-Heading, 5 Kacheln, Quellenangabe) — siehe `references/tone-voice.md` §12.
 6. **SEO + JSON-LD vollständig neu aufbauen** nach `references/seo-schema.md`. Verwende immer `@graph`-Struktur. Canonical exakt ohne Trailing-Slash (`https://kpx-it.ch/managed-it-services/backup`). og-image immer 1200×630, locale `de_CH`.
 7. **Sprache de-CH prüfen**: ß → ss, Datum `toLocaleDateString("de-CH", ...)`, Wortliste aus `references/tone-voice.md`. Keine Phrasendrescherei, sondern konkrete Fakten.
 8. **Build & Lint ausführen**: `pnpm tsc --noEmit && pnpm lint`. Rot/Type-Fehler beheben, nicht unterdrücken.
@@ -110,7 +110,7 @@ Beim Neuerstellen einer Seite (z. B. aus SEO-Backlog `references/pages-to-migrat
 ## 8. Bekannte offene Punkte
 
 - `ServiceModelArrowsFull.tsx` und `components/serviceModelData.ts` nutzen noch Hex-Werte (`#0B4A7F`, `#1B8FC4`, `#D6E6F0`, …). Diese sollten bei nächster Gelegenheit auf die oklch-Skala gesetzt werden. Eine Migration dieses Bausteins ist ein separater PR, nicht Teil einzelner Seiten-Migration.
-- Routing-Konflikte in `produkte.ts`: `/managed-it-services/endpoint` vs `/managed-it-services/client`. Vor Migration klären, welche Route die kanonische ist.
+- Routing-Konflikt `/managed-it-services/endpoint` vs `/managed-it-services/client` ist gelöst: `/managed-it-services/endpoint` ist die kanonische Route, `/managed-it-services/client` macht 301-Redirect dorthin. Konfiguriert in `next.config.ts`.
 - `/managed-it-services/backup` vs `/managed-it-services/microsoft-365-backup` — unterschiedliche Services, ohne canonical-`hreflang`-Bezug; vor Migration prüfen.
 
 ## 9. Aktivierung
