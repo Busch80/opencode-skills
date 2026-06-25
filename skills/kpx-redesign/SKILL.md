@@ -50,6 +50,7 @@ Diese Dateien liegen neben der `SKILL.md` und enthalten die vollständigen Spezi
 | `references/seo-schema.md` | Metadata-Export, JSON-LD `@graph` (BreadcrumbList, FAQPage, Organization `@id:#organization`, Service), Robot/Sitemap |
 | `references/tone-voice.md` | de-CH Regeln (kein ß → ss), Wortliste, kanonische Phrasen, harte Fakten statt Marketing, 18 Migrations-Lektionen |
 | `references/migrations-playbook.md` | **NEU** Umfassendes Playbook aus der Network-Migration: Schema, Chevron-Design-System, Iterations-Workflow, Commit-Konventionen, Fehlerquellen, Lessons Learned |
+| `references/build-verification.md` | **NEU** Build-Verifikations-Tools: Icon-Check Python-Script, manuelle Checkliste, häufige Build-Fehler. Vor jedem Push ausführen. |
 | `references/pages-to-migrate.md` | Inventar aller 55 zu migrierenden `app/**/page.tsx` mit Prioritäten, Routing-Konflikten, SEO-Backlog |
 | `templates/managed-service-page.tsx` | Blanko-Vorlage für `managed-it-services/*` Subpages (Backup-Blaupause) |
 | `templates/seo-hub-page.tsx` | Blanko-Vorlage für IT-Dienstleister/KMU-Cluster (externe-it-abteilung-Blaupause) |

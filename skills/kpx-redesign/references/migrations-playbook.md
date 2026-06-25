@@ -516,6 +516,7 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 | FAQ-Patterns | `references/faq.md` |
 | Feature-Tabellen | `references/feature-table.md` |
 | Infobalken-Context-Block-Regeln | `references/infobalken.md` |
+| **Build-Verifikation (vor Push)** | `references/build-verification.md` |
 | Skill-Index und Overview | `SKILL.md` |
 
 ## 12. Quick-Reference-Checklist
