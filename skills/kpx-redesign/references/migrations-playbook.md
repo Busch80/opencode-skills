@@ -421,6 +421,28 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **Body-Text braucht `font-medium`:** Default 400 wirkt zu schwach für Bullet-Punkte. 500 ist bewusster Listenpunkt, nicht Fliesstext.
 - **BG-Rhythmus-Regel darf Ausnahmen haben:** Wenn zwei dunkle Sektionen thematisch zusammengehören (FAQ erklärt Context-Block), kann der Border-Trenner entfallen. Wichtig: User-Entscheidung, nicht Agent-Eigenmächtig.
 
+### Iteration 6: Server-Seite Migration + Standard-Stats-Regel (Commit TBD)
+
+**Was:** Migration von `/managed-it-services/server` auf das 13-Sektionen-Schema. Die Seite war komplett anders strukturiert (Sidebar-Layout mit 1 Hero + 1 Main Content + 1 CTA am Ende). Komplett umschreiben auf 13 Sektionen:
+- Hero mit radial-gradient (kein Image)
+- Standard-Stats-Bar (User-Regel: IMMER 1:1 von Startseite)
+- Problem mit 4 Pain-Points aus aktuellem Problem-Intro abgeleitet
+- Lösung (Sektion 4) mit RMM (6 Features cyan) + EDR (6 Features rot) als 2 Sub-Blocks
+- Frage (Sektion 5) aus aktueller Bottom-Frage
+- Prozess (Sektion 6) mit 4 NEU erstellten Schritten (Audit → Offerte → Betrieb)
+- Chevron Sektion 8 mit `<ServiceModelArrowsFull>` generischem Subheading
+- Context-Block (Sektion 9) mit 3 SEO-Spalten + RMM/EDR Vergleichstabelle (12 Zeilen Zebra) + Quellen
+- FAQ (Sektion 10) in dark Theme verschoben
+- Störungen (Sektion 11) mit 7 produkte-Cards + Hover cyan
+- IT-Wissen (Sektion 12) mit `getLatestPosts(4)`
+- Servicegebiet (Sektion 13) mit MapPin-Akzent 12x12px
+- `ServicePageFooter` für Final-CTA
+
+**Lesson:**
+- **Sidebar-Layout zu Section-Schema:** Die Server-Seite hatte ein völlig anderes Layout (Sidebar mit Sticky-CTA + Image). Die Inhalte mussten neu verteilt werden: Sidebar-Items (CTA-Card, Image, „Was wir übernehmen", Servicegebiet, IT-Wissen-Links) → in eigene Sektionen aufgeteilt (Sektion 11/12/13, Final-CTA via ServicePageFooter).
+- **Standard-Stats als feste Regel:** User-Anweisung „immer standard stats bitte merken" war eine QUERSCHNITT-ENTSCHEIDUNG, nicht nur für die Server-Seite. Wird in `tone-voice.md` Lektion 22 dokumentiert. Gilt für alle Service-Seiten.
+- **RMM + EDR als 2 Sub-Blocks:** Die zwei Plattformen (RMM = cyan, EDR = rot) bleiben visuell erkennbar (Akzentfarbe), aber inhaltlich in einer Sektion vereint. Vermeidet 14-Sektionen-Erweiterung wie bei Network.
+
 ### Was gut funktioniert hat
 - Schrittweise Iterationen mit klaren User-Freigaben
 - Plan-Mode mit Frage-Tool fuer Design-Entscheidungen
@@ -428,12 +450,15 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - Skill-Updates nach jeder strukturellen Aenderung (Iteration 5 hat 3 neue Lektionen + Components/Section-Rhythmus Updates gefordert)
 - Mirror-Sync direkt nach jedem kpx-itch-Skill-Update
 - **Vercel-URL nach Git-Push funktioniert automatisch** (neuer Deployment-Hash nach jedem Push) — User kann ohne manuelle Trigger visuell verifizieren
+- **Bestehende Schema-Patterns wiederverwendet:** Endpoint-Seite als Vorlage für Layout, Network-Seite für BG-Rhythmus und Chevron-Integration
+- **User-Anweisungen früh festhalten:** Standard-Stats-Regel wurde als Lektion 22 dokumentiert, damit künftige Migrationen sie automatisch anwenden
 
 ### Was nicht gut funktioniert hat
 - Erste Iteration mit Custom-SVG-Timeline war visuelle Opulenz, die User nicht brauchte
 - Erste Chevron-Iteration (rot/gelb/cyan) brach die Design-Konsistenz mit Sektion 8
 - Erste Pain-Point-Icons-Annahme (cyan) war falsch — waren bereits orange-rot, keine Aenderung noetig
 - Skill-Updates wurden in fruehen Iterationen vom User explizit verzoegert („erstmal nicht anpassen") — Skill-Sync-Discipline braucht User-Vorgabe
+- Server-Migration startete mit Plan ohne User-Bestätigung der Pain-Point-Ableitung — diese sind jetzt aus aktuellem Problem-Text interpretiert, sollten aber mit User verifiziert werden
 
 ## 11. Cross-References
 
