@@ -18,7 +18,7 @@ export const dynamic = "force-dynamic";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ArrowRight, Calendar, CheckCircle2, ChevronDown, MapPin,
-         Users, TrendingUp, Clock, Shield, Info /* , <...weitere lucide-icons...> */ } from "lucide-react";
+         Users, TrendingUp, Clock, Shield, Info, HardDrive /* , <...weitere lucide-icons...> */ } from "lucide-react";
 import ServiceModelArrowsFull from "@/components/ServiceModelArrowsFull";
 // alternativ: import ServiceModelArrows from "@/components/ServiceModelArrows";
 import FaqAccordion from "@/components/FaqAccordion";   // für light-FAQ-Variante
@@ -82,22 +82,58 @@ const ratgeber: { heading: string; items: string[] }[] = [
 ];
 // Alternativ: <article> mit max-w-3xl, Absätzen, Zwischenüberschriften — Vorbild externe-it-abteilung
 
-/* Sektion-6-Context-Block (Infobalken + 5 Fakten + Quellen).
-   - Max 5 Kacheln, je max 20 Wörter.
+/* Sektion-6-Context-Block (Infobalken + SEO-Content + Feature-Tabelle + Quellen-Links).
+   - 3 Spalten Erklaertexte (je 3-4 Saetze, ~90 Woerter pro Spalte)
+   - 2-Spalten-Feature-Tabelle (NinjaOne / SentinelOne, je 6-8 Bullet-Items)
+   - Quellen-Angabe mit echten <a href> Links
    - Faktenbasiert, keine Empfehlung, keine Verkaufsabsicht.
-   - Schweizer Quellen bevorzugt. Siehe references/tone-voice.md §12. */
+   - Schweizer Quellen mit Links. Siehe references/tone-voice.md §12. */
 const contextBlock = {
   heading: "Allgemeine Informationen rund um <Thema – z. B. IT Outsourcing>",
-  sub:     "Daten und Fakten, die fuer Ihre <Thema>-Strategie relevant sind.",
-  facts: [
-    { icon: Info, text: "<Fakt 1 – max. 20 Woerter, mit Schweizer Quelle untermauert.>" },
-    { icon: Info, text: "<Fakt 2 – max. 20 Woerter.>" },
-    { icon: Info, text: "<Fakt 3 – max. 20 Woerter.>" },
-    { icon: Info, text: "<Fakt 4 – max. 20 Woerter.>" },
-    { icon: Info, text: "<Fakt 5 – max. 20 Woerter.>" },
+  sub:     "Was <Thema-K1> ist, warum <Thema-K2> essenziell ist, ...",
+  explanations: [
+    {
+      h3: "Was ist <Thema>?",
+      text: "<3-4 Saetze Fliesstext, ~90 Woerter. Definition + Schweizer Quelle als inline-Link.>",
+    },
+    {
+      h3: "Warum <Unterpunkt 1>?",
+      text: "<3-4 Saetze Fliesstext, ~90 Woerter. Mit ggf. Hersteller-Quelle als inline-Link.>",
+    },
+    {
+      h3: "Warum <Unterpunkt 2>?",
+      text: "<3-4 Saetze Fliesstext, ~90 Woerter.>",
+    },
   ],
-  sourcesLabel: "Quellen:",
-  sources:      "Bundesamt fuer Cybersicherheit BACS (Lagebericht), SwissICT, SECO, kpx-it.ch Branchenkenntnisse.",
+  featureTables: [
+    {
+      title: "NinjaOne – RMM-Features",
+      icon: HardDrive,
+      items: [
+        "<Feature 1 – z.B. Automatisches Patch-Management>",
+        "<Feature 2>",
+        "<Feature 3>",
+        "<Feature 4 – 6-8 Elemente>",
+      ],
+    },
+    {
+      title: "SentinelOne – EDR-Features",
+      icon: Shield,
+      items: [
+        "<Feature 1 – z.B. Autonome AI>",
+        "<Feature 2>",
+        "<Feature 3>",
+        "<Feature 4 – 6-8 Elemente>",
+      ],
+    },
+  ],
+  sources: [
+    { label: "BACS / NCSC",         href: "https://www.ncsc.admin.ch/ncsc/de/home.html" },
+    { label: "Microsoft MSRC",      href: "https://msrc.microsoft.com/update-guide" },
+    { label: "Microsoft Lifecycle", href: "https://learn.microsoft.com/en-us/lifecycle/" },
+    { label: "NinjaOne",            href: "https://www.ninjaone.com/" },
+    { label: "SentinelOne",         href: "https://www.sentinelone.com/" },
+  ],
 };
 
 const benefits: { title: string; desc: string }[] = [
@@ -314,9 +350,7 @@ export default function SeoHubPage() {
       </section>
 
       {/* ── 6. Infobalken + Context-Block (dunkel, TRENNELEMENT) ───────
-          - Heading + Sub-Heading
-          - Grid mit 5 Fact-Kacheln
-          - Quellenangabe klein am Ende
+          - 3 Spalten Erklaertexte + 2-Spalten-Feature-Tabelle + Quellen-Links
           - KEINE Empfehlung, KEIN direkter CTA
           - Siehe references/tone-voice.md §12. */}
       <section style={{ backgroundColor: "oklch(0.22 0.07 250)" }}>
@@ -329,25 +363,59 @@ export default function SeoHubPage() {
               style={{ color: "oklch(0.82 0.04 220)" }}>
               {contextBlock.sub}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              {contextBlock.facts.map((fact, i) => {
-                const Icon = fact.icon;
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              {contextBlock.explanations.map((col, i) => (
+                <div key={i} className="rounded-lg p-5"
+                  style={{ backgroundColor: "oklch(0.28 0.07 250)",
+                           border: "1px solid oklch(0.35 0.07 250)" }}>
+                  <h3 className="font-bold text-base mb-2 text-white">{col.h3}</h3>
+                  <p className="text-sm leading-relaxed"
+                    style={{ color: "oklch(0.82 0.04 220)" }}
+                    dangerouslySetInnerHTML={{ __html: col.text }} />
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+              {contextBlock.featureTables.map((table, i) => {
+                const Icon = table.icon;
                 return (
-                  <div key={i} className="rounded-lg p-4 flex items-start gap-3"
+                  <div key={i} className="rounded-xl p-6"
                     style={{ backgroundColor: "oklch(0.28 0.07 250)",
                              border: "1px solid oklch(0.35 0.07 250)" }}>
-                    <Icon className="w-4 h-4 flex-shrink-0 mt-0.5"
-                      style={{ color: "oklch(0.72 0.18 145)" }} />
-                    <p className="text-sm leading-relaxed"
-                      style={{ color: "oklch(0.92 0.02 220)" }}>
-                      {fact.text}
-                    </p>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center"
+                        style={{ backgroundColor: "oklch(0.62 0.14 225 / 0.15)" }}>
+                        <Icon className="w-4 h-4" style={{ color: "oklch(0.62 0.14 225)" }} />
+                      </div>
+                      <h3 className="font-bold text-base text-white">{table.title}</h3>
+                    </div>
+                    <ul className="space-y-2">
+                      {table.items.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5"
+                            style={{ color: "oklch(0.72 0.18 145)" }} />
+                          <span className="text-sm leading-relaxed"
+                            style={{ color: "oklch(0.92 0.02 220)" }}>
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 );
               })}
             </div>
             <p className="text-center text-xs" style={{ color: "oklch(0.65 0.04 220)" }}>
-              <span className="font-semibold">{contextBlock.sourcesLabel}</span> {contextBlock.sources}
+              <span className="font-semibold">Quellen:</span>{" "}
+              {contextBlock.sources.map((s, i) => (
+                <span key={s.href}>
+                  {i > 0 && " · "}
+                  <a href={s.href} target="_blank" rel="noopener noreferrer"
+                    className="underline" style={{ color: "oklch(0.72 0.18 145)" }}>
+                    {s.label}
+                  </a>
+                </span>
+              ))}
             </p>
           </div>
         </div>

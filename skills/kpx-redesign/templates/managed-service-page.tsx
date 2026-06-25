@@ -80,57 +80,75 @@ const stepProcess: { step: string; title: string; desc: string; highlight: strin
 const processCtaLabel = "<CTA-Label – z. B.: Gratis Backup-Analyse anfordern>";
 
 /* Sektion 8: drei Betreuungsmodelle.
-   - Reihenfolge der Karten je nach Service anpassen (z. B. "Gemeinsam" zuerst bei Endpoint).
-   - "highlight"-Modelle werden zuerst gerendert (empfohlene Karte). */
+   - Reihenfolge der Karten je nach Service anpassen (z. B. "Rundum" zuerst fuer Backup,
+     "Gemeinsam" zuerst fuer Endpoint, "Eigenregie" frueher bei grossen IT-Teams).
+   - ALLE 3 MODELLE GLEICHWERTIG — KEIN `highlight` Feld, KEIN „Empfohlen"-Badge. */
 const careModels: { id: "rundum" | "gemeinsam" | "eigenregie";
-                    icon: any; title: string; desc: string; highlight?: boolean }[] = [
+                    icon: any; title: string; desc: string }[] = [
   { id: "rundum",     icon: Briefcase,
     title: "Rundum",
-    desc: "Wir uebernehmen die volle Verantwortung fuer Ihre <Thema>-Loesung – von der Einrichtung bis zum 24/7-Betrieb. Sie nutzen Ihre Endpunkte, wir sorgen fuer den Rest.",
-    highlight: false },
+    desc: "Wir uebernehmen die volle Verantwortung fuer Ihre <Thema>-Loesung – von der Einrichtung bis zum 24/7-Betrieb. Sie nutzen Ihre Endpunkte, wir sorgen fuer den Rest." },
   { id: "gemeinsam",  icon: HandshakeIcon,
     title: "Gemeinsam",
-    desc: "Ihr IT-Team arbeitet eng mit unseren Spezialisten zusammen. Geteilte Verantwortung, geteiltes Wissen – ideal fuer KMU mit eigenem IT-Personal.",
-    highlight: true },
+    desc: "Ihr IT-Team arbeitet eng mit unseren Spezialisten zusammen. Geteilte Verantwortung, geteiltes Wissen – ideal fuer KMU mit eigenem IT-Personal." },
   { id: "eigenregie", icon: UserCog,
     title: "Eigenregie",
-    desc: "Sie betreiben Ihre Loesung selbst, nutzen aber unsere Plattformen, Tools und unseren Support on-demand. Maximale Kontrolle, minimale externe Abhaengigkeit.",
-    highlight: false },
+    desc: "Sie betreiben Ihre Loesung selbst, nutzen aber unsere Plattformen, Tools und unseren Support on-demand. Maximale Kontrolle, minimale externe Abhaengigkeit." },
 ];
 
 /* Sektion 9: Infobalken + Context-Block (Trennelement).
-   - Max 5 Kacheln.
-   - Max 20 Woerter pro Kachel.
+   - 3 Spalten Erklaertexte (je 3-4 Saetze, ~90 Woerter pro Spalte)
+   - 2-Spalten-Feature-Tabelle (NinjaOne / SentinelOne, je 6-8 Bullet-Items)
+   - Quellen-Angabe mit echten <a href> Links
    - Faktenbasiert, keine Empfehlung, keine Verkaufsabsicht.
-   - Schweizer Quellen bevorzugt (BACS, MELANI/NCSC, ISB, SECO, SwissICT).
+   - Schweizer Quellen mit Links (BACS, MSRC, NinjaOne, SentinelOne).
    - Siehe references/tone-voice.md §12. */
 const contextBlock = {
   heading: "Allgemeine Informationen rund um <Thema> fuer KMU",
-  sub:     "Daten und Fakten, die fuer Ihre <Thema>-Strategie relevant sind.",
-  facts: [
+  sub:     "Was <Thema-Thema-K1> ist, warum <Thema-K2> essenziell ist, ...",
+  explanations: [
     {
-      icon: Info,
-      text: "<Fakt 1 – max. 20 Woerter, mit Schweizer Quelle untermauert.>",
+      h3: "Was ist <Thema>?",
+      text: "<3-4 Saetze Fliesstext, ~90 Woerter. Definition + Schweizer Quelle als inline-Link.>",
     },
     {
-      icon: Info,
-      text: "<Fakt 2 – max. 20 Woerter.>",
+      h3: "Warum <Unterpunkt 1>?",
+      text: "<3-4 Saetze Fliesstext, ~90 Woerter. Mit ggf. Hersteller-Quelle als inline-Link.>",
     },
     {
-      icon: Info,
-      text: "<Fakt 3 – max. 20 Woerter.>",
-    },
-    {
-      icon: Info,
-      text: "<Fakt 4 – max. 20 Woerter.>",
-    },
-    {
-      icon: Info,
-      text: "<Fakt 5 – max. 20 Woerter.>",
+      h3: "Warum <Unterpunkt 2>?",
+      text: "<3-4 Saetze Fliesstext, ~90 Woerter.>",
     },
   ],
-  sourcesLabel: "Quellen:",
-  sources:      "Bundesamt fuer Cybersicherheit BACS (Lagebericht), Microsoft Security Response Center, Microsoft Lifecycle Policy.",
+  featureTables: [
+    {
+      title: "NinjaOne – RMM-Features",
+      icon: HardDrive,
+      items: [
+        "<Feature 1 – z.B. Automatisches Patch-Management>",
+        "<Feature 2>",
+        "<Feature 3>",
+        "<Feature 4 – 6-8 Elemente>",
+      ],
+    },
+    {
+      title: "SentinelOne – EDR-Features",
+      icon: Shield,
+      items: [
+        "<Feature 1 – z.B. Autonome AI>",
+        "<Feature 2>",
+        "<Feature 3>",
+        "<Feature 4 – 6-8 Elemente>",
+      ],
+    },
+  ],
+  sources: [
+    { label: "BACS / NCSC",           href: "https://www.ncsc.admin.ch/ncsc/de/home.html" },
+    { label: "Microsoft MSRC",         href: "https://msrc.microsoft.com/update-guide" },
+    { label: "Microsoft Lifecycle",    href: "https://learn.microsoft.com/en-us/lifecycle/" },
+    { label: "NinjaOne",               href: "https://www.ninjaone.com/" },
+    { label: "SentinelOne",            href: "https://www.sentinelone.com/" },
+  ],
 };
 
 type FaqItem = { q: string; a: string; aLink?: { text: string; href: string } };
@@ -372,7 +390,7 @@ export default function Managed<ServiceName>PascalPage() {
         </div>
       </section>
 
-      {/* ── 8. Drei Betreuungsmodelle (light) ──────────────────────────── */}
+      {/* ── 8. Drei Betreuungsmodelle (light, alle gleichwertig) ───────── */}
       <section className="kpx-section kpx-section-light">
         <div className="container max-w-5xl mx-auto">
           <div className="fade-in">
@@ -382,19 +400,17 @@ export default function Managed<ServiceName>PascalPage() {
             <p className="text-sm md:text-base text-gray-700 leading-relaxed mb-8 text-center max-w-3xl mx-auto">
               Sie entscheiden, wie viel Verantwortung Sie abgeben moechten. Wir liefern auf
               allen drei Stufen die gleiche Qualitaet – mit Plattformen wie NinjaOne (RMM),
-              SentinelOne (EDR) und unserem Schweizer Support-Stack.
+              SentinelOne (EDR) und unserem Schweizer Support-Stack. Alle Modelle sind gleichwertig.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
               {careModels.map((m) => {
                 const Icon = m.icon;
                 return (
                   <div key={m.id}
-                    className="flex flex-col rounded-xl p-5 transition-all"
+                    className="flex flex-col rounded-xl p-5"
                     style={{
-                      backgroundColor: m.highlight ? "oklch(0.96 0.008 220)" : "white",
-                      border: m.highlight
-                        ? "2px solid oklch(0.62 0.14 225)"
-                        : "1px solid oklch(0.91 0.01 220)",
+                      backgroundColor: "white",
+                      border: "1px solid oklch(0.91 0.01 220)",
                     }}>
                     <div className="flex items-center gap-2 mb-3">
                       <div className="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
@@ -403,12 +419,6 @@ export default function Managed<ServiceName>PascalPage() {
                       </div>
                       <h3 className="font-bold text-base"
                         style={{ color: "oklch(0.22 0.07 250)" }}>{m.title}</h3>
-                      {m.highlight && (
-                        <span className="text-[10px] font-semibold uppercase tracking-wide px-2 py-0.5 rounded-full ml-auto"
-                          style={{ backgroundColor: "oklch(0.62 0.14 225)", color: "white" }}>
-                          Empfohlen
-                        </span>
-                      )}
                     </div>
                     <p className="text-sm text-gray-700 leading-relaxed flex-1">{m.desc}</p>
                   </div>
@@ -421,8 +431,9 @@ export default function Managed<ServiceName>PascalPage() {
 
       {/* ── 9. Infobalken + Context-Block (dunkel, TRENNELEMENT) ─────────
           - Heading + Sub-Heading
-          - Grid mit 5 Fact-Kacheln
-          - Quellenangabe klein am Ende
+          - 3 Spalten Erklaertexte (SEO-Content)
+          - 2-Spalten-Feature-Tabelle (NinjaOne / SentinelOne)
+          - Quellen-Angabe mit echten <a href> Links
           - KEINE Empfehlung, KEIN direkter CTA
           - Siehe references/tone-voice.md §12. */}
       <section style={{ backgroundColor: "oklch(0.22 0.07 250)" }}>
@@ -435,25 +446,65 @@ export default function Managed<ServiceName>PascalPage() {
               style={{ color: "oklch(0.82 0.04 220)" }}>
               {contextBlock.sub}
             </p>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-              {contextBlock.facts.map((fact, i) => {
-                const Icon = fact.icon;
+
+            {/* Teil A: 3 Spalten Erklärungen (SEO-Content) */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              {contextBlock.explanations.map((col, i) => (
+                <div key={i} className="rounded-lg p-5"
+                  style={{ backgroundColor: "oklch(0.28 0.07 250)",
+                           border: "1px solid oklch(0.35 0.07 250)" }}>
+                  <h3 className="font-bold text-base mb-2 text-white">{col.h3}</h3>
+                  <p className="text-sm leading-relaxed"
+                    style={{ color: "oklch(0.82 0.04 220)" }}
+                    dangerouslySetInnerHTML={{ __html: col.text }} />
+                </div>
+              ))}
+            </div>
+
+            {/* Teil B: 2-Spalten-Feature-Tabelle (NinjaOne / SentinelOne) */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+              {contextBlock.featureTables.map((table, i) => {
+                const Icon = table.icon;
                 return (
-                  <div key={i} className="rounded-lg p-4 flex items-start gap-3"
+                  <div key={i} className="rounded-xl p-6"
                     style={{ backgroundColor: "oklch(0.28 0.07 250)",
                              border: "1px solid oklch(0.35 0.07 250)" }}>
-                    <Icon className="w-4 h-4 flex-shrink-0 mt-0.5"
-                      style={{ color: "oklch(0.72 0.18 145)" }} />
-                    <p className="text-sm leading-relaxed"
-                      style={{ color: "oklch(0.92 0.02 220)" }}>
-                      {fact.text}
-                    </p>
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="w-9 h-9 rounded-lg flex items-center justify-center"
+                        style={{ backgroundColor: "oklch(0.62 0.14 225 / 0.15)" }}>
+                        <Icon className="w-4 h-4" style={{ color: "oklch(0.62 0.14 225)" }} />
+                      </div>
+                      <h3 className="font-bold text-base text-white">{table.title}</h3>
+                    </div>
+                    <ul className="space-y-2">
+                      {table.items.map((feature) => (
+                        <li key={feature} className="flex items-start gap-2">
+                          <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5"
+                            style={{ color: "oklch(0.72 0.18 145)" }} />
+                          <span className="text-sm leading-relaxed"
+                            style={{ color: "oklch(0.92 0.02 220)" }}>
+                            {feature}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 );
               })}
             </div>
+
+            {/* Teil C: Quellenangabe mit echten Links */}
             <p className="text-center text-xs" style={{ color: "oklch(0.65 0.04 220)" }}>
-              <span className="font-semibold">{contextBlock.sourcesLabel}</span> {contextBlock.sources}
+              <span className="font-semibold">Quellen:</span>{" "}
+              {contextBlock.sources.map((s, i) => (
+                <span key={s.href}>
+                  {i > 0 && " · "}
+                  <a href={s.href} target="_blank" rel="noopener noreferrer"
+                    className="underline" style={{ color: "oklch(0.72 0.18 145)" }}>
+                    {s.label}
+                  </a>
+                </span>
+              ))}
             </p>
           </div>
         </div>

@@ -44,6 +44,7 @@ Wichtigster Treiber: Schweizer Tastaturen und `/de-CH`-Sprachtag haben kein `ß`
 | Ihre IT in zuverlässigen Händen. | Kanonische Final-CTA-Headline |
 | Was drin steht, gilt. | Kanonische Offerten-Phrase |
 | Sie entscheiden in aller Ruhe. | Kanonische Verkaufs-Phrase |
+| Offerte | Schweizer Word fuer „Angebot" — IMMER „Offerte" statt „Angebot" schreiben. Ein Kunde kauft keine „Angebote", sondern erhaelt eine „Offerte" als Dokument. |
 
 ## 4. Schreibstil
 
@@ -153,64 +154,76 @@ Antworten sind **nicht** für Schema-dedupliziert — genau der gleiche Text in 
 - Kürzere Sätze: aus 40-Wort-Sätzen 2 × 20-Wort.
 - Vermeide Modalverb-Stacking („sollten könnten müssen")
 
-## 12. Infobalken-Context-Block (Sektion 9) — Regeln
+## 12. Infobalken+Context-Block (Sektion 9) — Regeln
 
-Der Infobalken zwischen Vertriebsblock und Fachtext-Block ist **mehr als ein dekorativer Trenner**. Er liefert **faktenbasierte Context-Informationen** zum Thema der Seite.
+Der Infobalken zwischen Vertriebsblock und Fachtext-Block ist **mehr als ein dekorativer Trenner**. Er liefert **faktenbasierte Context-Informationen** und **SEO-optimierte Erklärtexte** zum Thema der Seite.
 
-### Aufbau
+### Aufbau (Schema: 3 Spalten + Feature-Tabelle + Quellen-Links)
 
 ```
 [Heading: Allgemeine Informationen rund um <Thema> für KMU]
-[Sub-Heading: Daten und Fakten, die für Ihre <Thema>-Strategie relevant sind]
+[Sub-Heading: Was <Thema-K1> ist, warum <Thema-K2> essenziell ist, ...]
 
-[Kachel 1]   [Kachel 2]   [Kachel 3]
-[Kachel 4]   [Kachel 5]
+[Teil A: 3 Spalten Erklärungen (SEO-Content)]
+  Spalte 1: "Was ist <Thema>? – 3–4 Sätze"
+  Spalte 2: "Warum <Unterpunkt 1>? – 3–4 Sätze"
+  Spalte 3: "Warum <Unterpunkt 2>? – 3–4 Sätze"
 
-[Quellenangabe klein: Quellen: BACS, Microsoft Security Response Center, ...]
+[Teil B: 2-Spalten-Feature-Tabelle]
+  Spalte links:  "NinjaOne – RMM-Features"     (6–8 Bullet-Items)
+  Spalte rechts: "SentinelOne – EDR-Features"  (6–8 Bullet-Items)
+
+[Teil C: Quellen-Angabe mit echten Links]
+  Quellen: <a>BACS/NCSC</a> · <a>Microsoft MSRC</a> · <a>Microsoft Lifecycle</a> · <a>NinjaOne</a> · <a>SentinelOne</a>
 ```
 
 ### 7 Regeln
 
-1. **Maximal 5 Kacheln pro Block** — nicht mehr.
-2. **Maximal 20 Wörter pro Kachel** — knapp und prägnant.
-3. **Faktenbasiert** — keine Meinungen, keine Werbung, keine Behauptungen ohne Beleg.
-4. **Schweizer Quellen bevorzugt** — Bundesamt für Cybersicherheit (BACS), MELANI/NCSC, ISB, SECO, SwissICT, kantonale Datenschutz. Bei Vendor-Fakten: Microsoft, SentinelOne etc.
-5. **Quellenangabe klein am Ende** — z. B. „Quellen: BACS Lagebericht zur Cyber-Sicherheit Schweiz, Microsoft Security Response Center."
-6. **KEINE Empfehlung für ein Betreuungsmodell** — der Block ist neutral, faktenbasiert. Empfehlungen kommen in Sektion 8 (3 Betreuungsmodelle).
-7. **KEIN direkter CTA** — keine „Jetzt kaufen"-Buttons, keine Telefonnummern. Die Conversion läuft später.
+1. **3 Spalten Erklärungen** — each 3–4 Sätze Fliesstext (gesamt ~250–400 Woerter). SEO-optimiert, kein Stichwort-Schmierzettel.
+2. **2-Spalten-Feature-Tabelle** — fuer Tools-Vergleich (z.B. RMM vs EDR, NinjaOne vs SentinelOne). 6–8 Bullet-Items je Spalte, Cyan-Checkmarks.
+3. **Faktenbasiert** — keine Meinungen, keine Werbung, keine Behauptungen ohne Beleg. Inline-Quellen-Links als `<a href>`.
+4. **Schweizer Quellen mit Links** — BACS/NCSC als aktiver Link (`https://www.ncsc.admin.ch/ncsc/de/home.html`), Microsoft-Quellen (MSRC, Lifecycle) als aktiver Link. Vendor-Seiten (NinjaOne, SentinelOne) verlinken direkt.
+5. **KEINE Empfehlung fuer ein Betreuungsmodell** — der Block ist neutral, faktenbasiert. Betreuungsmodelle (Sektion 8) sind alle gleichwertig, kein Highlight, kein Badge.
+6. **KEIN direkter CTA** — keine „Jetzt kaufen"-Buttons, keine Telefonnummern. Die Conversion laeuft spaeter im ServicePageFooter.
+7. **Sprache de-CH** — Umlaute (ae, oe, ue), kein ß (immer ss). „Offerte" statt „Angebot" (siehe §3 Wortliste).
 
 ### Themenbezogene Beispiele (Vorlagen)
 
-**Für Endpoint-Theme:**
-- Microsoft veröffentlicht Windows-Sicherheits-Patches monatlich (Patch Tuesday); verzögerte Patches sind laut BACS eine häufige Angriffsfläche für KMU.
-- Windows 10 hat im Oktober 2025 das offizielle Support-Ende erreicht; ein Weiterbetrieb ohne Updates erhöht das Risiko erheblich.
-- Browser, PDF-Reader und Adobe-Produkte gehören laut BACS zu den am häufigsten angegriffenen Drittanbieter-Programmen bei KMU.
-- Viele Cyber-Versicherer verlangen bei Schweizer KMU den Nachweis regelmässiger Patch- und Update-Prozesse als Policen-Voraussetzung.
-- Laut BACS-Lagebericht ist Phishing der häufigste initiale Angriffsvektor auf KMU-Endpunkte; Patches schliessen diese Lücken nur teilweise.
+**Fuer Endpoint-Theme (referenz-Implementierung):**
+- Spalte 1: „Was ist Patch-Management?" — definition, BACS-Verweis
+- Spalte 2: „Warum Windows- und 3rd-Party-Patches?" — Patch Tuesday, MSRC Link
+- Spalte 3: „Warum Aufgaben automatisieren?" — Konsistenz, Helpdesk-Entlastung
+- Tabelle links: „NinjaOne – RMM-Features" (Patching, Inventar, Remote-Support, Skripte, Reporting)
+- Tabelle rechts: „SentinelOne – EDR-Features" (Autonome AI, Rollback, Storyline, USB-Control)
+- Quellen: BACS/NCSC, MSRC, Lifecycle, NinjaOne, SentinelOne (alle als aktive Links)
 
-**Quellenangabe:** Bundesamt für Cybersicherheit BACS (Lagebericht zur Cyber-Sicherheit Schweiz), Microsoft Security Response Center, Microsoft Lifecycle Policy.
+**Fuer Server-Theme (Platzhalter):**
+- Spalte 1: „Was ist Server-Management?"
+- Spalte 2: „Warum proaktive Ueberwachung?"
+- Spalte 3: „Warum Backup-Integration?"
+- Tabelle links:  „NinjaOne – RMM-Features"
+- Tabelle rechts: „SentinelOne – Server-Security"
+- Quellen: [BACS/NCSC, SwissICT, NinjaOne, SentinelOne — alle als aktive Links]
 
-**Für Server-Theme (Platzhalter):**
-- Server-Ausfallzeiten verursachen bei KMU messbare Kosten pro Stunde; konkrete Zahlen je nach Branche.
-- RMM-Plattformen überwachen pro Server hunderte Metriken; manuelle Überwachung skaliert nicht mit dem Wachstum.
-- …
+### Workflow fuer neue Sektion 9
 
-**Quellenangabe:** [Brancheverband, BACS, andere].
-
-### Workflow für neue Bullets
-
-1. **DataForSEO-Validierung** der Hauptkeywords — was suchen Nutzer tatsächlich?
-2. **SERP-Analyse** der Top-Rankings — welche Fakten erwähnen diese?
+1. **DataForSEO-Validierung** der Hauptkeywords — was suchen Nutzer tatsaechlich?
+2. **SERP-Analyse** der Top-Rankings — welche Fakten erwaehnen diese?
 3. **Schweizer Quellen bevorzugen** — BACS, NCSC, ISB, SwissICT.
-4. **5 Bullets ausarbeiten** (max. 20 Wörter pro Bullet).
-5. **Cross-Check mit Skill-Vorgaben** (kpx-schweiz-marketing §4, §9) — keine Superlative, keine leeren Versprechen.
-6. **Quellenangabe klein** unter dem Block.
+4. **3 Spalten Erklaertexte** schreiben (je 3–4 Saetze, ~90 Woerter pro Spalte).
+5. **Feature-Tabelle** erstellen — je 6–8 Bullet-Items fuer Tool-Plattform (z.B. RMM/EDR).
+6. **Quellen-Angabe** als echte `<a href>` Links inline ins Markup.
+7. **Cross-Check mit Skill-Vorgaben** (kpx-schweiz-marketing §4, §9) — keine Superlative, keine leeren Versprechen.
+8. **Betruuungsmodelle (Sektion 8)** — alle 3 Modelle identisch stylen, KEIN `highlight: true`, KEIN Empfohlen-Badge.
 
-### Verstöße gegen diese Regeln (sind zu vermeiden)
+### Verstoesse gegen diese Regeln (sind zu vermeiden)
 
+- ❌ 5 Bullet-Kacheln mit 1-Satz-Inhalt — zu duenn fuer SEO
+- ❌ 30+ Woerter pro Bullet ohne Quellenbeleg — wirkt unserioes
+- ❌ Quellen als reiner Textstring ohne Link — schlecht fuer SEO & UX
 - ❌ „Wir empfehlen das Gemeinsam-Modell, weil..." — direkte Empfehlung im Infobalken
+- ❌ Highlight-Border bei einem Betreuungsmodell — Sektion 8 ist gleichwertig
 - ❌ „Mit KPX sind Sie immer auf der sicheren Seite." — Marketing-Floskel ohne Beleg
 - ❌ „Unser Managed Endpoint ist der beste der Schweiz." — Superlativ
-- ❌ 6 oder mehr Kacheln — Information-Overload
-- ❌ 30+ Wörter pro Bullet — wird nicht gelesen
+- ❌ „Angebot" — falsches Wort fuer de-CH, immer „Offerte"
 - ❌ Quellenlose Aussagen mit konkreten Zahlen — wirkt unseriös

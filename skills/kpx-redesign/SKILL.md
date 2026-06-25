@@ -92,7 +92,11 @@ Beim Neuerstellen einer Seite (z. B. aus SEO-Backlog `references/pages-to-migrat
 - **Klassenhelfer verwenden**: `kpx-section{,-light,-dark}`, `container {max-w-5xl mx-auto}`, `section-heading{,-light}`, `fade-in`, `stagger-children`. Keine Original-Styles für Standardpatterns erfinden.
 - **Hero-PaddingTop**:`calc(80px + 56px)` (Navbar-Höhe + Puffer), `minHeight: "520px"`, Welle-SVG ganz unten.
 - **Telefon/Adresse konstant**: `044 589 695 5`, `Grindelstrasse 6, 8304 Wallisellen`, `Kanton Zürich, Schweiz`.
-- **de-CH**: kein ß, Datum-Format, kanonische Phrasen("Ihre IT in zuverlässigen Händen.", "Was drin steht, gilt.").
+- **de-CH**: kein ß, Datum-Format, kanonische Phrasen("Ihre IT in zuverlässigen Händen.", "Was drin steht, gilt."). **IMMER „Offerte" statt „Angebot"** — Schweizer Wort, siehe `references/tone-voice.md` §3.
+- **Betreuungsmodelle gleichwertig**: alle 3 Modelle identisch stylen — KEIN `highlight: true`, KEIN „Empfohlen"-Badge, KEIN cyan-Border-Highlight.
+- **Sektion 9 SEO-Content**: 3 Spalten Erklärungen (je 3–4 Sätze) + 2-Spalten-Feature-Tabelle (NinjaOne / SentinelOne) + Quellen-Links als echte `<a href>`. Siehe `references/section-rhythm.md` Sektion 9.
+- **ServicePageFooter ohne Karussell**: CTA-Banner nur mit cyan „Gratis Erstgespräch"-Button. KEIN „Alle Managed Services"-Link in CTA. Endpoint-Seite: KEIN „Alle 17 Managed Services entdecken"-Link in Sektion 11.
+- **Quellen mit echten URLs**: BACS (`https://www.ncsc.admin.ch/ncsc/de/home.html`), MSRC (`https://msrc.microsoft.com/update-guide`), Microsoft Lifecycle, NinjaOne (`https://www.ninjaone.com/`), SentinelOne (`https://www.sentinelone.com/`).
 - **Metadata-Template**: `title`, `description`, `alternates.canonical` (KEIN Trailing-Slash ausser Root), `openGraph` (1200×630 og-image.png, `locale: "de_CH"`), `twitter.summary_large_image`.
 - **JSON-LD**: `@graph` mit `BreadcrumbList` + `FAQPage` + `Organization @id` + `Service`/`WebPage`/`Article`. Render via `<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaJsonLd) }} />` am Seitenende.
 - **`@id` der Organisation konstant**: `https://kpx-it.ch/#organization` (wird von `app/layout.tsx` global referenziert).

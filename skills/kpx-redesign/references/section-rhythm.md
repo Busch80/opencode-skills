@@ -23,17 +23,17 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 | 5 | **Frage zur aktuellen Lage** | dunkel | `kpx-section-dark`, `py-10 md:py-12` | Direkte Frage + Subline (Backup-CTA-Intro-Stil) | Soll User zum Handeln animieren |
 | 6 | **4 Prozess-Schritte** | white | `kpx-section bg-white` | Standard 01-04: Gratis / Analyse / Offerte / Betrieb | Kanonische Texte aus Skill |
 | 7 | **CTA-Button** | white | innerhalbe v. Sektion 6 | Cyan-Button (z. B. "Gratis X-Analyse anfordern") | innerhalb der Prozess-Schritte-Sektion, unter dem Grid |
-| 8 | **Drei Betreuungsmodelle** | light | `kpx-section-light` | Rundum / Gemeinsam / Eigenregie + Plattform-Hinweis (NinjaOne/SentinelOne) | Reihenfolge der Karten je nach Service anpassen (z. B. "Gemeinsam" zuerst bei Endpoint) |
-| 9 | **Infobalken + Context-Block** | dunkel | `bg: oklch(0.22 0.07 250)` | **Heading + Sub-Heading + 5 Fact-Kacheln + Quellenangabe** | **Trennelement** zwischen Vertriebs- und Fachtext. KEINE Empfehlung. KEINE Verkaufsabsicht. |
+| 8 | **Drei Betreuungsmodelle** | light | `kpx-section-light` | Rundum / Gemeinsam / Eigenregie + Plattform-Hinweis (NinjaOne/SentinelOne). **Alle Modelle gleichwertig — KEIN `highlight`, KEIN „Empfohlen"-Badge.** | Reihenfolge der Karten nach Service-Kontext (z. B. "Rundum" zuerst für Backup, "Gemeinsam" zuerst für Endpoint) |
+| 9 | **Infobalken + Context-Block** | dunkel | `bg: oklch(0.22 0.07 250)` | **Heading + Sub-Heading + 3 Spalten Erklaertexte + 2-Spalten-Feature-Tabelle + Quellen-Links** | **Trennelement** zwischen Vertriebs- und Fachtext. KEINE Empfehlung. KEINE Verkaufsabsicht. SEO-optimierter Content, keine reinen Bullets mehr. |
 | 10 | **Themen-FAQ** | dunkel | `kpx-section-dark` | Themenspezifische Fragen, native `<details>`, grüner Chevron `oklch(0.72 0.18 145)` | 6-10 Fragen |
-| 11 | **Störungen-Sektion** (Managed Services) | light | `kpx-section-light` | Heading "Störungen erkennen wir..." + 6-Card-Grid via `produkte.map` + "Alle 17 Managed Services entdecken"-Link | Cross-Linking |
+| 11 | **Störungen-Sektion** (Managed Services) | light | `kpx-section-light` | Heading "Störungen erkennen wir..." + 6-Card-Grid via `produkte.map`. **KEIN „Alle 17 Managed Services entdecken"-Link** (entfernt) | Cross-Linking via Grid |
 | 12 | **IT-Wissen Blog** | white | `kpx-section bg-white` | 3 latest via `getLatestPosts(3)` | 3-Spalten-Grid |
 | 13 | **Servicegebiet** | light-grey | `bg: oklch(0.97 0.01 220)` | MapPin + Adresse + 6-Kantone-Pills + Schweizweit remote | `<MapPin />`-Icon cyan |
-| — | **Abschluss-CTA** | — | — | **ENTFÄLLT** — `ServicePageFooter` übernimmt | ServicePageFooter enthält eigenen CTA-Banner |
+| — | **Abschluss-CTA** | — | — | **ENTFÄLLT** — `ServicePageFooter` übernimmt | ServicePageFooter: **nur CTA-Banner, KEIN Karussell**, KEIN „Alle Managed Services"-Link im CTA-Banner, nur cyan „Gratis Erstgespräch"-Button. |
 
 ## Erweiterte Inhalte für Sektion 9 (Infobalken + Context-Block)
 
-Sektion 9 ist **mehr als ein einzeiliger dunkler Balken**. Sie hat einen **strukturierten Aufbau**:
+Sektion 9 ist **mehr als ein einzeiliger dunkler Balken**. Sie hat einen **strukturierten Aufbau** mit **SEO-optimiertem Content** (nicht nur kurze Bullets):
 
 ```tsx
 {/* Sektion 9 — Trennelement + Context-Block */}
@@ -45,17 +45,29 @@ Sektion 9 ist **mehr als ein einzeiliger dunkler Balken**. Sie hat einen **struk
     </h2>
     <p className="text-center text-sm md:text-base mb-8 max-w-3xl mx-auto"
        style={{ color: "oklch(0.82 0.04 220)" }}>
-      Daten und Fakten, die für Ihre [Thema]-Strategie relevant sind.
+      Was [Thema-K1] ist, warum [Thema-K2] essenziell ist, ...
     </p>
 
-    {/* Grid: 5 Fact-Kacheln */}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-      {/* jede Kachel: Bullet-Text + Symbol/Icon */}
+    {/* Teil A: 3 Spalten Erklärungen (SEO-Content) */}
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      {/* Spalte 1: „Was ist <Thema>? – 3–4 Sätze" */}
+      {/* Spalte 2: „Warum <Unterpunkt 1>? – 3–4 Sätze" */}
+      {/* Spalte 3: „Warum <Unterpunkt 2>? – 3–4 Sätze" */}
     </div>
 
-    {/* Quellenangabe */}
+    {/* Teil B: 2-Spalten-Feature-Tabelle (RMM / EDR) */}
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-10">
+      {/* Spalte links: „NinjaOne – RMM-Features" (6–8 Bullet-Items) */}
+      {/* Spalte rechts: „SentinelOne – EDR-Features" (6–8 Bullet-Items) */}
+    </div>
+
+    {/* Teil C: Quellen-Angabe mit echten <a href> Links */}
     <p className="text-center text-xs" style={{ color: "oklch(0.65 0.04 220)" }}>
-      Quellen: [Bundesbehörde / Branchenverband], [Microsoft / Standardwerk].
+      <span className="font-semibold">Quellen:</span>{" "}
+      <a href="https://www.ncsc.admin.ch/...">BACS / NCSC</a> ·
+      <a href="https://msrc.microsoft.com/...">Microsoft MSRC</a> ·
+      <a href="https://www.ninjaone.com/">NinjaOne</a> ·
+      <a href="https://www.sentinelone.com/">SentinelOne</a>
     </p>
   </div>
 </section>
@@ -63,42 +75,47 @@ Sektion 9 ist **mehr als ein einzeiliger dunkler Balken**. Sie hat einen **struk
 
 ### Regeln für Sektion 9 (siehe auch `references/tone-voice.md` §12)
 
-- **Maximal 5 Kacheln** (Bullets)
-- **Maximal 20 Wörter pro Bullet**
-- **Faktenbasiert** — keine Meinungen, keine Werbung
-- **Schweizer Quellen bevorzugt** (BACS, MELANI/NCSC, ISB, SECO, SwissICT, kantonale Datenschutz)
-- **Bei bekannten Vendor-Fakten** (z. B. „Patch Tuesday monatlich"): Microsoft-Quellen
-- **Quellenangabe klein am Ende des Blocks** (z. B. „Quellen: BACS Lagebericht, Microsoft Security Response Center.")
-- **KEINE Empfehlung für ein Betreuungsmodell** — der Block ist neutral
-- **KEIN direkter CTA** — die Conversion kommt später (Sektionen 12–14 bzw. ServicePageFooter)
-- **Maximal 1 Cross-Verweis** auf verwandte Seite erlaubt (z. B. „Mehr zu MDM: /managed-mobile-device")
+- **3 Spalten Erklärungen** — each 3–4 Sätze Fliesstext (~90 Woerter pro Spalte), SEO-optimiert
+- **2-Spalten-Feature-Tabelle** — fuer Tools-Vergleich (z. B. RMM/EDR), je 6–8 Bullet-Items
+- **Faktenbasiert** — keine Meinungen, keine Werbung, keine Behauptungen ohne Beleg
+- **Schweizer Quellen mit echten Links** — BACS/NCSC, MSRC, Microsoft Lifecycle als aktive `<a href>`
+- **Vendor-Seiten verlinken** — NinjaOne, SentinelOne direkt als aktive Links
+- **KEINE Empfehlung fuer ein Betreuungsmodell** — Sektion 8 ist neutral/gleichwertig
+- **KEIN direkter CTA** — die Conversion kommt spaeter im ServicePageFooter
+- **Maximal 1 Cross-Verweis** auf verwandte Seite erlaubt (z. B. „Mehr zu EDR: /managed-it-services/endpoint-detection-response")
 
-### Beispiel für Endpoint-Theme (mit Schweizer Quellen)
+### Sektion 8: Drei Betreuungsmodelle — neue Regeln
+
+- **Alle 3 Modelle gleichwertig** — KEIN `highlight: true` Feld, KEIN cyan-Border, KEIN „Empfohlen"-Badge
+- **Cards identisch stylen** — gleiche Border, gleiche Background-Color, kein Hover-Effekt der selektion simuliert
+- **Reihenfolge nach Service-Kontext** — Rundum zuerst fuer Backup (KMU ohne IT-Team), Gemeinsam zuerst fuer Endpoint (KMU mit IT-Team), Eigenregie früher bei Grosse IT-Teams
+- **Plattform-Hinweis** — NinjaOne und SentinelOne im Sub-Heading erwähnen
+
+### Beispiel für Endpoint-Theme (referenz-Implementierung)
 
 ```
-1. Microsoft veröffentlicht Windows-Sicherheits-Patches monatlich am Patch Tuesday;
-   verzögerte Patches sind laut BACS eine häufige Angriffsfläche für KMU.
-2. Windows 10 hat im Oktober 2025 das offizielle Support-Ende erreicht;
-   ein Weiterbetrieb ohne Updates erhöht das Risiko erheblich.
-3. Browser, PDF-Reader und Adobe-Produkte gehören laut BACS zu den am häufigsten
-   angegriffenen Drittanbieter-Programmen bei KMU.
-4. Viele Cyber-Versicherer verlangen bei Schweizer KMU den Nachweis regelmässiger
-   Patch- und Update-Prozesse als Policen-Voraussetzung.
-5. Laut BACS-Lagebericht ist Phishing der häufigste initiale Angriffsvektor auf
-   KMU-Endpunkte; Patches schliessen diese Lücken nur teilweise.
+Spalte 1: "Was ist Patch-Management?"  – Definition, BACS-Verweis (inline-Link)
+Spalte 2: "Warum Windows- und 3rd-Party-Patches?" – Patch Tuesday, MSRC-Link
+Spalte 3: "Warum Aufgaben automatisieren?" – Konsistenz, Helpdesk-Entlastung
 
-Quellen: BACS Lagebericht zur Cyber-Sicherheit Schweiz,
-Microsoft Security Response Center, Microsoft Lifecycle Policy.
+Tabelle links:  "NinjaOne – RMM-Features"  (Patching, Inventarisierung, Remote-Support, Skripte, Reporting, ...)
+Tabelle rechts: "SentinelOne – EDR-Features" (Autonome AI, Rollback, Storyline, USB-Control, Remediation, ...)
+
+Quellen (als aktive <a href> Links):
+  BACS / NCSC · Microsoft MSRC · Microsoft Lifecycle · NinjaOne · SentinelOne
 ```
 
 ### Beispiel für Server-Theme (Platzhalter, später zu füllen)
 
 ```
-1. Server-Ausfallzeiten kosten Schweizer KMU durchschnittlich [Quelle] Franken pro Stunde.
-2. RMM-Plattformen überwachen rund 200 Metriken pro Server; manuelle Überwachung skaliert nicht.
-3. …
+Spalte 1: "Was ist Server-Management?"
+Spalte 2: "Warum proaktive Ueberwachung?"
+Spalte 3: "Warum Backup-Integration?"
 
-Quellen: [BACS / Branchenverband / Microsoft / andere].
+Tabelle links:  "NinjaOne – RMM-Features"   (Patching, Monitoring, Alerting, ...)
+Tabelle rechts: "SentinelOne – Server-Security" (EDR, Verhaltensanalyse, ...)
+
+Quellen: [BACS/NCSC, SwissICT, NinjaOne, SentinelOne – als aktive Links]
 ```
 
 ## Wichtige Regeln (Zusammenfassung)
@@ -107,11 +124,14 @@ Quellen: [BACS / Branchenverband / Microsoft / andere].
 |---|---|
 | Stats-Bar IMMER 1:1 von Startseite | Konsistenz über alle Pages, einprägsame Marken-Wiederholung |
 | Anweisungen des Kunden haben IMMER Vorrang vor Skill | Skill ist Vorlage, keine Diktatur |
-| 3 Betreuungsmodelle IMMER zwischen Prozess-Schritten und Infobalken | Kapitel 8 im neuen Schema |
+| 3 Betreuungsmodelle IMMER zwischen Prozess-Schritten und Infobalken | Kapitel 8 im neuen Schema, alle gleichwertig, KEIN Highlight |
 | KEINE Preise nennen | Direkte Skill-Vorgabe |
+| IMMER „Offerte" statt „Angebot" | De-CH-spezifisch: Schweizer IMMER „Offerte", siehe tone-voice.md §3 |
 | Token NIE in Skill-Dateien | Sicherheitsvorgabe |
-| Sektion 9 IMMER mit echtem Content (nicht nur Headline) | Mehrwert für User und SEO |
-| Quellen IMMER Schweizer-first | Vertrauensaufbau |
+| Sektion 9 IMMER mit SEO-optimiertem Content (3 Spalten + Tabelle + Links) | Mehrwert für User und SEO |
+| Quellen IMMER Schweizer-first + Vendor-Seiten mit aktiven Links | Vertrauensaufbau & SEO |
+| ServicePageFooter: KEIN Karussell, KEIN „Alle Managed Services"-Link | Nur cyan „Gratis Erstgespräch"-Button im CTA-Banner |
+| Endpoint-Seite: KEIN „Alle 17 Managed Services entdecken"-Link in Sektion 11 | Footer-Link entfernt |
 | Abschluss-CTA entfällt | ServicePageFooter übernimmt |
 
 ## Rhythmus-Diagramme
