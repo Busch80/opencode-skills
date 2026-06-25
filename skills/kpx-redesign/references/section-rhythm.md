@@ -24,7 +24,7 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 | 6 | **4 Prozess-Schritte** | white | `kpx-section bg-white` | Standard 01-04: Gratis / Analyse / Offerte / Betrieb | Kanonische Texte aus Skill |
 | 7 | **CTA-Button** | white | innerhalbe v. Sektion 6 | Cyan-Button (z. B. "Gratis X-Analyse anfordern") | innerhalb der Prozess-Schritte-Sektion, unter dem Grid |
 | 8 | **Chevron-Diagramm (Drei Betreuungsmodelle)** | light-grey | `kpx-section` mit `backgroundColor: "oklch(0.97 0.01 220)"` | Reihenfolge Rundum / Gemeinsam / Eigenregie — konsistent mit `externe-it-abteilung`. NICHT ändern. **Komponentenwahl je nach Service:**<br>• Endpoint / Externe IT: `<ServiceModelArrowsFull>` (Defaults: NinjaOne + SentinelOne)<br>• Network: `<ServiceModelArrowsFullNetwork>` (Defaults: UniFi + Pro/Max-Switches, Network-Phasen)<br>**Code-Duplikation wird bewusst in Kauf genommen** für klare Trennung der Verantwortlichkeiten. | Daten aus `serviceModelData.ts`:<br>• `MODELS_FULL` + `PHASES` (Endpoint / Externe IT)<br>• `MODELS_NETWORK` + `PHASES_NETWORK` (Network)<br>Jede Komponente hat Network-spezifische bzw. Endpoint-spezifische Defaults. **BG `oklch(0.97 0.01 220)` (light-grey) für Kontrast zu benachbarter white-Sektion 6 und dunkler Sektion 9.** |
-| 9 | **Infobalken + Context-Block** | dunkel | `bg: oklch(0.22 0.07 250)`, `borderBottom: "3px solid oklch(0.62 0.14 225)"` wenn Sektion 10 folgt | **Heading + Sub-Heading + 3 Spalten Erklaertexte + 2-Spalten-Feature-Tabelle + Quellen-Links** | **Trennelement** zwischen Vertriebs- und Fachtext. KEINE Empfehlung. KEINE Verkaufsabsicht. SEO-optimierter Content, keine reinen Bullets mehr. **Cyan-Border-Trenner (3px solid) nur wenn zwei dunkle Sektionen direkt aufeinander folgen (z. B. 9 → 10).** |
+| 9 | **Infobalken + Context-Block** | dunkel | `bg: oklch(0.22 0.07 250)`, `borderBottom: "3px solid oklch(0.62 0.14 225)"` (nur wenn Sektion 10 folgt UND nicht thematisch verschmolzen) | **Heading + Sub-Heading + 3 Spalten Erklaertexte + 2-Spalten-Feature-Tabelle + Quellen-Links** | **Trennelement** zwischen Vertriebs- und Fachtext. KEINE Empfehlung. KEINE Verkaufsabsicht. SEO-optimierter Content, keine reinen Bullets mehr. **Cyan-Border-Trenner (3px solid) nur wenn zwei dunkle Sektionen direkt aufeinander folgen (z. B. 9 → 10) UND thematisch nicht verschmolzen.** |
 | 10 | **Themen-FAQ** | dunkel | `kpx-section-dark` | Themenspezifische Fragen, native `<details>`, grüner Chevron `oklch(0.72 0.18 145)` | 6-10 Fragen |
 | 11 | **Störungen-Sektion** (Managed Services) | light | `kpx-section-light` | Heading "Störungen erkennen wir..." + 6-Card-Grid via `produkte.map`. **KEIN „Alle 17 Managed Services entdecken"-Link** (entfernt) | Cross-Linking via Grid |
 | 12 | **IT-Wissen Blog** | white | `kpx-section bg-white` | 3 latest via `getLatestPosts(3)` | 3-Spalten-Grid |
@@ -70,7 +70,8 @@ BG-Rhythmus bleibt regelkonform: 3 (light) → 4 (light-grey, andere Schattierun
 ### Schlüsselregeln
 
 1. **Niemals zwei `light`-Sektionen direkt hintereinander** — zwischen Sektion 3 (light) und Sektion 8 (light) liegt zwingend eine Sektion mit `white` oder `dunkel`. Konkret: Sektion 4 wird zwingend `bg-white`.
-2. **Niemals zwei `dunkel`-Sektionen direkt hintereinander ohne Border-Trenner** — Sektion 9 und Sektion 10 sind beide dunkel. Sektion 9 bekommt `borderBottom: "3px solid oklch(0.62 0.14 225)"` als cyan-Trenner.
+2. **Niemals zwei `dunkel`-Sektionen direkt hintereinander ohne Border-Trenner** — Standard-Regel: Sektion 9 und Sektion 10 sind beide dunkel. Sektion 9 bekommt `borderBottom: "3px solid oklch(0.62 0.14 225)"` als cyan-Trenner.
+   - **Ausnahme (thematische Verschmelzung):** Wenn zwei dunkle Sektionen inhaltlich direkt zusammengehören (z. B. Context-Block erklärt Hintergrund, FAQ beantwortet die offenen Fragen dazu), darf der Border-Trenner entfallen — beide wirken dann als ein zusammenhängender Block. Konkretes Beispiel Network-Migration (Iteration 5): Sektion 9 (Context-Block) + Sektion 10 (FAQ) ohne 3px cyan BorderBottom, weil FAQ direkt die Context-Block-Inhalte aufgreift. Entscheidung mit User abklären.
 3. **`bg-white` als Rhythmus-Brecher** — wenn die Sektion neben einer `light`-Sektion liegt, wird sie selbst zu `bg-white` (statt `kpx-section-light`). Das ist der Standardwert für die Übergangssection.
 4. **`light-grey` (`oklch(0.97 0.01 220)`) für Komponenten-Sektionen** — wenn eine Sektion als eigene Komponente gerendert wird (z. B. `<ServiceModelArrowsFullNetwork>`), bekommt sie `light-grey` statt `light` oder `white`, damit sie als eigenständige Komponente erkennbar ist.
 
@@ -83,7 +84,7 @@ BG-Rhythmus bleibt regelkonform: 3 (light) → 4 (light-grey, andere Schattierun
 | 5 (dunkel) → 6 (weiss) | — | ✅ kein Konflikt |
 | 6 (weiss) → 8 (light-grey) | — | ✅ kein Konflikt |
 | 8 (light-grey) → 9 (dunkel) | — | ✅ kein Konflikt |
-| 9 (dunkel) → 10 (dunkel) | ⚠ Konflikt | 3px cyan-Border in Sektion 9 |
+| 9 (dunkel) → 10 (dunkel) | ⚠ Konflikt | Standard: 3px cyan-Border in Sektion 9. **Ausnahme:** Bei thematischer Verschmelzung (FAQ erklärt Context-Block direkt) kann der Border-Trenner entfallen — User-Entscheidung. |
 | 10 (dunkel) → 11 (light) | — | ✅ kein Konflikt |
 | 11 (light) → 12 (weiss) | — | ✅ kein Konflikt |
 | 12 (weiss) → 13 (light-grey) | — | ✅ kein Konflikt |

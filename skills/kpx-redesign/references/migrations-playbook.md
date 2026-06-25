@@ -409,17 +409,31 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 
 **Lesson:** **Design-Konsistenz schlaegt individuelle Farbgebung.** Wenn zwei Chevron-Komponenten auf der gleichen Seite sind, muessen sie dieselbe Design-Sprache sprechen. Reifegrad wird durch OWNER_STYLES-Sequenz impliziert, statt durch explizite Reifegrad-Farben.
 
+### Iteration 5: Visuelles Polishing + Skill-Update (Commit `3f65df3`)
+
+**Was:** User-Inspektion der Vercel-URL `kpx-it-nextjs-gw3cy11y7-kpxit.vercel.app/managed-network-wireless` mit drei Anweisungen:
+1. „Entferne den Strich nach den Quellen" → 3px cyan BorderBottom zwischen Sektion 9 (Context-Block) und Sektion 10 (FAQ) entfernt
+2. „Schrift im Chevron kräftiger" → font-medium (500) für Bullets in `NetworkEvolutionChevron` (Desktop + Mobile) und PhaseCell Body in `ServiceModelArrowsFullNetwork`
+3. „Plattform-Badge entfernen" → `<p className="...rounded-full">Plattform: ...</p>` aus `ServiceModelArrowsFullNetwork` entfernt, `plattform=`-Prop im Aufruf bereinigt
+
+**Lesson:**
+- **Visuelles Rauschen vermeiden:** Plattform-Badge war redundant — Subtitle enthält bereits die Plattform-Info. Pill-Badge nur visueller Lärm.
+- **Body-Text braucht `font-medium`:** Default 400 wirkt zu schwach für Bullet-Punkte. 500 ist bewusster Listenpunkt, nicht Fliesstext.
+- **BG-Rhythmus-Regel darf Ausnahmen haben:** Wenn zwei dunkle Sektionen thematisch zusammengehören (FAQ erklärt Context-Block), kann der Border-Trenner entfallen. Wichtig: User-Entscheidung, nicht Agent-Eigenmächtig.
+
 ### Was gut funktioniert hat
 - Schrittweise Iterationen mit klaren User-Freigaben
 - Plan-Mode mit Frage-Tool fuer Design-Entscheidungen
 - Statische Verifikation als Agent-Aufgabe, visuelle Verifikation als User-Aufgabe
-- Skill-Updates nach jeder strukturellen Aenderung
+- Skill-Updates nach jeder strukturellen Aenderung (Iteration 5 hat 3 neue Lektionen + Components/Section-Rhythmus Updates gefordert)
 - Mirror-Sync direkt nach jedem kpx-itch-Skill-Update
+- **Vercel-URL nach Git-Push funktioniert automatisch** (neuer Deployment-Hash nach jedem Push) — User kann ohne manuelle Trigger visuell verifizieren
 
 ### Was nicht gut funktioniert hat
 - Erste Iteration mit Custom-SVG-Timeline war visuelle Opulenz, die User nicht brauchte
 - Erste Chevron-Iteration (rot/gelb/cyan) brach die Design-Konsistenz mit Sektion 8
-- Visuelle Verifikation erst sehr spaet moeglich, weil Vercel-Token fehlt
+- Erste Pain-Point-Icons-Annahme (cyan) war falsch — waren bereits orange-rot, keine Aenderung noetig
+- Skill-Updates wurden in fruehen Iterationen vom User explizit verzoegert („erstmal nicht anpassen") — Skill-Sync-Discipline braucht User-Vorgabe
 
 ## 11. Cross-References
 

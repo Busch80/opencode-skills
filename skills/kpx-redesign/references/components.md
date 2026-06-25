@@ -627,3 +627,44 @@ Beim Mobile-Breakpoint (`<md`) wird die Chevron-Reihe zu gestapelten Cards:
 - `StackedStage`-Card mit `rounded-xl`, weisser BG, 1px Border
 - Header mit OWNER-BG-Farbe und Stage-Badges + Title
 - Body mit Bullets in dunkelblauer Standard-Schrift (13px)
+
+### Body-Text: font-medium statt font-weight 400
+
+**Chevron-Bullets und PhaseCell-Body-Description sollen `font-medium` (font-weight 500) verwenden, NICHT den Default 400.**
+
+Begründung: Bullets wirken so als bewusste Listenpunkte, nicht als Fliess-Text. Body-Description in den Zellen ist besser lesbar.
+
+Implementation:
+```tsx
+// NetworkEvolutionChevron — ChevronStage Bullet:
+<li className="leading-snug flex items-start gap-1.5 font-medium" ...>
+
+// NetworkEvolutionChevron — StackedStage Bullet (Mobile):
+<li className="flex items-start gap-2 leading-snug font-medium" ...>
+
+// ServiceModelArrowsFull + ServiceModelArrowsFullNetwork — PhaseCell Body:
+<p className="leading-snug text-center font-medium" ...>
+```
+
+NICHT mehr `style={{ fontWeight: 400 }}` setzen — `font-medium` als Tailwind-Utility reicht.
+
+### KEIN Plattform-Badge in Komponenten-Sektionen
+
+In `ServiceModelArrowsFull` und `ServiceModelArrowsFullNetwork` war ein separates Plattform-Pill-Badge unter dem Subtitle:
+
+```tsx
+<p className="text-sm font-semibold mt-3 px-4 py-2 inline-block rounded-full" style={{
+  backgroundColor: "oklch(0.62 0.14 225 / 0.12)",
+  color: "oklch(0.62 0.14 225)",
+}}>
+  Plattform: {plattform}
+</p>
+```
+
+**Dieses Badge wurde entfernt** (Iteration 5 der Network-Migration). Visuelles Rauschen — die Plattform-Information steht bereits im Subtitle:
+
+```tsx
+subheading="Alle drei Modelle nutzen die KPX Smart Managed Plattform mit UniFi Controller, Pro- und Max-Switches. Der Unterschied liegt in der Aufgabenteilung – nicht in der Qualität."
+```
+
+**Regel:** Komponenten-Sektionen (Sektion 8 = Chevron-Diagramm) tragen die Plattform-Information im Subtitle. KEIN separates Plattform-Badge. Die `plattform`-Prop entfällt komplett im Komponenten-Aufruf.
