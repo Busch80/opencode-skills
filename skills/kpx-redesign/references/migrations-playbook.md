@@ -443,6 +443,49 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **Standard-Stats als feste Regel:** User-Anweisung „immer standard stats bitte merken" war eine QUERSCHNITT-ENTSCHEIDUNG, nicht nur für die Server-Seite. Wird in `tone-voice.md` Lektion 22 dokumentiert. Gilt für alle Service-Seiten.
 - **RMM + EDR als 2 Sub-Blocks:** Die zwei Plattformen (RMM = cyan, EDR = rot) bleiben visuell erkennbar (Akzentfarbe), aber inhaltlich in einer Sektion vereint. Vermeidet 14-Sektionen-Erweiterung wie bei Network.
 
+### Iteration 7: Cloud-Seite Migration (Commit `e886e66`)
+
+**Was:** Migration von `/managed-it-services/cloud` auf das 13-Sektionen-Schema. Sidebar-Layout → 13 Sektionen analog Server/Network.
+- Hero mit radial-gradient, 4 Hero-Punkte (Kostenkontrolle, Azure+M365, BACS-Sicherheit, Rightsizing)
+- Standard-Stats-Bar (User-Lektion 22)
+- Problem mit 4 Pain-Points (Ressourcen unkontrolliert, Sicherheit Standard, Kosten unkontrolliert, Vendor Lock-in)
+- Lösung (Sektion 4) mit 6 Benefits (2-col Grid) + 6 Feature-Cards „Was wir konkret für Sie übernehmen" (3-col Grid)
+- Prozess (Sektion 6) mit 4 NEUEN Schritten (Cloud-Analyse → Migration → Kosten-Optimierung → Vollbetrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` Azure+M365-Subheading
+- Context-Block (Sektion 9) mit 3 SEO-Spalten + Vergleichstabelle 3 Cloud-Modelle (Public/Private/Hybrid × 5 Merkmale, Zebra) + Quellen
+- FAQ (Sektion 10) 4 Fragen dark
+- Störungen (Sektion 11) 7 produkte-Cards
+- ServicePageFooter für Final-CTA
+
+**Lesson:**
+- **Vercel-Build-Fehler aus Iteration 6 vermieden:** KEIN `currentServiceId`-Prop auf `<ServiceModelArrowsFull>` — das Prop existiert nur auf der Network-Variante `<ServiceModelArrowsFullNetwork>`. Lesson: beim Kopieren von Chevron-Code zwischen Service-Seiten die spezifische Komponente prüfen.
+- **Cloud braucht keine Sektion-4-Erweiterung:** Anders als Network (mit 4b für Switching-Features) und Private-Cloud (mit 4b für Included Features) ist Cloud schlanker — die 6 Benefits + 6 Feature-Cards passen in eine Sektion. Vermeidet 14-Sektionen-Erweiterung wo nicht nötig.
+- **Address-Korrektur:** Schema-Organization hatte `Industriestrasse 10` statt `Grindelstrasse 6` — bei jeder Migration verifizieren.
+
+### Iteration 8: Private-Cloud-Seite Migration (Commit `ee763c0`)
+
+**Was:** Migration von `/managed-it-services/private-cloud` auf 14-Sektionen-Schema (analog Network mit 4b-Erweiterung).
+- Hero mit radial-gradient, 4 Hero-Punkte (HCI ab 1 HE, vor Ort oder Rechenzentrum, VMware-Alternative, betreut)
+- Standard-Stats-Bar
+- Problem mit 4 Pain-Points (Public Cloud unkontrollierbar, Server zu komplex, VMware-Lizenzkosten, Vendor Lock-in)
+- **Lösung (Sektion 4) mit `<NetworkEvolutionChevron>` und 3 Stages:**
+  - Stage 1 „Beim Kunden vor Ort" (kunde/hellgrau, 4px rot Akzent) — Selbstverantwortung
+  - Stage 2 „Im Schweizer Rechenzentrum" (geteilt/cyan) — Übergang
+  - Stage 3 „Hybrid-Option" (kpx/dunkelblau) — KPX übernimmt
+- Sektion 4b: 6 Feature-Cards „Was im Managed-Betrieb enthalten ist"
+- Prozess (Sektion 6) mit 4 NEUEN Schritten (HCI-Analyse → Konzept → Migration → Vollbetrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` HCI-Subheading
+- Context-Block (Sektion 9) mit 3 SEO-Spalten + Vergleichstabelle 4 Plattformen (HCI vs VMware vs Hyper-V vs Proxmox × 5 Merkmale) + Quellen (BACS, Proxmox, NIST)
+- FAQ (Sektion 10) 8 Fragen dark
+- Störungen (Sektion 11) **8** produkte-Cards (NEU: Managed Private Cloud hinzugefügt)
+- ServicePageFooter für Final-CTA
+- **Schema ergänzt:** Organization @id war im Original fehlend
+
+**Lesson:**
+- **NetworkEvolutionChevron für Deployment-Optionen:** Die semantische Zuordnung funktioniert: „Selbstverantwortung" für On-Premises (Sie tragen Verantwortung), „Übergang" für Rechenzentrum (shared), „KPX übernimmt" für Hybrid (full managed). OWNER_STYLES-Sequenz kommuniziert Reifegrad auch für Deployment-Optionen.
+- **Sektion-4-Erweiterung (4b) für mehr Inhalt:** Bei Private-Cloud passt die Lösung nicht in eine Sektion — NetworkEvolutionChevron für Stages + separate Sektion 4b für Included Features. Analog Network-Pattern.
+- **Produkte-Array erweitern:** Wenn eine migrierte Seite in Sektion 11 als Service-Card erscheinen soll, muss sie in `produkte.ts` registriert sein. Private-Cloud fehlte dort — wurde bei Migration hinzugefügt. Lesson: vor jeder Migration `produkte.ts` prüfen, ob die Seite eingetragen ist.
+
 ### Was gut funktioniert hat
 - Schrittweise Iterationen mit klaren User-Freigaben
 - Plan-Mode mit Frage-Tool fuer Design-Entscheidungen
@@ -452,6 +495,8 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **Vercel-URL nach Git-Push funktioniert automatisch** (neuer Deployment-Hash nach jedem Push) — User kann ohne manuelle Trigger visuell verifizieren
 - **Bestehende Schema-Patterns wiederverwendet:** Endpoint-Seite als Vorlage für Layout, Network-Seite für BG-Rhythmus und Chevron-Integration
 - **User-Anweisungen früh festhalten:** Standard-Stats-Regel wurde als Lektion 22 dokumentiert, damit künftige Migrationen sie automatisch anwenden
+- **Vercel-Build-Fehler-Vermeidung:** currentServiceId-Prop aus Iteration 6 nicht wiederholt in Iterations 7+8
+- **NetworkEvolutionChevron mehrfach einsetzbar:** Network (Sektion 4 Evolution) und Private-Cloud (Sektion 4 Deployment) — gleiche Komponente, verschiedene Stages
 
 ### Was nicht gut funktioniert hat
 - Erste Iteration mit Custom-SVG-Timeline war visuelle Opulenz, die User nicht brauchte
@@ -459,6 +504,7 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - Erste Pain-Point-Icons-Annahme (cyan) war falsch — waren bereits orange-rot, keine Aenderung noetig
 - Skill-Updates wurden in fruehen Iterationen vom User explizit verzoegert („erstmal nicht anpassen") — Skill-Sync-Discipline braucht User-Vorgabe
 - Server-Migration startete mit Plan ohne User-Bestätigung der Pain-Point-Ableitung — diese sind jetzt aus aktuellem Problem-Text interpretiert, sollten aber mit User verifiziert werden
+- Vercel-Build-Fehler bei Iteration 6 (currentServiceId) trotz Code-Review — TypeScript-Fehler wurden im Agent-Loop übersehen
 
 ## 11. Cross-References
 
