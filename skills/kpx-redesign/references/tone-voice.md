@@ -227,3 +227,51 @@ Der Infobalken zwischen Vertriebsblock und Fachtext-Block ist **mehr als ein dek
 - ❌ „Unser Managed Endpoint ist der beste der Schweiz." — Superlativ
 - ❌ „Angebot" — falsches Wort fuer de-CH, immer „Offerte"
 - ❌ Quellenlose Aussagen mit konkreten Zahlen — wirkt unseriös
+
+## 13. Migrations-Pruefungs-Checkliste (vor jedem Push)
+
+Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
+
+| Check | grep-Muster | Erwartung |
+|---|---|---|
+| ß verboten | `grep -c "ß" <page.tsx>` | 0 |
+| „Angebot" verboten | `grep -c "Angebot" <page.tsx>` | 0 (nur „Offerte") |
+| Template-Slot-Platzhalter | `grep -E "<SLOT>\|<Thema>\|<Fakt\|<Service-Name>\|Das Problem, das wir"` | 0 |
+| highlight: true verboten in Sektion 8 | `grep -c "highlight: true" <page.tsx>` | 0 |
+| „Alle 17 Managed Services entdecken" entfernt | `grep -c "Alle 17 Managed" <page.tsx>` | 0 |
+| „Alle Managed Services" Link in ServicePageFooter | `grep -c 'href="/managed-it-services"' components/ServicePageFooter.tsx` | 0 |
+| ServicePageFooter Karussell entfernt | `grep -c "ALL_SERVICES\|Karussell" components/ServicePageFooter.tsx` | 0 |
+| Quellen als echte Links | `grep -c '<a href="https' <page.tsx>` in Sektion 9 | >= 1 |
+| Umlaute vorhanden | `grep -c "[äöü]" <page.tsx>` | > 0 (sonst vermutlich ASCII-Umschrift) |
+
+### Service-spezifische Pruefungen (Endpoint)
+
+- [ ] H2 Sektion 3 = thematisch konkret (z. B. „Unkontrollierte Endgeraete sind ein Risiko")
+- [ ] Mini-Flow in Sektion 4 vorhanden (Ohne System → NinjaOne → SentinelOne → Ergebnis)
+- [ ] 3 Spalten Erklar-texte in Sektion 9 (SEO-Content)
+- [ ] 2-Spalten-Feature-Tabelle (NinjaOne/SentinelOne) in Sektion 9
+- [ ] Quellen-Links als `<a href>` in Sektion 9 (BACS, MSRC, NinjaOne, SentinelOne)
+- [ ] Sektion 11 ohne „Alle 17 Managed Services entdecken"-Link
+- [ ] ServicePageFooter ohne Karussell, ohne „Alle Managed Services"-CTA-Link
+- [ ] „Offerte" statt „Angebot" in Prozess-Schritt 03
+
+### Skill-Sync-Workflow
+
+1. Edit in `Busch80/kpx-itch/.opencode/skills/kpx-redesign/` (mehrere Dateien)
+2. Kopiere nach `Busch80/opencode-skills/skills/kpx-redesign/`
+3. Commit 1 in kpx-itch: `docs(kpx-redesign): ...` mit Author `a.busch <a.busch@kpx-it.ch>`
+4. Commit 2 in opencode-skills: identisch, selber Author
+5. Push beide Repos (kpx-itch ggf. `--force-with-lease` zu `experimental`)
+
+### Migrations-Lektionen (kompakt)
+
+1. **Templates synchron halten** — wenn `section-rhythm.md` sich aendert, alle Templates pruefen
+2. **H2 konkret** — Sektion 3 H2 nennt das Problem, nicht „Das Problem, das wir loesen"
+3. **Mini-Flow fuer komplexe Services** — bei Vorher-Nachher-Logik 3 Kacheln + Pfeile ueber Icon-Grid
+4. **Betreuungsmodelle gleichwertig** — Sektion 8 niemals hervorheben
+5. **SEO-Content statt Bullets** — Sektion 9 = 3 Spalten + Feature-Tabelle + Quellen-Links
+6. **Inhaltserhalt** — alte Texte/Features/FAQ/Diagramme nie stillschweigend loeschen, in neue Struktur transportieren
+7. **Skill-Mirror** — zwei Repos synchron halten: kpx-itch/.opencode + opencode-skills
+8. **ServicePageFooter trimmen** — nur cyan „Gratis Erstgespraech" Button, kein Karussell
+9. **Tooling-Verfuegbarkeit pruefen** — `node`/`pnpm` auf dem Worker; bei fehlendem Toolchain manuelle grep-Verifikation dokumentieren
+10. **Umlaute statt ae/oe/ue in JSX** — saubere Umlaute in Live-Seiten, ASCII nur in Skill-Kommentaren

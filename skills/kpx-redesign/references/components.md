@@ -89,6 +89,92 @@ Zusätzlich zum Standard:
 
 ---
 
+## 2. Mini-Flow (Sektion 4, optional)
+
+Bei Services mit logischem Vorher-Nachher-Prinzip (z. B. Endpoint: „Ohne System → mit NinjaOne → mit SentinelOne → unter Kontrolle") einen 3-stufigen Mini-Flow ueber das Icon-Grid legen. Zwei Reihen mit insgesamt 4 Kacheln + 2 Pfeilen.
+
+```tsx
+{/* Mini-Flow: Ohne System → mit NinjaOne → mit SentinelOne → Ergebnis */}
+<div className="grid grid-cols-1 md:grid-cols-3 items-stretch gap-3 mb-10">
+  {/* Kachel 1: Ohne System (rot) */}
+  <div className="flex flex-col items-center text-center p-5 rounded-xl border"
+    style={{ backgroundColor: "oklch(0.97 0.02 25)",
+             borderColor: "oklch(0.85 0.05 25)" }}>
+    <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3"
+      style={{ backgroundColor: "oklch(0.55 0.20 25 / 0.12)" }}>
+      <AlertTriangle className="w-5 h-5" style={{ color: "oklch(0.55 0.20 25)" }} />
+    </div>
+    <h3 className="font-bold text-sm mb-2" style={{ color: "oklch(0.22 0.07 250)" }}>Ohne System</h3>
+    <p className="text-xs leading-relaxed" style={{ color: "oklch(0.45 0.05 245)" }}>
+      Patches aus, Geraete unklar, blinde Flecken
+    </p>
+  </div>
+
+  {/* Pfeil (nur Desktop sichtbar) */}
+  <div className="hidden md:flex items-center justify-center">
+    <svg width="40" height="20" viewBox="0 0 40 20" fill="none" aria-hidden="true">
+      <path d="M2 10H36" stroke="oklch(0.62 0.14 225)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M30 4L36 10L30 16" stroke="oklch(0.62 0.14 225)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </div>
+
+  {/* Kachel 2: Mit NinjaOne (cyan) */}
+  <div className="flex flex-col items-center text-center p-5 rounded-xl border"
+    style={{ backgroundColor: "oklch(0.96 0.008 220)",
+             borderColor: "oklch(0.85 0.02 225)" }}>
+    <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3"
+      style={{ backgroundColor: "oklch(0.62 0.14 225 / 0.12)" }}>
+      <HardDrive className="w-5 h-5" style={{ color: "oklch(0.62 0.14 225)" }} />
+    </div>
+    <h3 className="font-bold text-sm mb-2" style={{ color: "oklch(0.22 0.07 250)" }}>Mit NinjaOne (RMM)</h3>
+    <p className="text-xs leading-relaxed" style={{ color: "oklch(0.45 0.05 245)" }}>
+      Patch-Automatik, Inventar, Remote-Support
+    </p>
+  </div>
+</div>
+
+{/* Zweite Reihe: mit SentinelOne draufgebaut + Ergebnis */}
+<div className="grid grid-cols-1 md:grid-cols-3 items-stretch gap-3 mb-10">
+  {/* Kachel 3: Mit SentinelOne (gruen) */}
+  <div className="flex flex-col items-center text-center p-5 rounded-xl border"
+    style={{ backgroundColor: "oklch(0.96 0.02 145)",
+             borderColor: "oklch(0.85 0.05 145)" }}>
+    <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3"
+      style={{ backgroundColor: "oklch(0.72 0.18 145 / 0.15)" }}>
+      <Shield className="w-5 h-5" style={{ color: "oklch(0.72 0.18 145)" }} />
+    </div>
+    <h3 className="font-bold text-sm mb-2" style={{ color: "oklch(0.22 0.07 250)" }}>Mit SentinelOne (EDR)</h3>
+    <p className="text-xs leading-relaxed" style={{ color: "oklch(0.45 0.05 245)" }}>
+      Erkenne, stoppe, melde Bedrohungen automatisch
+    </p>
+  </div>
+
+  {/* Pfeil */}
+  <div className="hidden md:flex items-center justify-center">
+    <svg width="40" height="20" viewBox="0 0 40 20" fill="none" aria-hidden="true">
+      <path d="M2 10H36" stroke="oklch(0.72 0.18 145)" strokeWidth="2" strokeLinecap="round" />
+      <path d="M30 4L36 10L30 16" stroke="oklch(0.72 0.18 145)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  </div>
+
+  {/* Kachel 4: Ergebnis (dunkel) */}
+  <div className="flex flex-col items-center text-center p-5 rounded-xl border"
+    style={{ backgroundColor: "oklch(0.22 0.07 250)",
+             borderColor: "oklch(0.22 0.07 250)" }}>
+    <div className="w-10 h-10 rounded-full flex items-center justify-center mb-3"
+      style={{ backgroundColor: "oklch(0.72 0.18 145 / 0.2)" }}>
+      <CheckCircle2 className="w-5 h-5" style={{ color: "oklch(0.72 0.18 145)" }} />
+    </div>
+    <h3 className="font-bold text-sm mb-2 text-white">Endgeraete unter Kontrolle</h3>
+    <p className="text-xs leading-relaxed" style={{ color: "oklch(0.82 0.04 220)" }}>
+      Patche tagesaktuell, Inventar aktuell, Helpdesk schnell, Sicherheit sichtbar
+    </p>
+  </div>
+</div>
+```
+
+**Hinweise**: Pfeile nur Desktop-sichtbar (`hidden md:flex`); Mobile stapelt die Kacheln vertikal. Lucide-Imports: `AlertTriangle`, `HardDrive`, `Shield`, `CheckCircle2`.
+
 ## 2. Stats-Bar
 
 ```tsx

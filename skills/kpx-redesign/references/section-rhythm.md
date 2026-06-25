@@ -18,7 +18,7 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 |---|---|---|---|---|---|
 | 1 | **Hero** | dunkel | `kpx-section-dark`, `minHeight: 520px` | Breadcrumb-Nav, H1, Subline, 4 Hero-Punkte, Wellen-SVG | paddingTop: `calc(80px + 56px)` |
 | 2 | **Stats-Bar** | white | `py-8`, `marginTop: '-1px'` | **1:1 von Startseite** — diese Stats werden IMMER aus `app/page.tsx` kopiert, niemals angepasst | s. `references/design-tokens.md` für Layout |
-| 3 | **Das Problem, das wir lösen** | light | `kpx-section-light` | Einleitung + Pain-Points (z. B. Patch-Stau, Helpdesk-Lücke, Inventar-Wirrwarr) | Icon-Grid oder Cards, 4-6 Items |
+| 3 | **Problem (light)** | light | `kpx-section-light` | H2 **muss** konkret thematisch sein (nicht Template-Phrase „Das Problem, das wir lösen"). Sub-Heading nennt Symptome und Ursache. Pain-Points als Icon-Grid, 4-6 Items | Siehe §Mini-Flow-Muster unten |
 | 4 | **Wie wir es lösen (mit Grafik)** | light | `kpx-section-light` | Visualisierung der Lösung — Diagramm-Komponente ODER Icon-Grid (6-12 Items) | Eigene Diagramm-Komponente optional |
 | 5 | **Frage zur aktuellen Lage** | dunkel | `kpx-section-dark`, `py-10 md:py-12` | Direkte Frage + Subline (Backup-CTA-Intro-Stil) | Soll User zum Handeln animieren |
 | 6 | **4 Prozess-Schritte** | white | `kpx-section bg-white` | Standard 01-04: Gratis / Analyse / Offerte / Betrieb | Kanonische Texte aus Skill |
@@ -30,6 +30,39 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 | 12 | **IT-Wissen Blog** | white | `kpx-section bg-white` | 3 latest via `getLatestPosts(3)` | 3-Spalten-Grid |
 | 13 | **Servicegebiet** | light-grey | `bg: oklch(0.97 0.01 220)` | MapPin + Adresse + 6-Kantone-Pills + Schweizweit remote | `<MapPin />`-Icon cyan |
 | — | **Abschluss-CTA** | — | — | **ENTFÄLLT** — `ServicePageFooter` übernimmt | ServicePageFooter: **nur CTA-Banner, KEIN Karussell**, KEIN „Alle Managed Services"-Link im CTA-Banner, nur cyan „Gratis Erstgespräch"-Button. |
+
+### Mini-Flow-Muster in Sektion 4 (optional, bei komplexen Services)
+
+Bei Services mit logischem Vorher-Nachher-Prinzip (z. B. Endpoint:
+„Ohne System → mit NinjaOne → mit SentinelOne → unter Kontrolle")
+kann Sektion 4 um einen 3-stufigen Mini-Flow oberhalb des Icon-Grids
+ergaenzt werden. Das Icon-Grid bleibt darunter erhalten.
+
+```
+[Kachel 1: Ohne System rot]    → [Kachel 2: Mit NinjaOne cyan]
+   → [Kachel 3: Mit SentinelOne gruen]    → [Kachel 4: Ergebnis dunkel]
+```
+
+- **Mobile**: Kacheln gestapelt, Pfeile vertikal ausgeblendet
+- **Desktop**: Kacheln in Reihe, Pfeile horizontal als inline SVG (40×20 px)
+- **Farben**: rot (`oklch(0.55 0.20 25)`), cyan (`oklch(0.62 0.14 225)`),
+  gruen (`oklch(0.72 0.18 145)`), dunkel (`oklch(0.22 0.07 250)`)
+- **2 Reihen**: Reihe 1 = Problem → Loesung 1; Reihe 2 = Loesung 2 → Ergebnis
+- **Snippet**: siehe `references/components.md` §Mini-Flow
+
+### Sektion 3 — H2 konkret, nicht Template-Phrase
+
+Die H2 in Sektion 3 **muss** das konkrete Problem des Service-Themas nennen.
+NICHT „Das Problem, das wir loesen" als Template-Text stehen lassen.
+
+Beispiele:
+- Endpoint: „Unkontrollierte Endgeraete sind ein Risiko"
+- Backup: „Ein Backup, das nie getestet wurde, ist eine Hoffnung"
+- Firewall: „Eine Firewall schuetzt nur, wenn jemand sie betreut"
+
+Sub-Heading nennt **Symptome + Ursache** (z. B. „Fehlende Patches, unbekannte
+Geraete, blinde Flecken – das entsteht nicht aus Nachlässigkeit, sondern weil
+es ohne System schlicht nicht machbar ist").
 
 ## Erweiterte Inhalte für Sektion 9 (Infobalken + Context-Block)
 

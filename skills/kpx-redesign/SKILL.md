@@ -104,6 +104,12 @@ Beim Neuerstellen einer Seite (z. B. aus SEO-Backlog `references/pages-to-migrat
 - **Icons nur aus `lucide-react`**; niemals eigene SVGs einbauen (ausser der Hero-Wellen-Divider).
 - **Build-Test nach jeder Änderung**: `pnpm tsc --noEmit && pnpm lint`. Beide müssen grün sein, bevor du eine Seite als „fertig migriert" markierst.
 - **Keine Komponenten neu erfinden**: Eher bestehende Komponenten erweitern als duplizieren.
+- **Inhaltserhalt bei Migration**: Bestehende Texte, Pain-Points, Features, FAQ, Bilder, Diagramme und Links werden IMMER in die neue Struktur transportiert. Neuen Content parallel aufbauen und ergänzen, nicht ersetzend. Nur mit expliziter Kundenzustimmung Inhalte löschen.
+- **Platzhalter-Pruefung nach Migration**: Nach jeder Migration systematisch `grep -E "<SLOT>|<Thema>|<Fakt|<Service-Name>|Das Problem, das wir"` ausfuehren — alle Template-Platzhalter muessen ersetzt sein.
+- **H2 in Sektion 3 nennt Problem konkret**: Nicht „Das Problem, das wir loesen" als H2 stehen lassen, sondern das themenspezifische Problem benennen (z. B. „Unkontrollierte Endgeraete sind ein Risiko").
+- **Umlaute erlaubt, ß verboten**: Umlaute (ä, ö, ü) in JSX/TSX sind OK und bevorzugt. KEIN ß (immer ss). KEINE ASCII-Umschrift (ae/oe/ue) in fertigen Live-Seiten — nur in Skill-Kommentaren.
+- **Skill-Mirror synchron**: Nach jeder Aenderung an `Busch80/kpx-itch/.opencode/skills/` muss `Busch80/opencode-skills/skills/` synchron gehalten werden. Beide Repos commiten + pushen mit Author `a.busch <a.busch@kpx-it.ch>`.
+- **Migrations-Checkliste**: Siehe `references/tone-voice.md` §13 fuer die verbindliche grep-Pruefungs-Checkliste vor jedem Push.
 
 ## 7. Wann den Skill nicht verwenden
 
