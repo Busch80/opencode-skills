@@ -53,6 +53,8 @@ Bei Services mit logischem Vorher-Nachher-Prinzip (z. B. Endpoint:
 
 Stufen 1+2 haben light-BG, Stufe 3 hat dark-BG → klare visuelle Hierarchie, das Tool-Stack führt zur dunklen Sicherheits-Endstufe.
 
+**Abstand nach der Timeline**: Die Folgesektion (z. B. Icon-Grid mit 8 Kacheln) braucht grosszuegigen `mt-12 md:mt-16`, weil `gap-5` zwischen Karten innerhalb der Folgesektion nicht ausreicht, um die Timeline als visuell eigenstaendige Einheit zu trennen. Default-`mb-` der Timeline reicht nicht — Sektion 4 als Ganzes braucht deutlich mehr Luft zur naechsten Sektion.
+
 ### Sektion 3 — H2 konkret, nicht Template-Phrase
 
 Die H2 in Sektion 3 **muss** das konkrete Problem des Service-Themas nennen.
