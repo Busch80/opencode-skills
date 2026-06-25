@@ -9,7 +9,8 @@ Wiederkehrende Blöcke mit Snippets, die in Seiten verwendet werden. Komponenten
 | `FaqAccordion` | `@/components/FaqAccordion` | Light-FAQ-Accordion ("use client", 2-spaltig genutzt) |
 | `ServicegebietBlock` | `@/components/ServicegebietBlock` | Vollständige Servicegebiet-Sektion mit SVG-Karte |
 | `ServiceModelArrows` | `@/components/ServiceModelArrows` | 2-Modell-Pfeildiagramm (it-outsourcing-kmu) |
-| `ServiceModelArrowsFull` | `@/components/ServiceModelArrowsFull` | 3-Modell-Pfeildiagramm (externe-it-abteilung) |
+| `ServiceModelArrowsFull` | `@/components/ServiceModelArrowsFull` | 3-Modell-Pfeildiagramm für Endpoint / Externe IT (Defaults: NinjaOne + SentinelOne) |
+| `ServiceModelArrowsFullNetwork` | `@/components/ServiceModelArrowsFullNetwork` | 3-Modell-Pfeildiagramm für Network (Defaults: UniFi + Pro/Max-Switches, Network-Phasen) |
 | `ServicePageFooter` | `@/components/ServicePageFooter` | Footer-Karussell für Managed-Services-Subpages + `ServiceBadges` |
 | `KiPageFooter` | `@/components/KiPageFooter` | Footer für KI-Lösungsseiten (statt `ServicePageFooter`) |
 | `BranchenTabs` | `@/components/BranchenTabs` | Branchen-Tabs (nur Startseite) |
