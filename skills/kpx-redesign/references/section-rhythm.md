@@ -31,24 +31,27 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 | 13 | **Servicegebiet** | light-grey | `bg: oklch(0.97 0.01 220)` | MapPin + Adresse + 6-Kantone-Pills + Schweizweit remote | `<MapPin />`-Icon cyan |
 | — | **Abschluss-CTA** | — | — | **ENTFÄLLT** — `ServicePageFooter` übernimmt | ServicePageFooter: **nur CTA-Banner, KEIN Karussell**, KEIN „Alle Managed Services"-Link im CTA-Banner, nur cyan „Gratis Erstgespräch"-Button. |
 
-### Mini-Flow-Muster in Sektion 4 (optional, bei komplexen Services)
+### 3-stufige Timeline in Sektion 4 (bevorzugt für Problem-Lösung-Weg mit 2 Tools)
 
 Bei Services mit logischem Vorher-Nachher-Prinzip (z. B. Endpoint:
-„Ohne System → mit NinjaOne → mit SentinelOne → unter Kontrolle")
-kann Sektion 4 um einen 3-stufigen Mini-Flow oberhalb des Icon-Grids
-ergaenzt werden. Das Icon-Grid bleibt darunter erhalten.
+„Ohne System → mit NinjaOne → mit SentinelOne") Sektion 4 als **3-stufige Timeline** gestalten. KEIN 4. „Unter Kontrolle"-Step (zu viel Versprechen gemäß kpx-schweiz-marketing).
 
 ```
-[Kachel 1: Ohne System rot]    → [Kachel 2: Mit NinjaOne cyan]
-   → [Kachel 3: Mit SentinelOne gruen]    → [Kachel 4: Ergebnis dunkel]
+[Stufe 1: Ohne System rot]  →  [Stufe 2: Mit NinjaOne (RMM) cyan]  →  [Stufe 3: Mit SentinelOne (EDR) DUNKEL]
 ```
 
-- **Mobile**: Kacheln gestapelt, Pfeile vertikal ausgeblendet
-- **Desktop**: Kacheln in Reihe, Pfeile horizontal als inline SVG (40×20 px)
-- **Farben**: rot (`oklch(0.55 0.20 25)`), cyan (`oklch(0.62 0.14 225)`),
-  gruen (`oklch(0.72 0.18 145)`), dunkel (`oklch(0.22 0.07 250)`)
-- **2 Reihen**: Reihe 1 = Problem → Loesung 1; Reihe 2 = Loesung 2 → Ergebnis
-- **Snippet**: siehe `references/components.md` §Mini-Flow
+- **H2**: „Vom Chaos zur Kontrolle" o. ä. (konkret, nicht generisch)
+- **3 Bullets pro Stufe** (max. ~10 Wörter pro Bullet)
+- **Custom SVG-Icons** mittel-detailliert mit Glow/Schatten, NICHT Lucide-Icons
+- **Pfeile**: einheitlich cyan (`oklch(0.62 0.14 225 / 0.6)`), 60×30 px (mittlere Größe), inline SVG
+- **Stufe 3 = End-State, dunkel**: Hintergrund `oklch(0.22 0.07 250)`, Text weiß, stärkerer grüner Glow (`oklch(0.72 0.18 145 / 0.25)`)
+- **Mobile**: vertikal gestapelt mit vertikalen Pfeilen (30×40 px)
+- **Desktop**: horizontal in einer Reihe (`md:grid-cols-[1fr_auto_1fr_auto_1fr]`)
+- **Animations**: `stagger-children` mit Versatz ~150ms zwischen Elementen
+- **Border-2** für zusätzlichen visuellen Anker, **box-shadow** für Tiefe
+- **Icon-Grid (8 Kacheln) bleibt darunter erhalten** als Feature-Detail
+
+Stufen 1+2 haben light-BG, Stufe 3 hat dark-BG → klare visuelle Hierarchie, das Tool-Stack führt zur dunklen Sicherheits-Endstufe.
 
 ### Sektion 3 — H2 konkret, nicht Template-Phrase
 
