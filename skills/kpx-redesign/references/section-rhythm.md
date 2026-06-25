@@ -18,8 +18,8 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 |---|---|---|---|---|---|
 | 1 | **Hero** | dunkel | `kpx-section-dark`, `minHeight: 520px` | Breadcrumb-Nav, H1, Subline, 4 Hero-Punkte, Wellen-SVG | paddingTop: `calc(80px + 56px)` |
 | 2 | **Stats-Bar** | white | `py-8`, `marginTop: '-1px'` | **1:1 von Startseite** — diese Stats werden IMMER aus `app/page.tsx` kopiert, niemals angepasst | s. `references/design-tokens.md` für Layout |
-| 3 | **Problem (light)** | light | `kpx-section-light` | H2 **muss** konkret thematisch sein (nicht Template-Phrase „Das Problem, das wir lösen"). Sub-Heading nennt Symptome und Ursache. Pain-Points als Icon-Grid, 4-6 Items | Siehe §Mini-Flow-Muster unten |
-| 4 | **Wie wir es lösen (mit Grafik)** | light | `kpx-section-light` | Visualisierung der Lösung — Diagramm-Komponente ODER Icon-Grid (6-12 Items) | Eigene Diagramm-Komponente optional |
+| 3 | **Problem (light)** | light | `kpx-section-light` | H2 **muss** konkret thematisch sein (nicht Template-Phrase „Das Problem, das wir lösen"). Sub-Heading nennt Symptome und Ursache. Pain-Points als Icon-Grid, 4-6 Items | Plain text mit Pain-Points, KEIN Eyecatcher-Bild automatisch |
+| 4 | **Lösung (light)** | light | `kpx-section-light` | H2 nennt das konkrete Lösungs-Prinzip. Plain-text-Aufzählung mit `<h3>`-Überschriften und `<ul>`-Listen (kein Diagramm). Optional Icon-Grid mit 6-8 konkreten Features darunter. | Plain text bevorzugen. KEINE Custom-SVG-Diagramme oder Timeline-Visuals (siehe §15). Lucide-Icons erlaubt. |
 | 5 | **Frage zur aktuellen Lage** | dunkel | `kpx-section-dark`, `py-10 md:py-12` | Direkte Frage + Subline (Backup-CTA-Intro-Stil) | Soll User zum Handeln animieren |
 | 6 | **4 Prozess-Schritte** | white | `kpx-section bg-white` | Standard 01-04: Gratis / Analyse / Offerte / Betrieb | Kanonische Texte aus Skill |
 | 7 | **CTA-Button** | white | innerhalbe v. Sektion 6 | Cyan-Button (z. B. "Gratis X-Analyse anfordern") | innerhalb der Prozess-Schritte-Sektion, unter dem Grid |
@@ -30,30 +30,6 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 | 12 | **IT-Wissen Blog** | white | `kpx-section bg-white` | 3 latest via `getLatestPosts(3)` | 3-Spalten-Grid |
 | 13 | **Servicegebiet** | light-grey | `bg: oklch(0.97 0.01 220)` | MapPin + Adresse + 6-Kantone-Pills + Schweizweit remote | `<MapPin />`-Icon cyan |
 | — | **Abschluss-CTA** | — | — | **ENTFÄLLT** — `ServicePageFooter` übernimmt | ServicePageFooter: **nur CTA-Banner, KEIN Karussell**, KEIN „Alle Managed Services"-Link im CTA-Banner, nur cyan „Gratis Erstgespräch"-Button. |
-
-### 3-stufige Timeline in Sektion 4 (bevorzugt für Problem-Lösung-Weg mit 2 Tools)
-
-Bei Services mit logischem Vorher-Nachher-Prinzip (z. B. Endpoint:
-„Ohne System → mit NinjaOne → mit SentinelOne") Sektion 4 als **3-stufige Timeline** gestalten. KEIN 4. „Unter Kontrolle"-Step (zu viel Versprechen gemäß kpx-schweiz-marketing).
-
-```
-[Stufe 1: Ohne System rot]  →  [Stufe 2: Mit NinjaOne (RMM) cyan]  →  [Stufe 3: Mit SentinelOne (EDR) DUNKEL]
-```
-
-- **H2**: „Vom Chaos zur Kontrolle" o. ä. (konkret, nicht generisch)
-- **3 Bullets pro Stufe** (max. ~10 Wörter pro Bullet)
-- **Custom SVG-Icons** mittel-detailliert mit Glow/Schatten, NICHT Lucide-Icons
-- **Pfeile**: einheitlich cyan (`oklch(0.62 0.14 225 / 0.6)`), 60×30 px (mittlere Größe), inline SVG
-- **Stufe 3 = End-State, dunkel**: Hintergrund `oklch(0.22 0.07 250)`, Text weiß, stärkerer grüner Glow (`oklch(0.72 0.18 145 / 0.25)`)
-- **Mobile**: vertikal gestapelt mit vertikalen Pfeilen (30×40 px)
-- **Desktop**: horizontal in einer Reihe (`md:grid-cols-[1fr_auto_1fr_auto_1fr]`)
-- **Animations**: `stagger-children` mit Versatz ~150ms zwischen Elementen
-- **Border-2** für zusätzlichen visuellen Anker, **box-shadow** für Tiefe
-- **Icon-Grid (8 Kacheln) bleibt darunter erhalten** als Feature-Detail
-
-Stufen 1+2 haben light-BG, Stufe 3 hat dark-BG → klare visuelle Hierarchie, das Tool-Stack führt zur dunklen Sicherheits-Endstufe.
-
-**Abstand nach der Timeline**: Die Folgesektion (z. B. Icon-Grid mit 8 Kacheln) braucht grosszuegigen `mt-12 md:mt-16`, weil `gap-5` zwischen Karten innerhalb der Folgesektion nicht ausreicht, um die Timeline als visuell eigenstaendige Einheit zu trennen. Default-`mb-` der Timeline reicht nicht — Sektion 4 als Ganzes braucht deutlich mehr Luft zur naechsten Sektion.
 
 ### Sektion 3 — H2 konkret, nicht Template-Phrase
 
