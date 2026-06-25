@@ -19,7 +19,7 @@ Aufteilung in zwei Blöcke mit einem harten Trennelement:
 | 1 | **Hero** | dunkel | `kpx-section-dark`, `minHeight: 520px` | Breadcrumb-Nav, H1, Subline, 4 Hero-Punkte, Wellen-SVG | paddingTop: `calc(80px + 56px)` |
 | 2 | **Stats-Bar** | white | `py-8`, `marginTop: '-1px'` | **1:1 von Startseite** — diese Stats werden IMMER aus `app/page.tsx` kopiert, niemals angepasst | s. `references/design-tokens.md` für Layout |
 | 3 | **Problem (light)** | light | `kpx-section-light` | H2 **muss** konkret thematisch sein (nicht Template-Phrase „Das Problem, das wir lösen"). Sub-Heading nennt Symptome und Ursache. Pain-Points als Icon-Grid, 4-6 Items | Plain text mit Pain-Points, KEIN Eyecatcher-Bild automatisch |
-| 4 | **Lösung (white)** | white | `kpx-section bg-white` | H2 nennt das konkrete Lösungs-Prinzip. Plain-text-Aufzählung mit `<h3>`-Überschriften und `<ul>`-Listen (Standard). Für Network: 3-stufiges Chevron-Diagramm `<NetworkEvolutionChevron>` mit Reifegrad-Farbverlauf rot → gelb → cyan. Optional Icon-Grid mit 6-8 konkreten Features darunter. | Plain text bevorzugen. **BG `bg-white` für Kontrast zu benachbarter light-Sektion 3.** Standard: keine Custom-SVG-Diagramme (siehe §15 Lektion 14). **Ausnahme:** Network-Seite Sektion 4 verwendet explizit `<NetworkEvolutionChevron>` mit 3 Stufen (User-Anforderung). Lucide-Icons erlaubt. |
+| 4 | **Lösung (white)** | white | `kpx-section bg-white` | H2 nennt das konkrete Lösungs-Prinzip. Plain-text-Aufzählung mit `<h3>`-Überschriften und `<ul>`-Listen (Standard). Für Network: 3-stufiges Chevron-Diagramm `<NetworkEvolutionChevron>` als **standalone Komponente mit eigener light-grey Section** (Design-Sprache 1:1 wie Sektion 8 `ServiceModelArrowsFullNetwork`). OWNER_STYLES-Mapping `kunde` → `geteilt` → `kpx` + 4px roter Border-Left auf Stage 1 als Warn-Akzent. Stage-Badge-Labels: Selbstverantwortung / Übergang / KPX übernimmt. Optional Icon-Grid mit 6-8 konkreten Features darunter (Sektion 4b separat). | Plain text bevorzugen. Standard: keine Custom-SVG-Diagramme (siehe §15 Lektion 14). **Ausnahme Network:** Wenn User explizit ein Chevron-Diagramm verlangt, wird `<NetworkEvolutionChevron>` als eigenständige Section gebaut mit OWNER_STYLES-Farbpalette (identisch zu Sektion 8). Lucide-Icons erlaubt. Bei Network folgt eine separate Sektion 4b mit `bg-white` für Switching-Features. |
 | 5 | **Frage zur aktuellen Lage** | dunkel | `kpx-section-dark`, `py-10 md:py-12` | Direkte Frage + Subline (Backup-CTA-Intro-Stil) | Soll User zum Handeln animieren |
 | 6 | **4 Prozess-Schritte** | white | `kpx-section bg-white` | Standard 01-04: Gratis / Analyse / Offerte / Betrieb | Kanonische Texte aus Skill |
 | 7 | **CTA-Button** | white | innerhalbe v. Sektion 6 | Cyan-Button (z. B. "Gratis X-Analyse anfordern") | innerhalb der Prozess-Schritte-Sektion, unter dem Grid |
@@ -52,6 +52,20 @@ Die Sektionen-BG-Sequenz muss **visuell alternieren**, damit der User klare Tren
 12. IT-Wissen Blog     — weiss    (bg-white)
 13. Servicegebiet     — light-grey (oklch 0.97 0.01 220)
 ```
+
+### Network-Spezialfall: 14-Sektionen-Erweiterung
+
+Auf `/managed-network-wireless` ersetzt `<NetworkEvolutionChevron>` Sektion 4 (jetzt eigene light-grey Section mit Design-Sprache 1:1 zu Sektion 8) und ein separates **Sektion 4b** (bg-white) mit den Managed-Switching-Features folgt. Damit ergibt sich:
+
+```
+3. Problem            — light
+4. Lösung             — light-grey (oklch 0.97 0.01 220)        ← NetworkEvolutionChevron standalone
+4b. Switching-Features — weiss (bg-white)                       ← nur Network
+5. Frage              — dunkel
+...
+```
+
+BG-Rhythmus bleibt regelkonform: 3 (light) → 4 (light-grey, andere Schattierung als 3) → 4b (white) → 5 (dunkel). Verschiedene Helligkeitsstufen ergeben klaren Kontrast ohne zwei identische BG-Klassen direkt hintereinander.
 
 ### Schlüsselregeln
 
