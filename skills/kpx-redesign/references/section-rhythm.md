@@ -238,3 +238,7 @@ Quellen: [BACS/NCSC, SwissICT, NinjaOne, SentinelOne – als aktive Links]
 ### Der harte Schnitt
 
 **Sektion 9 (Infobalken)** ist ein **visuelles und thematisches Trennelement**. Sie trennt den Vertriebsblock (User wird zum Handeln geführt) vom Fachtext-Block (User wird informiert). Diese Trennung ist **konzeptionell wichtig** und sollte in allen Subpages konsistent sein.
+
+## Cross-Reference: Migrations-Playbook
+
+Die vollständigen Lessons aus der Network-Migration (Chevron-Design-System, Iterations-Workflow, Commit-Konventionen, häufige Fehlerquellen) sind in `references/migrations-playbook.md` dokumentiert. Für neue Service-Seiten-Migrationen ist das Playbook der Startpunkt.

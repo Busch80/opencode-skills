@@ -48,7 +48,8 @@ Diese Dateien liegen neben der `SKILL.md` und enthalten die vollständigen Spezi
 | `references/section-rhythm.md` | Kanonischer 13-Sektionen-Rhythmus, Stats, 4-Step-Prozess, 3 Betreuungsmodelle, Infobalken+Context-Block, Mischungsregeln |
 | `references/components.md` | Snippets für alle wiederkehrenden Blöcke (Hero, Stats, Infobalken, Steps, Benefits, FAQ hell/dunkel, Services-Grid, Blog, Servicegebiet, Final-CTA) |
 | `references/seo-schema.md` | Metadata-Export, JSON-LD `@graph` (BreadcrumbList, FAQPage, Organization `@id:#organization`, Service), Robot/Sitemap |
-| `references/tone-voice.md` | de-CH Regeln (kein ß → ss), Wortliste, kanonische Phrasen, harte Fakten statt Marketing |
+| `references/tone-voice.md` | de-CH Regeln (kein ß → ss), Wortliste, kanonische Phrasen, harte Fakten statt Marketing, 18 Migrations-Lektionen |
+| `references/migrations-playbook.md` | **NEU** Umfassendes Playbook aus der Network-Migration: Schema, Chevron-Design-System, Iterations-Workflow, Commit-Konventionen, Fehlerquellen, Lessons Learned |
 | `references/pages-to-migrate.md` | Inventar aller 55 zu migrierenden `app/**/page.tsx` mit Prioritäten, Routing-Konflikten, SEO-Backlog |
 | `templates/managed-service-page.tsx` | Blanko-Vorlage für `managed-it-services/*` Subpages (Backup-Blaupause) |
 | `templates/seo-hub-page.tsx` | Blanko-Vorlage für IT-Dienstleister/KMU-Cluster (externe-it-abteilung-Blaupause) |

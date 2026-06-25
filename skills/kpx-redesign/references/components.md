@@ -540,3 +540,90 @@ Position: direkt nach Final-CTA, vor `</div>`-Root-Wrapper der Seite.
 - **`produkte`-Datenhaltung:** zentrales Array in `@/app/data/produkte` (6 Einträge). Falls Sidebar mit erweiterten Services gebraucht wird, `ServicePageFooter`'s `ALL_SERVICES` nutzen.
 - **Kein CSS-In-JS-Framework** (styled-components etc.). Inline-`style` + Tailwind-Utility + `kpx-*`-Klassen — genauso wie Referenzseiten.
 - **Keine nouveaues Komponente erstellen** für einen einmaligen Block. Lieber inline direkt in der Seite mit Snippet aus dieser Datei.
+
+## 19. Chevron-Diagramm Design-System
+
+Drei Chevron-Komponenten teilen identische Design-Tokens für visuell konsistente Diagramme über alle Service-Seiten hinweg. Vollständige Details in `references/migrations-playbook.md` Abschnitt 5.
+
+### Komponenten-Übersicht
+
+| Komponente | Struktur | Verwendung |
+|---|---|---|
+| `<ServiceModelArrowsFull>` | Phasen × Modelle (4 × 3) | Endpoint, Externe IT, generische Service-Seiten |
+| `<ServiceModelArrowsFullNetwork>` | Phasen × Modelle (4 × 3) | Network (Phasen: Planung/Installation/Monitoring/Support) |
+| `<NetworkEvolutionChevron>` | 1 Reihe × 3 Stages | Network Sektion 4 (3-Stufen-Evolution) |
+
+### Identische Design-Tokens
+
+```ts
+const NP = 9;                                  // Chevron-Cut-Tiefe in %
+const SECTION_BG = "oklch(0.97 0.01 220)";     // light-grey section BG
+const CARD_BG = "white";
+const CARD_BORDER = "1px solid oklch(0.88 0.01 220)";
+const CARD_SHADOW = "0 2px 20px oklch(0.32 0.10 250 / 0.07)";
+
+const CELL_PADDING_Y = "py-3";
+const CELL_MIN_HEIGHT = "120px";               // 220px für Stages mit Bullets
+const CELL_PADDING_LEFT_FIRST = "5%";
+const CELL_PADDING_LEFT_MIDDLE = `${NP * 0.9}%`;   // 8.1%
+
+const BODY_FONT_SIZE = "clamp(9px, 0.72vw, 11px)";
+
+const BADGE_CLASS = "text-[9px] font-bold uppercase tracking-widest px-2 py-0.5 rounded-full whitespace-nowrap";
+const BADGE_BG = "rgba(255,255,255,0.18)";
+const BADGE_BORDER = "1px solid rgba(255,255,255,0.25)";
+```
+
+### OWNER_STYLES-Palette
+
+Aus `serviceModelData.ts` importieren (nicht duplizieren):
+
+| Owner | BG | Text |
+|---|---|---|
+| `kpx` | `oklch(0.32 0.10 250)` (dunkelblau) | `white` |
+| `geteilt` | `oklch(0.62 0.14 225)` (cyan) | `white` |
+| `kunde` | `oklch(0.92 0.02 220)` (hellgrau) | `oklch(0.28 0.06 240)` (dunkel) |
+
+### Reifegrad via OWNER_STYLES-Sequenz
+
+Für Evolution-Stages (Network Sektion 4) wird Reifegrad durch OWNER_STYLES-Reihenfolge kommuniziert:
+
+| Stage | Owner | Visuell | Bedeutung |
+|---|---|---|---|
+| 1 | `kunde` | hellgrau | Selbstverantwortung |
+| 2 | `geteilt` | cyan | Übergang |
+| 3 | `kpx` | dunkelblau | KPX übernimmt |
+
+Intern via `STAGE_OWNER_MAP: Record<1|2|3, Owner>` ableiten — **niemals `accentColor` als Prop duplizieren**.
+
+### 4px Border-Left-Trick für Warn-Stufen
+
+Wenn eine Stage einen Warn-Akzent braucht (z. B. „Ohne Planung"), **NICHT** `border-left` direkt auf die Chevron-Cell setzen — `clipPath: polygon(...)` clippt Borders mit.
+
+Lösung: 4px separates Flex-Item vor der Cell:
+
+```tsx
+<div className="flex-1 min-w-0 flex items-stretch">
+  {stage.number === 1 && (
+    <div
+      className="flex-shrink-0"
+      style={{ width: "4px", backgroundColor: "oklch(0.62 0.18 25)" }}
+    />
+  )}
+  <div
+    className="flex-1 min-w-0 flex flex-col py-3"
+    style={{ clipPath: ..., /* rest der Cell */ }}
+  >
+    {/* Content */}
+  </div>
+</div>
+```
+
+Mobile-Variante: Top-Stripe auf der `StackedStage`-Card statt Left-Stripe.
+
+### Mobile Fallback
+
+Beim Mobile-Breakpoint (`<md`) wird die Chevron-Reihe zu gestapelten Cards:
+- `StackedStage`-Card mit `rounded-xl`, weisser BG, 1px Border
+- Header mit OWNER-BG-Farbe und Stage-Badges + Title
+- Body mit Bullets in dunkelblauer Standard-Schrift (13px)
