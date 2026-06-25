@@ -110,6 +110,7 @@ Beim Neuerstellen einer Seite (z. B. aus SEO-Backlog `references/pages-to-migrat
 - **Umlaute erlaubt, ß verboten**: Umlaute (ä, ö, ü) in JSX/TSX sind OK und bevorzugt. KEIN ß (immer ss). KEINE ASCII-Umschrift (ae/oe/ue) in fertigen Live-Seiten — nur in Skill-Kommentaren.
 - **Skill-Mirror synchron**: Nach jeder Aenderung an `Busch80/kpx-itch/.opencode/skills/` muss `Busch80/opencode-skills/skills/` synchron gehalten werden. Beide Repos commiten + pushen mit Author `a.busch <a.busch@kpx-it.ch>`.
 - **Migrations-Checkliste**: Siehe `references/tone-voice.md` §13 fuer die verbindliche grep-Pruefungs-Checkliste vor jedem Push.
+- **Bestehende Komponenten verwenden, nicht neu erfinden**: Betreuungsmodelle IMMER via `ServiceModelArrowsFull` rendern — keine eigenen Karten-Layouts. Komponente hat `heading`/`subheading`-Props für seiten-spezifische Texte, Default-Werte für `externe-it-abteilung`. Daten aus `serviceModelData.ts` (zentrale Quelle). Reihenfolge: Rundum / Gemeinsam / Eigenregie — konsistent mit `externe-it-abteilung`.
 
 ## 7. Wann den Skill nicht verwenden
 

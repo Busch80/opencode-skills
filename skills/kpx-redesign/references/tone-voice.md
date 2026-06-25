@@ -275,3 +275,4 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
 8. **ServicePageFooter trimmen** — nur cyan „Gratis Erstgespraech" Button, kein Karussell
 9. **Tooling-Verfuegbarkeit pruefen** — `node`/`pnpm` auf dem Worker; bei fehlendem Toolchain manuelle grep-Verifikation dokumentieren
 10. **Umlaute statt ae/oe/ue in JSX** — saubere Umlaute in Live-Seiten, ASCII nur in Skill-Kommentaren
+11. **Bestehende Komponenten nutzen**: Für Betreuungsmodelle IMMER `ServiceModelArrowsFull` verwenden, keine eigenen Karten bauen. Komponente hat `heading`/`subheading`-Props für seiten-spezifische Texte, Default-Werte für `externe-it-abteilung`. Reihenfolge: Rundum / Gemeinsam / Eigenregie.
