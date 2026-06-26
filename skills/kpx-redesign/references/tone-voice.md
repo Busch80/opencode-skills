@@ -364,3 +364,14 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     ```
     Alle Hero-Hue-Werte sollten identisch sein (`245`). Bei Abweichung → Frage an User, ob Eigenmächtigkeit oder explizite Anweisung. Quelle: Commit `f59004c` — vor dem Fix waren 3 verschiedene Hue-Werte im Bestand (245, 220-240, 20-30, 165-175). Lesson: Inkonsistenzen müssen VOR dem Push aktiv gesucht werden.
 43. **Chevron-Kategorie-Labels IMMER `font-bold`**: In beiden Chevron-Komponenten (`ServiceModelArrowsFull.tsx`, `ServiceModelArrowsFullNetwork.tsx`) müssen die 4 Kategorie-Spalten-Header (Plattform & Lizenzen, Überwachung & Alarmierung, Störungsbehebung & Betrieb, Anwender-Support) **immer** `text-xs font-bold` verwenden, **nie** `font-semibold` (zu schwach). Pattern wirkt auf 12 migrierte Seiten + `/externe-it-abteilung`. Quelle: User-Feedback „kannst du da bitte etwas kräftiger von der schrift machen" — Commit `928fce7` ändert `font-semibold` (600) → `font-bold` (700) in beiden Komponenten. Konsistent mit Owner-Badge-Stil (bereits `font-bold uppercase`).
+44. **Chevron-HeaderBar in Sektion 8 hat ZWEI Style-Stellen**: Die `ServiceModelArrowsFull`/`Network` Komponenten haben die Kategorie-Labels an **zwei Stellen** gerendert: (1) in der PhaseCard (Zeile ~195, `text-xs font-bold`) UND (2) in der HeaderBar oben (Zeile ~248, **inline-Styles**). Bei der ersten Anpassung (Lektion 43) wurde nur die PhaseCard gefixt. **HeaderBar muss separat angepasst werden:**
+    ```tsx
+    style={{
+      fontSize: "11px",            // war 9px (zu klein)
+      fontWeight: 700,             // bleibt 700 (bold)
+      textTransform: "uppercase",  // bleibt uppercase
+      letterSpacing: "0.04em",     // war 0.07em (zu weit auseinander)
+      color: "oklch(0.32 0.06 250)", // war oklch(0.70 0.02 220) (70% hellgrau, zu blass)
+    }}
+    ```
+    Quelle: User-Feedback nach Commit `928fce7` — HeaderBar war noch blass, weil sie eine **separate Style-Stelle** hat, die ich beim ersten Fix übersehen habe. Commit `e2ef0c2` fixt beide Komponenten. **Lesson: Bei Component-Refactorings ALLE Render-Stellen prüfen, nicht nur die offensichtliche.**

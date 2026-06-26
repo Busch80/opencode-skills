@@ -776,6 +776,23 @@ interface Stage {
 
 **Lesson (Lektion 43):** Chevron-Kategorie-Labels IMMER `text-xs font-bold` (700), nie `font-semibold`. Pattern für zukünftige Chevron-Komponenten übernehmen.
 
+### Iteration 20: HeaderBar-Schrift kräftiger + dunkler (Commit `e2ef0c2` + Lektion 44)
+
+**Was:** Nach Iteration 19 meldete User „ist immernoch blass" — die 4 Kategorie-Header in der HeaderBar oben (PLATTFORM & LIZENZEN etc.) wirkten noch zu schwach und zu klein.
+
+**Ursache:** Die `ServiceModelArrowsFull`/`Network` Komponenten rendern die Kategorie-Labels an **zwei separaten Stellen**:
+- **PhaseCard** (Zeile ~195): `text-xs font-bold` — bereits in Iteration 19 gefixt
+- **HeaderBar oben** (Zeile ~248): inline-Styles mit `fontSize: "9px"`, `color: "oklch(0.70 0.02 220)"` (hellgrau 70%), `letterSpacing: "0.07em"` — **war übersehen worden**
+
+**Fix:** HeaderBar-Styles in beiden Komponenten:
+- `fontSize: 9px` → `11px` (größer, besser lesbar)
+- `color: oklch(0.70 0.02 220)` → `oklch(0.32 0.06 250)` (KPX-Blau, kräftig)
+- `letterSpacing: 0.07em` → `0.04em` (dichter, wirkt fett statt verschnörkelt)
+- `fontWeight: 700` (bleibt)
+- `textTransform: uppercase` (bleibt)
+
+**Lesson (Lektion 44):** Bei Component-Refactorings **ALLE Render-Stellen prüfen**, nicht nur die offensichtliche. HeaderBar hatte separate inline-Styles, die bei Iteration 19 übersehen wurden. Pattern: Wenn ein User-Feedback nach erstem Fix sagt „immernoch das gleiche Problem", liegt es meist an einer zweiten Style-Stelle.
+
 ### Iteration 17: Doppel-Heading + Self-Link-Filter (Commit `34c1146` + Lektionen 38-40)
 
 **Was:** Vercel-URL User-Feedback auf `/managed-it-services/endpoint-detection-response`: NetworkEvolutionChevron doppelt gerendert (Heading + Subheading zweimal sichtbar). Self-Link-Card in Sektion 11 zeigt migrierte Seite selbst.
@@ -846,6 +863,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Hero-Hue 245:** Hero-Background IMMER `oklch(0.28 0.10 245)` (Standard-Blau), keine service-spezifischen Akzentfarben. (Lektion 41)
 - [ ] **Hero-Konsistenz-Check:** `grep -h "radial-gradient.*oklch" app/managed-*/page.tsx` — alle Hue-Werte muessen identisch sein. (Lektion 42)
 - [ ] **Chevron-Kategorie-Labels:** IMMER `text-xs font-bold` (700), nie `font-semibold`. (Lektion 43)
+- [ ] **Chevron-HeaderBar prüfen:** Bei Chevron-Anpassungen ALLE Render-Stellen (PhaseCard + HeaderBar) prüfen — HeaderBar hat separate inline-Styles. (Lektion 44)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
