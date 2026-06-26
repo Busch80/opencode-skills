@@ -742,6 +742,33 @@ interface Stage {
 - **NetworkEvolutionChevron Stage-Type-Schema strikt einhalten (Lektion 34):** Bei jeder Verwendung das Schema exakt prüfen — `number`, `title`, `bullets`. KEIN `id`, `owner`, `headline`.
 - **TypeScript-Stage-Property-Check ergänzen (Lektion 35):** Statische Verifikation muss TypeScript-Stage-Properties prüfen. Python-Skript-Logik: bei Chevron-Imports die `stages={[...]}`-Aufrufe gegen erlaubte Property-Liste prüfen. **Pattern wiederverwendbar für alle typisierten Komponenten** (ServiceModelArrowsFull, NetworkEvolutionChevron etc.).
 - **Lokaler Build im Worker möglich (Lektion 36):** Mit `apt-get install -y nodejs` + `corepack enable pnpm` + `./node_modules/.bin/{tsc,next}` ist ein echter lokaler Build möglich — findet 100% der TypeScript-Fehler VOR Push. **Lesson aus User-Feedback:** „warum testet du den buiold nicht local?" — Lektion 24 (Build-First-Then-Push) ist nicht nur ein Schritt in der Verifikation, sondern MUSS vor jedem Push ausgeführt werden. Vercel-Build ist Bestätigung, nicht primärer Validierungs-Schritt.
+- **NetworkEvolutionChevron Heading-Rendering (Lektion 38):** Die Komponente rendert `heading` + `subheading` selbst. Wrapper darf KEIN äußeres `<h2>` + `<p>` haben.
+- **Self-Link-Filterung in Sektion 11 (Lektion 39):** `produkte.filter((p) => p.href !== "/current-url")` verhindert Self-Link-Card.
+- **Lokaler Build ist Pflicht (Lektion 40):** Vor jedem Push MUSS `./node_modules/bin/{tsc,next build}` Exit-Code 0 liefern.
+
+### Iteration 17: Doppel-Heading + Self-Link-Filter (Commit `34c1146` + Lektionen 38-40)
+
+**Was:** Vercel-URL User-Feedback auf `/managed-it-services/endpoint-detection-response`: NetworkEvolutionChevron doppelt gerendert (Heading + Subheading zweimal sichtbar). Self-Link-Card in Sektion 11 zeigt migrierte Seite selbst.
+
+**Ursache 1 (Doppel-Heading):** Iterations 14 (EDR) + 15 (MDM) hatten im Sektion-4-Wrapper ein zusätzliches `<h2>` + `<p>` über der `<NetworkEvolutionChevron>`. Die Komponente rendert heading + subheading **selbst** (über Props), das äußere Heading war redundant.
+
+**Ursache 2 (Self-Link):** Iterationen 12-15 haben in Sektion 11 (`{produkte.map(...)}`) die migrierte Seite selbst als Card gezeigt, weil `produkte.ts` sie enthält. Pattern war in allen Seiten identisch.
+
+**Fix (Commit `34c1146`):**
+- EDR + MDM: äußeres `<h2>` + `<p>` im Sektion-4-Wrapper entfernt
+- Alle 4 Seiten: `produkte.filter((p) => p.href !== "/current-url").map(...)` in Sektion 11
+
+**Verifikation:** Erste Anwendung des lokalen Build-Patterns (Lektion 36/40):
+- `apt-get install -y nodejs` (einmalig)
+- `corepack enable pnpm` (einmalig)
+- `./node_modules/.bin/tsc --noEmit` → keine Fehler
+- `./node_modules/.bin/next build` → ✓ Compiled in 14.3s, 46/46 Seiten, Exit-Code 0
+- Push erst nach lokalem Build
+
+**Lesson:**
+- **NetworkEvolutionChevron Heading-Rendering (Lektion 38):** Komponente rendert selbst, Wrapper ohne äußeres Heading.
+- **Self-Link-Filterung (Lektion 39):** Konsistenz-Fix für alle Service-Seiten.
+- **Lokaler Build ist Pflicht (Lektion 40):** Vercel-Build ist nicht primärer Validierungs-Schritt.
 
 ## 11. Cross-References
 
@@ -783,6 +810,9 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Vergleichstabellen mit Einschraenkungen:** Bei Plattform-Vergleichen (z. B. Android/iOS) qualitative Marker wie 'in Entwicklung', 'eingeschraenkt', 'nur View' statt nur Checkmarks (Lektion 33)
 - [ ] **NetworkEvolutionChevron Stage-Type-Schema:** Stages muessen genau `number: 1|2|3`, `title: string`, `bullets: string[]` enthalten. KEIN `id`, `owner`, `headline`. (Lektion 34)
 - [ ] **NetworkEvolutionChevron Pflicht-Props:** `heading` und `subheading` muessen immer uebergeben werden (nicht nur `stages`). (Lektion 37)
+- [ ] **NetworkEvolutionChevron kein Wrapper-Heading:** KEIN aeusseres `<h2>` + `<p>` im Sektion-4-Wrapper — Komponente rendert selbst. (Lektion 38)
+- [ ] **Self-Link-Filter:** `produkte.filter((p) => p.href !== "/current-url")` in Sektion 11. (Lektion 39)
+- [ ] **Lokaler Build Pflicht:** `./node_modules/.bin/{tsc,next build}` mit Exit-Code 0 VOR Push. (Lektion 40)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
