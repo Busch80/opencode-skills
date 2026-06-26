@@ -980,6 +980,57 @@ Vergleichstabellen verwenden `✓` für enthalten, `–` für nicht enthalten. Q
 
 **Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 15.3s), Exit-Code 0.
 
+### Iteration 30: `/it-dienstleister-zuerich` Hub-Template-Migration (Commit `74307b8` + Lektion 52)
+
+**Was:** Erste Anwendung des **14-Sektionen-Hub-Templates** für SEO-Cluster-Seiten auf `/it-dienstleister-zuerich`. 1128 Zeilen → 878 Zeilen (~22% Reduktion) durch konsistente Komponenten-Wiederverwendung, ohne Inhalt zu verlieren.
+
+**Schema-Entscheidung (User-Feedback):** „Alles übernehmen" — alle 10 FAQs, 6+2 Service-Cards, 6 USPs, 11 Regionen, IT-Beratungs-3-Absätze, Direktkontakt-Box, Calculator Teaser, 5 Cross-Links, CTA mit Trust-Badges preserved 1:1. 3 neue Sektionen hinzugefügt (Chevron, Vergleichskarten, Context-Block).
+
+**14 Sektionen:**
+1. **Hero** (dunkel, `/zurich-hero.jpg` opacity 0.18 overlay + radial-gradient Hue 245) — 4 hero points + 4 Standort-Badges
+2. **Stats-Bar** (white, 1:1 von Startseite, Lektion 22)
+3. **Chevron** (light-grey, `<ServiceModelArrowsFull />`) — NEU
+4. **Mini-CTA Cliffhanger** (dunkel) — „Ihre IT läuft. Ihr Betrieb auch."
+5. **Was ist ein IT-Dienstleister** (light-grey, 2-Card-Vergleich reaktiv vs proaktiv mit Pain-Points + Benefits) — preserved 1:1
+6. **Prozess-Schritte** (white, 01-04 + CTA-Button „Gratis IT-Beratungsgespräch anfordern") — preserved + CTA-Text angepasst
+7. **Sub-Services-Grid** (white, 6+2 Cards: Server/Security/Cloud/Client/Backup/Firewall + Cloud/Prozesse) — preserved 1:1
+8. **IT-Beratung** (white, 3 ausführliche Absätze + Link „Gratis IT-Beratungsgespräch vereinbaren") — preserved 1:1
+9. **Warum KPX / USPs nummeriert** (light-grey, 6 USPs mit Icon + Description) — preserved, Layout von Icon-Cards zu nummeriert migriert
+10. **Vergleichskarten** (white, Eigene IT vs Extern KPX) — NEU
+11. **Context-Block** (dunkel, 3 SEO-Spalten + 4 Quellen: BACS/SwissICT/KMU-Admin/EDÖB) — NEU
+12. **FAQ** (light, `<FaqAccordion>`, 10 Fragen) — preserved, Component-Wiederverwendung
+13. **Servicegebiet + Calculator Teaser + IT-Wissen Blog** (light-grey, 3 Sub-Bereiche) — kombiniert aus 3 alten Sektionen
+14. **Verwandte Themen + CTA** (dunkel, 5 Cross-Links + 2 Buttons + 3 Trust-Badges) — kombiniert aus 2 alten Sektionen
+
+**Hero-Bild:** `/zurich-hero.jpg` (685 KB, lokal vorhanden, kpx-it.ch 200 OK) — verwendet als CSS `background-image` mit opacity 0.18 (analog zu /cloud).
+
+**Schema.org (erweitert):**
+- `BreadcrumbList` (Startseite → IT Dienstleister Zürich)
+- `LocalBusiness` mit Adresse `Grindelstrasse 6, 8304 Wallisellen ZH`, Geo 47.4103/8.5978, areaServed Array (Zürich/Wallisellen/Dübendorf/Opfikon/Dietlikon/Kanton Zürich)
+- `WebPage` mit `inLanguage: de-CH`
+- `FAQPage` mit allen 10 Q/A-Items
+
+**Lessons (Lektion 52):** Hub-Template für SEO-Cluster-Seiten ist 14 Sektionen, NICHT 13 wie Service-Pages und NICHT 7 wie Cloud-Hub (Lektion 49). SEO-Cluster-Seiten brauchen:
+- Erklärungs-Sektionen (Was-ist-IT-DL, IT-Beratung, USPs) für thematische SEO-Authority
+- Direktkontakt-Box + Regionen-Pills für lokale Vertrauenssignale
+- Cross-Links zu verwandten Service-Seiten für interne Linkstruktur
+- 5–10 FAQs mit Long-Tail-Keywords
+- Context-Block mit Schweizer Behörden-Links für E-E-A-T-Signale
+
+**Wiederverwendbar für 8 SEO-Cluster-Seiten:**
+- `/it-outsourcing-zuerich` (Prio 3)
+- `/it-firmen-zuerich` (Prio 3)
+- `/it-support-zuerich` (Prio 3)
+- `/it-beratung-kmu`
+- `/it-sicherheit-kmu`
+- `/microsoft-365-kmu`
+- `/it-dienstleister-kmu`
+- `/it-notfallservice` (Prio 1 per SEO-Backlog)
+
+Jede dieser Migrationen folgt demselben Schema, angepasst an Keyword-Fokus und Geo-Region.
+
+**Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 14.2s), Exit-Code 0. Author: `KPX Dev <a.busch@kpx-it.ch>` (Lektion 51). Push-Ziel: `experimental` (Lektion 50).
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -1034,6 +1085,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Hub-Schema fuer Landing-Pages:** NICHT 13-Sektionen-Service-Schema, sondern 7 Sektionen (Hero + Stats + Sub-Services-Grid + Sub-Typen-Vergleich + Trust-Block + FAQ + CTA). Schema.org LocalBusiness mit Geo + areaServed-Array. (Lektion 49)
 - [ ] **Push-Ziel ist IMMER `experimental`** (kpx-itch): Kanonischer Befehl `git push origin HEAD:experimental --force`. NIEMALS auf ausgecheckte Branch verlassen (kein blankes `git push`). Session-Start-Check: `git rev-parse --abbrev-ref HEAD` muss `experimental` zeigen. Andere Branches (`devel`, `development`, `main`, `nextjs`, `prototyp`, `stable`, `staging`, `testing`, `feat/*`) sind NICHT für Migrations-Arbeit. (Lektion 50)
 - [ ] **Author IMMER `KPX Dev <a.busch@kpx-it.ch>`:** Repo-local git config einmalig pro Repo setzen mit `git config user.name "KPX Dev" && git config user.email "a.busch@kpx-it.ch"`. Session-Start-Check: `git log -1 --format='%an <%ae>'` muss `KPX Dev <a.busch@kpx-it.ch>` zeigen. NICHT der opencode-Worker-Default `opencode <opencode@users.noreply.github.com>`. (Lektion 51)
+- [ ] **Hub-Template fuer SEO-Cluster-Seiten (14 Sektionen):** 14-Sektionen-Schema fuer `/it-dienstleister-zuerich`, `/it-outsourcing-zuerich`, `/it-firmen-zuerich`, `/it-support-zuerich`, `/it-beratung-kmu`, `/it-sicherheit-kmu`, `/microsoft-365-kmu`, `/it-dienstleister-kmu`. Hero + Stats + Chevron + Mini-CTA + Was-ist + Prozess + Sub-Services + Erklaerung + USPs + Vergleich + Context + FAQ + Servicegebiet+Calculator+IT-Wissen + Verwandte+CTA. Schema.org LocalBusiness + BreadcrumbList + WebPage + FAQPage. (Lektion 52)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope

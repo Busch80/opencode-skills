@@ -498,3 +498,24 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     ```
     Falls die Anzeige `opencode <opencode@users.noreply.github.com>` zeigt: oben stehende `git config`-Befehle ausführen, bevor weiter committed wird.
     Quelle: User-Feedback „unter welchen namen sollst du immer commited?" — meine 5 Commits auf `experimental` (`f020093`, `95e5ab3`, `eb46819`, `545e3ca`, `34298ac`) waren fälschlich als `opencode <opencode@users.noreply.github.com>` attributed. Fix: Author-Setup wie oben, ab jetzt korrekt. **Alte Commits werden NICHT rewritten** (kein Rebase — User-Entscheidung „nein neu comitted").
+52. **Hub-Template für SEO-Cluster-Seiten (14 Sektionen)**: SEO-Cluster-Seiten (`it-dienstleister-zuerich`, `it-outsourcing-zuerich`, `it-firmen-zuerich`, `it-support-zuerich`, `it-beratung-kmu`, `it-sicherheit-kmu`, `microsoft-365-kmu`, `it-dienstleister-kmu`) verwenden das **14-Sektionen-Hub-Template**. Architektur:
+    ```tsx
+    // 1.  Hero (dunkel, Hue 245 radial-gradient + optionales <img> overlay)
+    //     CloudFront 200 OK → opacity 0.18, hero points, Standort-Badges
+    // 2.  Stats-Bar (white, 1:1 von Startseite)
+    // 3.  Chevron (light-grey, <ServiceModelArrowsFull />)
+    // 4.  Mini-CTA Cliffhanger (dunkel)
+    // 5.  Was-ist-Thema (light-grey, 2-Card-Vergleich reaktiv vs proaktiv)
+    // 6.  Prozess-Schritte (white, 01-04 + CTA-Button mit relevantem CTA-Text)
+    // 7.  Sub-Services-Grid (white, 6+2 Cards mit "Mehr erfahren"-Links)
+    // 8.  Erklaerungs-Sektion (white, 3 ausfuehrliche Absaetze + Link)
+    // 9.  USPs nummeriert (light-grey, 6 nummeriert 1-6 + Icon)
+    // 10. Vergleichskarten (white, Eigene vs Extern, NEU)
+    // 11. Context-Block (dunkel, 3 SEO-Spalten + 4 Quellen-Links)
+    // 12. FAQ (light, <FaqAccordion> 2-Spalten)
+    // 13. Servicegebiet + Calculator Teaser + IT-Wissen Blog (light-grey, 3 Sub-Bereiche)
+    // 14. Verwandte Themen + CTA (dunkel, 5 Cross-Links + 2 Buttons + Trust-Badges)
+    ```
+    **Schema.org:** LocalBusiness mit areaServed-Array, Geo-Koordinaten, BreadcrumbList + WebPage + FAQPage. Adresse: IMMER `Grindelstrasse 6, 8304 Wallisellen`.
+    **Unterschied zu /cloud (7 Sektionen, Lektion 49):** SEO-Cluster-Seiten sind content-reicher und brauchen den vollen 14-Sektionen-Aufbau für SEO-Wirkung + lokale Vertrauenssignale + Cross-Linking. Cloud-Hub aggregiert nur 4 Sub-Services und braucht kein erklärendes Material.
+    **Wiederverwendbar für 8 SEO-Cluster-Seiten** (siehe `pages-to-migrate.md` Prio 3). Pattern reduziert 1100–1400 Zeilen alte Schema auf ~850–1050 Zeilen (~22% Reduktion) durch konsistente Komponenten-Wiederverwendung (`ServiceModelArrowsFull`, `FaqAccordion`, `getLatestPosts`).
