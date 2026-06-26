@@ -2,17 +2,42 @@
 
 Vor jedem Push einer Service-Page (`app/managed-it-services/*/page.tsx` oder `app/managed-network-wireless/page.tsx`) MUSS die Seite lokal verifiziert werden. Auch wenn `node` im Worker-PATH nicht verfügbar ist (was bei `opencode`-Workern der Fall ist), können die meisten TypeScript-Build-Fehler durch statische Checks abgefangen werden.
 
-## Manuelle Checkliste (immer ausführen)
+## Schritt 0: Lokaler Build-Versuch (vor allen anderen Checks)
+
+**Vor** jedem Push muss ein **echter lokaler Build-Versuch** gestartet werden. Wenn `node`/`pnpm` im Worker-PATH verfügbar ist:
+
+```bash
+# Im Repo-Root (z. B. /root/opencode/workspace/kpxitch/experimental/)
+pnpm install && pnpm build
+# oder direkt:
+npx next build
+```
+
+**Exit-Code prüfen.** Nur bei Exit-Code 0 darf der Push erfolgen:
+
+```bash
+if [ $? -ne 0 ]; then
+  echo "Build failed — fix errors before pushing"
+  exit 1
+fi
+```
+
+**Wenn `node`/`pnpm` NICHT verfügbar ist** (typisch für `opencode`-Worker): Fallback auf die statischen Checks in Schritten 1-7 unten. Statische Checks finden 90% der Fehler — aber nicht alle (z. B. Unicode-Escape-Probleme, JSX-Parse-Errors). **Wenn möglich, versuche einen echten Build zuerst.**
+
+Quelle für diese Regel: User-Feedback nach Vercel-Build-Fehler bei Commit `fa851ca` (German-Quotes-Syntax-Bug). Statische Verifikation hat den Fehler zwar erkannt, aber der Push erfolgte bereits. **Nicht wiederholen.**
+
+## Manuelle Checkliste (immer ausführen — auch nach erfolgreichem Schritt 0)
 
 | # | Check | Wie |
 |---|---|---|
 | 1 | Icon-Vollständigkeit | Python-Script (siehe unten) |
 | 2 | Komponenten-Props korrekt | `grep -B 2 -A 5 "ServiceModelArrowsFull$"` — `currentServiceId` darf NICHT dabei sein |
 | 3 | Keine `as never`-Workarounds | `grep -n "as never" <file>` muss LEER sein |
-| 4 | Section-Anzahl | `grep -cE "^\s*\{/\*.*[0-9]+\."` = 13 (oder 14 bei Network/Private-Cloud) |
-| 5 | JSON-LD Schema vollständig | `for entity in BreadcrumbList FAQPage Organization Service; do grep -q "@type.:.*$entity" <file>; done` |
-| 6 | Stats-Bar 1:1 | `grep -c "Jahre IT-Praxis"` = 1, `grep -c "Schweizer KMU"` = 1 |
-| 7 | BG-Rhythmus | Keine zwei `kpx-section-dark` direkt hintereinander (siehe `section-rhythm.md` §19 für Ausnahme) |
+| 4 | German-Quote-Syntax (NEU ab Iteration 10) | Python-Script unten — findet `„..."` Pattern mit ASCII-Closing statt German-Closing |
+| 5 | Section-Anzahl | `grep -cE "^\s*\{/\*.*[0-9]+\."` = 13 (oder 14 bei Network/Private-Cloud) |
+| 6 | JSON-LD Schema vollständig | `for entity in BreadcrumbList FAQPage Organization Service; do grep -q "@type.:.*$entity" <file>; done` |
+| 7 | Stats-Bar 1:1 | `grep -c "Jahre IT-Praxis"` = 1, `grep -c "Schweizer KMU"` = 1 |
+| 8 | BG-Rhythmus | Keine zwei `kpx-section-dark` direkt hintereinander (siehe `section-rhythm.md` §19 für Ausnahme) |
 
 ## Python-Script: Icon-Vollständigkeit prüfen
 
@@ -80,19 +105,21 @@ print(f'{\"✓ Alle \" + str(len(uses)) + \" Icons\" if not miss else \"✗ FEHL
 
 ## Häufige Build-Fehler & Fixes
 
-| Fehler | Ursache | Fix |
-|---|---|---|
-| `Cannot find name 'X'` (Lucide-Icon) | Icon in `icon:` oder `<X />` verwendet, aber nicht importiert | Icon zum `from "lucide-react"`-Import hinzufügen |
-| `Property 'X' does not exist on type 'ComponentProps'` | Komponente unterstützt Prop nicht | Prop entfernen oder andere Komponente verwenden |
-| `Type 'X' is not assignable to type 'Y'` | TypeScript-Mismatch (z. B. falscher Union-Typ) | Korrekten Typ verwenden, `as never`-Workarounds VERMEIDEN |
-| `Expected ',', got 'ident'` (Turbopack-Parse-Fehler) | ASCII `"` (U+0022) schliesst JS-String vorzeitig, weil davor ein deutsches `„` (U+201E) als inneres Anführungszeichen steht. Beispiel: `"...„Begriff" mehr Text"` → ASCII `"` terminiert String, `mehr Text` ist außerhalb. | **Beide inneren Quotes als Deutsche verwenden:** `„...\"` mit U+201E + U+201C. Python-Skript zur Validierung siehe unten. **Lesson aus Iteration 10 (Firewall-Migration):** 2 Zeilen hatten den Bug, Build-Check hat ihn gefangen. |
+| Fehler | Ursache | Fix | Durch Schritt 0 (lokaler Build) erkennbar? |
+|---|---|---|---|
+| `Cannot find name 'X'` (Lucide-Icon) | Icon in `icon:` oder `<X />` verwendet, aber nicht importiert | Icon zum `from "lucide-react"`-Import hinzufügen | ✓ Ja |
+| `Property 'X' does not exist on type 'ComponentProps'` | Komponente unterstützt Prop nicht | Prop entfernen oder andere Komponente verwenden | ✓ Ja |
+| `Type 'X' is not assignable to type 'Y'` | TypeScript-Mismatch (z. B. falscher Union-Typ) | Korrekten Typ verwenden, `as never`-Workarounds VERMEIDEN | ✓ Ja |
+| `Expected ',', got 'ident'` (Turbopack-Parse-Fehler) | ASCII `"` (U+0022) schliesst JS-String vorzeitig, weil davor ein deutsches `„` (U+201E) als inneres Anführungszeichen steht. Beispiel: `"...„Begriff" mehr Text"` → ASCII `"` terminiert String, `mehr Text` ist außerhalb. | **Beide inneren Quotes als Deutsche verwenden:** `„...\"` mit U+201E + U+201C. Python-Skript zur Validierung siehe unten. | ✓ Ja |
+
+**Alle 4 dokumentierten Fehlertypen werden durch Schritt 0 (lokaler Build) zuverlässig erkannt.** Statische Checks (Schritte 1-8) sind nur ein Fallback, wenn kein `node` verfügbar ist.
 
 ## Lessons aus Iterations
 
 - **Iteration 6 (Server):** `currentServiceId` auf `<ServiceModelArrowsFull>` → Vercel-Build-Fehler. Fix: Prop entfernt (nur Network-Variante hat es).
 - **Iteration 8 (Private-Cloud):** `DollarSign` und `Clock` Icons fehlten in Imports. Fix: Beide ergänzt.
 - **Iteration 10 (Firewall + Cloud-Firewall):** `„..."` mit ASCII-Closing statt German-Closing → Turbopack-Parse-Fehler `Expected ',', got 'ident'`. Fix: Beide inneren Quotes als Deutsche (U+201E + U+201C).
-- Beide Fehler wurden durch User-Prompt oder explizites Vercel-Log erkannt. Mit dem erweiterten Python-Script oben (das jetzt auch German-Quote-Syntax prüft) lassen sich diese Fehler vorher abfangen.
+- **Iteration 11 (Firewall Fix):** Lesson aus User-Feedback — `pnpm build` MUSS vor jedem Push laufen, nicht nur statische Checks. Statische Checks erkennen 90%, aber nicht alle Fehler. Ein lokaler Build garantiert 100%.
 
 ## German-Quote-Syntax-Validierung (Python)
 

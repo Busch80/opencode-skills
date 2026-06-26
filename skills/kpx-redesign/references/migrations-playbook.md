@@ -255,14 +255,31 @@ Typischerweise **3-4 Iterationen** bis zur finalen Version.
 
 ## 7. Verifikation & Deploy
 
-### 7.1 Statische Verifikation (Agent-Aufgabe)
+### 7.0 Build-First-Then-Push (NEU ab Iteration 11, Lektion 24)
+
+**Vor** jedem Push MUSS zuerst ein lokaler Build-Versuch gestartet werden:
+
+```bash
+# Erste Prioritaet — echter lokaler Build:
+pnpm install && pnpm build
+# oder direkt:
+npx next build
+
+# Exit-Code 0 = OK, alles andere = fixen, dann nochmal.
+```
+
+**Zweite Prioritaet** (wenn `node`/`pnpm` NICHT im Worker-PATH verfuegbar sind — typisch fuer `opencode`-Worker): statische Checks wie bisher. **Aber:** Statische Checks finden 90%, nicht 100%. Ein lokaler Build garantiert 100%.
+
+Quelle: User-Feedback nach Vercel-Build-Fehler bei Commit `fa851ca` (German-Quotes-Syntax-Bug). Statische Verifikation hat den Fehler zwar erkannt, aber der Push erfolgte bereits.
+
+### 7.1 Statische Verifikation (Agent-Aufgabe, Fallback ohne node)
 
 ```bash
 # 1. Import-Check
 grep -n "import.*ComponentName" /path/to/page.tsx
 
 # 2. Section-Anzahl (sollte 13 oder 14 sein)
-grep -nE "^      \{/\* \u2500\u2500 [0-9]+[a-z]?\." /path/to/page.tsx | wc -l
+grep -nE "^      \{/\* ── [0-9]+[a-z]?\." /path/to/page.tsx | wc -l
 
 # 3. BG-Rhythmus-Verifikation
 grep -nE "(bg-white|kpx-section-(light|dark)|oklch\(0\.97|oklch\(0\.22)" /path/to/page.tsx
@@ -272,6 +289,24 @@ diff -q /kpxitch/.opencode/skills/kpx-redesign/references/X.md /opencode-skills/
 
 # 5. Token-Reduktion (keine verwaisten Code-Bloecke)
 grep -c "export const" /path/to/serviceModelData.ts
+
+# 6. Icon-Vollstaendigkeit (Python-Script, siehe build-verification.md §1)
+python3 scripts/check-icons.py
+
+# 7. German-Quote-Syntax (Python-Script, siehe build-verification.md §4)
+python3 scripts/check-german-quotes.py
+
+# 8. Keine `as never`-Hacks
+grep -n "as never" /path/to/page.tsx   # muss LEER sein
+
+# 9. Stats-Bar 1:1 (Lektion 22)
+grep -c "Jahre IT-Praxis" /path/to/page.tsx   # = 1
+grep -c "Schweizer KMU" /path/to/page.tsx     # = 1
+
+# 10. JSON-LD Schema vollstaendig
+for entity in BreadcrumbList FAQPage Organization Service; do
+  grep -q "@type.:.*$entity" /path/to/page.tsx || echo "MISSING: $entity"
+done
 ```
 
 ### 7.2 Visuelle Verifikation (User-Aufgabe)
@@ -563,6 +598,18 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - Server-Migration startete mit Plan ohne User-Bestätigung der Pain-Point-Ableitung — diese sind jetzt aus aktuellem Problem-Text interpretiert, sollten aber mit User verifiziert werden
 - Vercel-Build-Fehler bei Iteration 6 (currentServiceId) trotz Code-Review — TypeScript-Fehler wurden im Agent-Loop übersehen
 
+### Iteration 11: German-Quotes-Bug + Build-First-Then-Push-Policy (Commit `fa851ca` + Lektion 24)
+
+**Was:**
+1. **German-Quotes-Syntax-Bug in `firewall/page.tsx` (Zeile 91) und `managed-cloud-firewall/page.tsx` (Zeile 442):** Beide Stellen hatten `"...„Begriff" mehr Text"` mit ASCII-Closing-Quote `"` (U+0022) statt German-Closing-Quote `"` (U+201C). Folge: Turbopack parst den ASCII-`"` als JS-String-Ende und interpretiert `mehr Text` außerhalb des Strings → `Expected ',', got 'ident'` Parse-Fehler beim Vercel-Build.
+2. **User-Feedback nach Bug-Fix:** „bitte die seite immer einmal local bauen und validieren bevor sie in GitHub hochgeladen wird, ist das im skill abgebildet?" — daraus entstand Lektion 24 **Build-First-Then-Push-Policy**.
+3. **Skill-Update:** `tone-voice.md` Lektion 24, `build-verification.md` Schritt 0 (lokaler Build vor allen anderen Checks), `migrations-playbook.md` §7.0 (Build-First-Then-Push als Sektion 7.0 vor §7.1), §12 Quick-Reference-Checklist erweitert.
+
+**Lesson:**
+- **Turbopack vs. webpack/esbuild:** Turbopack ist bei String-Literalen mit Unicode-Characters strikter. ASCII-`"` als inneres Anführungszeichen schliesst den String. **Immer beide inneren Quotes als Deutsche verwenden** (U+201E + U+201C).
+- **Statische Checks vs. echter Build:** Statische Checks haben den German-Quotes-Bug bei Iteration 10 erkannt — der Push erfolgte aber trotzdem. Der Fix `fa851ca` musste nachträglich gemacht werden. **Lesson:** Ein echter lokaler Build (`pnpm build`) garantiert 100% Fehler-Erkennung VOR dem Push und ist der „source of truth".
+- **Build-First-Then-Push ist nicht optional:** Lektion 24 in `tone-voice.md` dokumentiert die Regel. Build-Verification.md ergänzt `Schritt 0: Lokaler Build-Versuch` als erste Priorität (vor allen statischen Checks).
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -580,6 +627,7 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 
 Vor Abschluss einer Migration pruefen:
 
+- [ ] **Schritt 0: Lokaler Build** (`pnpm build` / `npx next build`) — Exit-Code 0 **vor** Push. Wenn `node`/`pnpm` nicht verfuegbar: statische Checks (Schritte 1-10 in §7.1) als Fallback.
 - [ ] Section-Anzahl im `page.tsx` stimmt mit Skill-Doku (13 oder 14)
 - [ ] BG-Rhythmus ohne zwei gleiche BG-Klassen hintereinander
 - [ ] Chevron-Komponenten nutzen identische Design-Tokens (np, padding, font)
@@ -587,6 +635,11 @@ Vor Abschluss einer Migration pruefen:
 - [ ] Mobile Fallback (`StackedStage`) vorhanden und getestet
 - [ ] Keine `accentColor`-Props, stattdessen `STAGE_OWNER_MAP`
 - [ ] `border-left`-Warnungen auf separaten Flex-Items, nicht auf clipPath-Cells
+- [ ] **Icon-Vollstaendigkeit:** Alle Lucide-Icons in `from "lucide-react"`-Imports
+- [ ] **Keine `as never`-Workarounds** (Lektion 23)
+- [ ] **Stats-Bar 1:1** von Startseite (Lektion 22)
+- [ ] **JSON-LD Schema:** BreadcrumbList + FAQPage + Organization + Service vorhanden
+- [ ] **German-Quote-Syntax:** Alle `„..."` mit U+201E + U+201C (kein ASCII-Closing!)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
 - [ ] Author `a.busch <a.busch@kpx-it.ch>` gesetzt
