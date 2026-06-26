@@ -872,6 +872,74 @@ interface Stage {
 - **Self-Link-Filterung (Lektion 39):** Konsistenz-Fix für alle Service-Seiten.
 - **Lokaler Build ist Pflicht (Lektion 40):** Vercel-Build ist nicht primärer Validierungs-Schritt.
 
+### Iteration 24: Managed VoIP Migration (Commit `6a5f350`)
+
+**Was:** `/managed-it-services/voip` auf das 13-Sektionen-Schema migriert.
+
+**Besonderheiten:**
+- **Sektion 4 (Lösung):** plain text h3+ul mit 6 Vorteilen (VoIP-fokussiert: Festnetz, Mobil, Konferenzen, Sicherheit, Integration, Kostenkontrolle).
+- **CloudFront-URL Audit:** `kpx-voip-meeting-…webp` → **403** (Iteration 24). Hero ohne Image, Pattern-Color radial-gradient als visueller Ersatz (Lektion 29).
+
+**Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten), Exit-Code 0.
+
+### Iteration 25: Managed Prozesse Migration (Commit `397ca60`)
+
+**Was:** `/managed-prozesse` auf das 13-Sektionen-Schema migriert. Themen-Schwerpunkt: KI-gestützte Prozessautomatisierung für KMU.
+
+**Besonderheiten:**
+- **Sektion 4 (Lösung):** plain text h3+ul mit 4 Vorteilen (Prozessanalyse, KI-Automatisierung, Integration in M365, laufende Optimierung).
+- **CloudFront-URL Audit:** `kpx-prozesse-swiss-…webp` → **200** (einzige Seite mit erfolgreichem CloudFront-Image in Iterations 24-28).
+- Icon-Set: Workflow-bezogen (Workflow, Bot, GitBranch, Settings o. ä.).
+
+**Lokaler Build:** Exit-Code 0.
+
+### Iteration 26: Managed M365-Backup Migration (Commit `aa7d9be`)
+
+**Was:** `/managed-it-services/microsoft-365-backup` auf das 13-Sektionen-Schema migriert.
+
+**Besonderheiten:**
+- **Sektion 4 (Lösung):** 4-Workloads-Grid (Exchange Online, SharePoint, OneDrive, Teams) — pattern passt zur Struktur.
+- **CloudFront-URL Audit:** `kpx-m365-collaboration-…webp` → **403**. Hero ohne Image.
+
+**Lokaler Build:** Exit-Code 0.
+
+### Iteration 27: Managed Mail-Archiv Migration (Commit `4b48c4d`)
+
+**Was:** `/managed-it-services/mail-archiv` auf das 13-Sektionen-Schema migriert. Compliance-Fokus (FINMA, DSG, Geschäftsverwaltung).
+
+**Besonderheiten:**
+- **Sektion 4 (Lösung):** NetworkEvolutionChevron mit 3 Stages — **Lokal / Cloud / Compliance-Vollbetrieb** (eigene Stages, nicht Standard-Schema; Lektion 32).
+- **Keine CloudFront-URL** definiert. Hero ohne Image.
+- Stages spiegeln Reifegrad der Archivierung: 1) manuelles Speichern lokal, 2) Cloud-Archiv (z. B. M365-Online-Archiv), 3) Vollbetrieb mit WORM + Audit + Compliance-Reports.
+
+**Lokaler Build:** Exit-Code 0 (45/45 Seiten — die einzige Iteration mit reduzierter Seiten-Anzahl, da M365-Backup-Route in dieser Phase noch nicht existierte).
+
+### Iteration 28: Managed M365 Migration (Commit `f020093` + Lektion 48)
+
+**Was:** `/managed-it-services/m365` auf das 13-Sektionen-Schema migriert.
+
+**Besonderheiten:**
+- **Sektion 4 (Lösung):** plain text h3+ul mit 5 nummerierten Features (Lizenzoptimierung, Datensicherung, Sicherheitskonfiguration, Nahtlose Integration, Laufende Betreuung).
+- **Sektion 9 (Infobalken + Context-Block, neu):** 3-spaltige Erklärungen + Vergleichstabelle Basis/Standard/Premium + Quellen mit echten `<a href>` Links (Microsoft-Doku, EDÖB). Etabliert das **Context-Block-Pattern** für zukünftige Service-Seiten.
+- **CloudFront-URL Audit:** `kpx-m365-collaboration-…webp` → **403**. Hero ohne Image.
+
+**Lessons (Lektion 48):** Context-Block Sektion 9 mit Vergleichstabelle + Quellen-Links. Pattern:
+```tsx
+<section style={{ backgroundColor: "oklch(0.22 0.07 250)" }}>
+  <div className="container">
+    <div className="max-w-5xl mx-auto py-12">
+      {/* Infobalken-Headline */}
+      {/* Teil A: 3 Spalten Erklärungen (bg oklch(0.28 0.07 250), border 1px oklch(0.35 0.07 250)) */}
+      {/* Teil B: Vergleichstabelle Basis/Standard/Premium mit ✓ / – */}
+      {/* Teil C: Quellen mit echten <a href> Links (Hersteller, Behörden) */}
+    </div>
+  </div>
+</section>
+```
+Vergleichstabellen verwenden `✓` für enthalten, `–` für nicht enthalten. Quellen mit echten `<a href>` Links auf Hersteller-Doku, Schweizer Behörden (EDÖB, BAKOM), Fachverbände.
+
+**Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 14.2s), Exit-Code 0.
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -922,6 +990,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **DREI Chevron-Komponenten prüfen:** `ServiceModelArrowsFull`, `ServiceModelArrowsFullNetwork`, `ServiceModelArrows` (alle drei bei Chevron-Anpassungen). (Lektion 45)
 - [ ] **Stoerungen-Grid 5 kuratierte Services:** `produkte.filter((p) => ["slug1", ...].includes(p.slug ?? "") && p.href !== "/current-url")` + Link zu `/managed-it-services`. (Lektion 46)
 - [ ] **Grid lg:grid-cols-6 + justify-items-center:** Cards zentriert in Spalten, Inhalt bleibt links. (Lektion 47)
+- [ ] **Context-Block Sektion 9 mit Vergleichstabelle + Quellen-Links:** 3-spaltige Erklaerungen + Vergleichstabelle Basis/Standard/Premium (mit ✓/–) + echte <a href> Quellen-Links auf Hersteller-Doku und Schweizer Behoerden. (Lektion 48)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope

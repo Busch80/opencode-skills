@@ -403,3 +403,41 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     ```
     **`justify-items-center`** zentriert die Card horizontal in ihrer Grid-Zelle. **Card-Inhalt bleibt linksbündig** (`<p>` ohne `text-center`). Grid volle Container-Breite, Cards schmaler als Spalte → Whitespace links/rechts jeder Card.
     Quelle: User-Feedback „bitte doch auf 6 erweiter schau mal auf das bild un die muessen zentriert sein" — Commit `4301784` aktualisiert alle 15 Seiten von 5 auf 6 Cards + `justify-items-center`. Iteration 23.
+48. **Context-Block Sektion 9 mit Vergleichstabelle + Quellen-Links**: Viele Service-Seiten brauchen einen **dunklen Context-Block** zwischen Chevron (Sektion 8) und FAQ (Sektion 10), der erklärt, was das Thema eigentlich ist (Hintergrund-Wissen) und einen Leistungsumfang-Vergleich liefert. Architektur:
+    ```tsx
+    <section style={{ backgroundColor: "oklch(0.22 0.07 250)" }}>
+      <div className="container">
+        <div className="max-w-5xl mx-auto py-12">
+          {/* Infobalken-Headline */}
+          <h2 className="text-2xl md:text-3xl font-extrabold text-white text-center mb-3">
+            Allgemeine Informationen rund um [THEMA] für KMU
+          </h2>
+          {/* Teil A: 3 Spalten Erklaerungen */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            {[/* 3 Boxen mit h3+p, jeweils bg oklch(0.28 0.07 250), border 1px oklch(0.35 0.07 250) */]}
+          </div>
+          {/* Teil B: Vergleichstabelle */}
+          <h3 className="text-xl md:text-2xl font-extrabold text-white text-center mb-4">
+            Betreuungsumfang im Vergleich
+          </h3>
+          <div className="rounded-xl p-6 mb-8 overflow-x-auto"
+            style={{ backgroundColor: "oklch(0.28 0.07 250)", border: "1px solid oklch(0.35 0.07 250)" }}>
+            <table className="w-full text-sm">
+              <thead><tr><th>Leistung</th><th>Basis</th><th>Standard</th><th>Premium</th></tr></thead>
+              <tbody>{[/* 8-12 Zeilen mit ✓ / – */]}</tbody>
+            </table>
+          </div>
+          {/* Teil C: Quellen mit echten <a href> Links */}
+          <p className="text-center text-xs" style={{ color: "oklch(0.65 0.04 220)" }}>
+            <span className="font-semibold">Quellen:</span>{" "}
+            <a href="[URL]" target="_blank" rel="noopener noreferrer"
+              className="underline" style={{ color: "oklch(0.72 0.18 145)" }}>
+              [Beschreibung]
+            </a>{" · "}
+            {/* 2-3 weitere Quellen */}
+          </p>
+        </div>
+      </div>
+    </section>
+    ```
+    **Vergleichstabellen** verwenden `✓` für „enthalten", `–` für „nicht enthalten", nicht nur Checkmarks. **Quellen mit echten `<a href>` Links** auf Hersteller-Doku, Schweizer Behörden (EDÖB, BAKOM), Fachverbände. Farben für Tabellenspalten: Basis (Hue 225 blau), Standard (Hue 145 grün), Premium (Hue 220 weiss-hell). Quelle: User-Anforderung — Service-Seiten ohne Background-Wissen wirken oberflächlich; mit Context-Block liefern sie SEO-Content + Vergleiche für interessierte Besucher. Iteration 28 (M365) hat das Pattern etabliert.
