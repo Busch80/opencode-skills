@@ -441,3 +441,17 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     </section>
     ```
     **Vergleichstabellen** verwenden `✓` für „enthalten", `–` für „nicht enthalten", nicht nur Checkmarks. **Quellen mit echten `<a href>` Links** auf Hersteller-Doku, Schweizer Behörden (EDÖB, BAKOM), Fachverbände. Farben für Tabellenspalten: Basis (Hue 225 blau), Standard (Hue 145 grün), Premium (Hue 220 weiss-hell). Quelle: User-Anforderung — Service-Seiten ohne Background-Wissen wirken oberflächlich; mit Context-Block liefern sie SEO-Content + Vergleiche für interessierte Besucher. Iteration 28 (M365) hat das Pattern etabliert.
+49. **Hub-Schema für Landing-Pages (NICHT 13-Sektionen)**: Landing-Pages, die mehrere Sub-Services aggregieren (z. B. `/cloud` bündelt Migration + Managed Cloud + M365 + Cloud-Sicherheit), brauchen ein **eigenes Schema**, nicht die 13-Sektionen-Service-Page. Architektur (7 Sektionen):
+    ```tsx
+    // 1. Hero (dunkel, radial-gradient Hue 245 + CloudFront-Image Overlay)
+    //    CloudFront 200 OK → Image rendern, opacity 0.18, object-cover, fill, priority
+    //    CloudFront 403 → Hero ohne Image (Lektion 29)
+    // 2. Stats-Bar (white, 1:1 von Startseite — Lektion 22)
+    // 3. Sub-Services-Grid (light, 4 Cards mit Benefits + Link zur Service-Seite)
+    // 4. Sub-Typen-Vergleich (white, 3 Cards Variante-A/B/C mit Highlight)
+    // 5. Trust-Block (light, Text + Quellen-Links auf Schweizer Behörden)
+    // 6. FAQ (dark, FaqAccordionDark, 5-8 Fragen)
+    // 7. CTA (dunkel, Multi-Button zu Kontakt/verwandte Seiten)
+    ```
+    **Schema.org:** LocalBusiness (nicht nur Organization) — analog zu `/it-outsourcing-kmu`. Geo-Koordinaten (47.4135, 8.5849), areaServed als Array (City/State/Country), priceRange „$$".
+    **Adresse immer Grindelstrasse 6, 8304 Wallisellen** — NICHT andere Adressen (z. B. „Industriestrasse 10" war fehlerhaft). Quelle: User-Feedback „Adaptiertes Hub-Schema" für `/cloud` Migration, Iteration 29.

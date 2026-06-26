@@ -940,6 +940,45 @@ Vergleichstabellen verwenden `✓` für enthalten, `–` für nicht enthalten. Q
 
 **Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 14.2s), Exit-Code 0.
 
+### Iteration 29: `/cloud` Hub-Schema-Migration (Commit `eb46819` + Lektion 49)
+
+**Was:** `/cloud` Landing-Page auf ein **adaptiertes Hub-Schema** (7 Sektionen) migriert. Die Seite aggregiert 4 Sub-Services (Cloud Migration, Managed Cloud, Managed M365, Cloud-Sicherheit) und ist daher KEIN einzelner Service → 13-Sektionen-Schema passt nicht.
+
+**Schema-Entscheidung (User-Feedback):** „Adaptiertes Hub-Schema" für Hub-Pages statt 13-Sektionen-Service-Page-Schema. 7 Sektionen:
+
+1. **Hero (dunkel, Standard-Blau Hue 245 + CloudFront-Image Overlay 18%):** CloudFront-URL `kpx-cloud-swiss-…webp` → **200 OK** (Audit), daher Image rendern mit `opacity: 0.18`, `object-cover`, `fill`, `priority`. Breadcrumb, H1, Subline, 4 hero points, CTA-Button.
+2. **Stats-Bar (white):** 1:1 von Startseite (Lektion 22).
+3. **Sub-Services-Grid (light, 4 Cards):** Migration / Managed Cloud / M365 / Cloud-Sicherheit. Jede Card mit Icon, Title, Desc, 4 Benefits-Liste, optional Link zur Service-Seite (Migration hat keinen Link, andere drei verlinken auf `/managed-it-services/{cloud|m365|security}`).
+4. **Cloud-Typen-Vergleich (white, 3 Cards):** Public Cloud / Private Cloud / Hybrid Cloud. Hybrid mit `outline: 2px solid oklch(0.62 0.14 225)` + „Empfohlen"-Badge.
+5. **Trust-Block Schweizer Rechenzentren (light):** Text-Block mit Schweizer Datenresidenz-Garantie + Quellen-Links auf EDÖB, BAKOM, Microsoft Azure-Doku.
+6. **FAQ (dark, FaqAccordionDark):** 6 Fragen (Daten-Sicherheit, Physische Datenhaltung, Migrationskosten, Rollback-Option, DSG-Konformität, Public/Private/Hybrid-Unterschied).
+7. **CTA (dunkel, Multi-Button):** 3 Buttons zu `/kontakt`, `/managed-it-services/backup`, `/it-wissen`.
+
+**Schema.org-Block (NEU für Hub-Pages):** LocalBusiness statt Organization:
+- `@id`: `https://kpx-it.ch/#organization`
+- `geo`: 47.4135, 8.5849
+- `areaServed`: Array (Zürich City / Kanton Zürich / Schweiz)
+- `priceRange`: „$$"
+- `telephone`: +41445896955
+- `email`: info@kpx-it.ch
+
+**Bug-Fix:** Adresse in Schema.org und Address-Block war fälschlich „Industriestrasse 10" → korrigiert auf „Grindelstrasse 6, 8304 Wallisellen" (canonical KPX-Adresse).
+
+**Lessons (Lektion 49):** Hub-Schema für Landing-Pages ist **NICHT 13-Sektionen**. 7 Sektionen-Architektur:
+```tsx
+// 1. Hero (radial-gradient Hue 245 + Image Overlay)
+// 2. Stats-Bar (1:1 von Startseite)
+// 3. Sub-Services-Grid (4 Cards mit Link zur Service-Seite)
+// 4. Sub-Typen-Vergleich (3 Cards mit Highlight)
+// 5. Trust-Block (Text + Quellen Schweizer Behörden)
+// 6. FAQ (FaqAccordionDark, 5-8 Fragen)
+// 7. CTA (Multi-Button)
+```
+**Schema.org LocalBusiness** (nicht Organization) für Hub-Pages — analog zu `/it-outsourcing-kmu`. Geo-Koordinaten + areaServed als Array.
+**Adresse immer Grindelstrasse 6, 8304 Wallisellen.**
+
+**Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 15.3s), Exit-Code 0.
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -991,6 +1030,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Stoerungen-Grid 5 kuratierte Services:** `produkte.filter((p) => ["slug1", ...].includes(p.slug ?? "") && p.href !== "/current-url")` + Link zu `/managed-it-services`. (Lektion 46)
 - [ ] **Grid lg:grid-cols-6 + justify-items-center:** Cards zentriert in Spalten, Inhalt bleibt links. (Lektion 47)
 - [ ] **Context-Block Sektion 9 mit Vergleichstabelle + Quellen-Links:** 3-spaltige Erklaerungen + Vergleichstabelle Basis/Standard/Premium (mit ✓/–) + echte <a href> Quellen-Links auf Hersteller-Doku und Schweizer Behoerden. (Lektion 48)
+- [ ] **Hub-Schema fuer Landing-Pages:** NICHT 13-Sektionen-Service-Schema, sondern 7 Sektionen (Hero + Stats + Sub-Services-Grid + Sub-Typen-Vergleich + Trust-Block + FAQ + CTA). Schema.org LocalBusiness mit Geo + areaServed-Array. (Lektion 49)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
