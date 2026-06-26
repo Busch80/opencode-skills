@@ -392,3 +392,14 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     // + Link: <Link href="/managed-it-services">Alle 13 Managed Services entdecken →</Link>
     ```
     Self-Link-Filter (Lektion 39) bleibt aktiv. **Kuration pro Seite** ist individuell (z. B. Security-Seite zeigt Security-Stack, Cloud-Seite zeigt Cloud-Stack). Quelle: User-Feedback „druchsue alle seiten auf denen diese darstellung git und zeige immer nur 5 managed service an" — Commit `58327f2` fixt alle 15 Seiten + `produkte.ts`. Iteration 22.
+47. **Featured-Grid mit 6 kuratierten Services + Cards zentriert**: Iteration 22 hatte 5 Cards pro Seite — User wollte auf **6 erweitern** und **Cards zentriert** (Inhalt bleibt links). Pattern:
+    ```tsx
+    // Grid: 6 Spalten, Cards horizontal in Spalten zentriert
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-3 justify-items-center">
+      {produkte
+        .filter((p) => ["endpoint", "server", "security", "cloud", "backup", "firewall"].includes(p.slug ?? "") && p.href !== "/current-url")
+        .map((p) => <a key={p.title} className="flex flex-col rounded-xl p-4 ...">{p.title}</a>)}
+    </div>
+    ```
+    **`justify-items-center`** zentriert die Card horizontal in ihrer Grid-Zelle. **Card-Inhalt bleibt linksbündig** (`<p>` ohne `text-center`). Grid volle Container-Breite, Cards schmaler als Spalte → Whitespace links/rechts jeder Card.
+    Quelle: User-Feedback „bitte doch auf 6 erweiter schau mal auf das bild un die muessen zentriert sein" — Commit `4301784` aktualisiert alle 15 Seiten von 5 auf 6 Cards + `justify-items-center`. Iteration 23.

@@ -837,6 +837,17 @@ interface Stage {
 
 **Lesson (Lektion 46):** „Störungen"-Grid mit 5 kuratierten Services pro Seite + Link zur Vollständigen Liste. Self-Link-Filter (Lektion 39) bleibt aktiv. Kuration pro Seite ist individuell — Pattern: lokales featuredProducts-Array mit Slugs.
 
+### Iteration 23: 6 kuratierte Services + Cards zentriert (Commit `4301784` + Lektion 47)
+
+**Was:** User-Feedback „bitte doch auf 6 erweiter schau mal auf das bild un die muessen zentriert sein" — 5 Cards nicht zentriert, sollte auf 6 erweitert werden mit Cards-Zentrierung (Inhalt bleibt links).
+
+**Fix in allen 15 page.tsx-Dateien:**
+- Grid: `lg:grid-cols-5/7/8` → `lg:grid-cols-6` (alle einheitlich)
+- **Neu:** `justify-items-center` auf Grid-Container (zentriert Cards horizontal in ihren Spalten-Zellen, Inhalt bleibt links)
+- Featured-Products: jeweils ein 6. Slug ergänzt (firewall oder m365 je nach Seiten-Domain)
+
+**Lesson (Lektion 47):** Featured-Grid mit 6 kuratierten Services + Cards zentriert. `justify-items-center` ist die saubere CSS-Lösung für „Cards zentriert ohne Inhalt-Zentrierung". Grid bleibt full-width, Cards schmaler als Spalte → Whitespace links/rechts jeder Card.
+
 ### Iteration 17: Doppel-Heading + Self-Link-Filter (Commit `34c1146` + Lektionen 38-40)
 
 **Was:** Vercel-URL User-Feedback auf `/managed-it-services/endpoint-detection-response`: NetworkEvolutionChevron doppelt gerendert (Heading + Subheading zweimal sichtbar). Self-Link-Card in Sektion 11 zeigt migrierte Seite selbst.
@@ -910,6 +921,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Chevron-HeaderBar prüfen:** Bei Chevron-Anpassungen ALLE Render-Stellen (PhaseCard + HeaderBar) prüfen — HeaderBar hat separate inline-Styles. (Lektion 44)
 - [ ] **DREI Chevron-Komponenten prüfen:** `ServiceModelArrowsFull`, `ServiceModelArrowsFullNetwork`, `ServiceModelArrows` (alle drei bei Chevron-Anpassungen). (Lektion 45)
 - [ ] **Stoerungen-Grid 5 kuratierte Services:** `produkte.filter((p) => ["slug1", ...].includes(p.slug ?? "") && p.href !== "/current-url")` + Link zu `/managed-it-services`. (Lektion 46)
+- [ ] **Grid lg:grid-cols-6 + justify-items-center:** Cards zentriert in Spalten, Inhalt bleibt links. (Lektion 47)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
