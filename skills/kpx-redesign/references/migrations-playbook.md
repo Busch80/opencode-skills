@@ -741,6 +741,7 @@ interface Stage {
 **Lesson:**
 - **NetworkEvolutionChevron Stage-Type-Schema strikt einhalten (Lektion 34):** Bei jeder Verwendung das Schema exakt prüfen — `number`, `title`, `bullets`. KEIN `id`, `owner`, `headline`.
 - **TypeScript-Stage-Property-Check ergänzen (Lektion 35):** Statische Verifikation muss TypeScript-Stage-Properties prüfen. Python-Skript-Logik: bei Chevron-Imports die `stages={[...]}`-Aufrufe gegen erlaubte Property-Liste prüfen. **Pattern wiederverwendbar für alle typisierten Komponenten** (ServiceModelArrowsFull, NetworkEvolutionChevron etc.).
+- **Lokaler Build im Worker möglich (Lektion 36):** Mit `apt-get install -y nodejs` + `corepack enable pnpm` + `./node_modules/.bin/{tsc,next}` ist ein echter lokaler Build möglich — findet 100% der TypeScript-Fehler VOR Push. **Lesson aus User-Feedback:** „warum testet du den buiold nicht local?" — Lektion 24 (Build-First-Then-Push) ist nicht nur ein Schritt in der Verifikation, sondern MUSS vor jedem Push ausgeführt werden. Vercel-Build ist Bestätigung, nicht primärer Validierungs-Schritt.
 
 ## 11. Cross-References
 
@@ -781,6 +782,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **NetworkEvolutionChevron Stages seiteneigen:** Stages aus seiteneigenen Inhalten ableiten (EDR: Basis → Analyse → Reaktion), nicht Standard-Schema erzwingen (Lektion 32)
 - [ ] **Vergleichstabellen mit Einschraenkungen:** Bei Plattform-Vergleichen (z. B. Android/iOS) qualitative Marker wie 'in Entwicklung', 'eingeschraenkt', 'nur View' statt nur Checkmarks (Lektion 33)
 - [ ] **NetworkEvolutionChevron Stage-Type-Schema:** Stages muessen genau `number: 1|2|3`, `title: string`, `bullets: string[]` enthalten. KEIN `id`, `owner`, `headline`. (Lektion 34)
+- [ ] **NetworkEvolutionChevron Pflicht-Props:** `heading` und `subheading` muessen immer uebergeben werden (nicht nur `stages`). (Lektion 37)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
