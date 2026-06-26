@@ -657,6 +657,29 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **Plain-Text-Sektion-4 für N-stufige Strukturen (Lektion 30):** Bei 4+ kategorischen Ebenen (nicht Reifegrad) Grid-Layout mit plain text Card pro Ebene. Chevron ist 3-Stages-fixiert.
 - **Externe Quellen-Listen als SEO-Booster (Lektion 31):** 10+ externe Quellen strukturieren in 2-Spalten-Grid in dunkler Karte. Erhöht SEO-Autorität bei KMU-Themen. Pattern wiederverwendbar für andere Seiten mit Quellen-Sammlungen (z. B. M365, Cloud).
 
+### Iteration 14: Endpoint Detection & Response Migration (Commit `c3f9cf2` + Lektion 32)
+
+**Was:** Migration von `/managed-it-services/endpoint-detection-response` auf das 13-Sektionen-Schema. Erste Seite mit **NetworkEvolutionChevron für Erkennungs-Stufen** (nicht Deployment oder Schutzstufen).
+- Hero (dunkel, radial-gradient mit rot-Akzent für EDR-Bedrohungs-Fokus) + 4 Hero-Punkten
+- CloudFront-URL `kpx-edr-hero-…webp` antwortet 200 (Audit bestätigt) — bleibt für OpenGraph/Twitter-Karten erhalten
+- Standard-Stats-Bar (Lektion 22)
+- Problem (light) mit 4 Pain-Points (dateilose Angriffe, Living-off-the-Land, Zero-Day, Ransomware-Speed)
+- **Lösung (Sektion 4) mit NetworkEvolutionChevron 3 Stages aus seiteneigenen Inhalten abgeleitet**:
+  - Stage 1 „Basis-Erkennung" (kunde, 4px rot Border-Left): Signatur-AV — reagiert nur auf bekannte Schadsoftware
+  - Stage 2 „Erweiterte Analyse" (geteilt): SentinelOne mit KI-Verhaltensanalyse, manuelle Reaktion
+  - Stage 3 „Automatische Reaktion" (kpx): 24/7 SOC + automatische Isolation + Rollback + NIS2-Reporting
+- Frage (dunkel)
+- Prozess (white, 4 NEUE Schritte: Audit → Stufe wählen → Deployment → Betrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` SOC-Subheading
+- Context-Block (dunkel) mit 3 SEO-Spalten + Vergleichstabelle 10 Erkennungsstufen (Basis/Erweitert/Managed × 10 Merkmale) + BACS/MITRE ATT&CK/NCSC Quellen
+- FAQ (dunkel, 7 native details) — aus Original übernommen, NIS2-Frage ergänzt
+- Störungen (Sektion 11) 13 produkte-Cards
+- ServicePageFooter für Final-CTA
+- Schema bereits vollständig (Org @id vorhanden), Script am Anfang beibehalten
+
+**Lesson:**
+- **NetworkEvolutionChevron mit seiteneigenen 3 Stages (Lektion 32):** Erkennungs-Reifegrade bei EDR sind seiteneigen — Basis-AV vs. KI-Verhalten vs. SOC-Betrieb. Reifegrad-Sequenz kunde → geteilt → kpx bleibt, Inhalte sind Security-spezifisch. Pattern: 5 Bullets pro Stage, max. 8 Wörter pro Bullet.
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -693,6 +716,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Sektion 4 N-stufige Strukturen:** Bei 4+ kategorischen Ebenen Grid-Layout mit Card pro Ebene statt Chevron (Lektion 30)
 - [ ] **CloudFront-403-Fallback:** Bei 403-Antwort Hero ohne Image rendern, Pattern-Color statt Bild (Lektion 29)
 - [ ] **Externe Quellen-Listen:** Bei 5+ Quellen 2-Spalten-Grid in dunkler Karte (Lektion 31)
+- [ ] **NetworkEvolutionChevron Stages seiteneigen:** Stages aus seiteneigenen Inhalten ableiten (EDR: Basis → Analyse → Reaktion), nicht Standard-Schema erzwingen (Lektion 32)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
 - [ ] Author `a.busch <a.busch@kpx-it.ch>` gesetzt
