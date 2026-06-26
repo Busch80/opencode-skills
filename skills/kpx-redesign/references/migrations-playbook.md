@@ -704,6 +704,44 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **Vergleichstabellen mit plattformspezifischen Einschränkungen (Lektion 33):** Android vs. iOS-Tabelle mit ehrlichen Differenzierungen statt nur ✓/–. SEO-relevant (User sucht oft nach „MDM iOS Einschränkungen"), schafft Vertrauen durch Transparenz.
 - **MDM als einzige Seite mit `currentServiceId="mobile-device"`:** Service-URL ist `/managed-mobile-device` (nicht `/managed-it-services/...`), aber `currentServiceId` in ServicePageFooter verwendet slug `mobile-device` (analog zu network/email-security/cloud-firewall).
 
+### Iteration 16: NetworkEvolutionChevron TypeScript-Stage-Property-Bug (Commit `7504915` + Lektionen 34-35)
+
+**Was:** Vercel-Build-Fehler bei Commit `8ab1e25` (MDM):
+```
+./app/managed-it-services/endpoint-detection-response/page.tsx:303:19
+Type error: Object literal may only specify known properties, and 'id' does not exist in type 'Stage'.
+```
+
+**Ursache:** Iterations 14 (EDR, Commit `c3f9cf2`) und 15 (MDM, Commit `8ab1e25`) verwendeten `NetworkEvolutionChevron` mit eigenem Schema:
+```ts
+stages={[
+  { id: "basis", title: "...", owner: "kunde", headline: "...", bullets: [...] },
+  ...
+]}
+```
+
+Aber die `Stage`-Type-Definition in `components/NetworkEvolutionChevron.tsx:28-32` erwartet strikt:
+```ts
+interface Stage {
+  number: 1 | 2 | 3;
+  title: string;
+  bullets: string[];
+}
+```
+
+`owner` wird intern aus `STAGE_OWNER_MAP[stage.number]` abgeleitet, `id` und `headline` sind nicht im Type.
+
+**Warum statische Checks den Fehler nicht erkannten (Lektion 24 Lücke):** Die Python-Skripte in `build-verification.md` prüfen Icon-Vollständigkeit, `as never`, Section-Anzahl, Schema-Vollständigkeit — aber NICHT die TypeScript-Properties von Stage-Objekten. Vercel hat den Fehler zuverlässig erkannt, aber erst NACH dem Push.
+
+**Fix (Commit `7504915`):**
+- Beide Seiten: Stages auf `number: 1/2/3` migriert
+- `id`, `owner`, `headline` entfernt (Headline-Inhalt ging verloren — wurde nicht im Stage-Type unterstützt)
+- Pattern ist identisch zu den 4 anderen Verwendungen (private-cloud, network, firewall, cloud-firewall), die bereits `number`-Schema nutzten
+
+**Lesson:**
+- **NetworkEvolutionChevron Stage-Type-Schema strikt einhalten (Lektion 34):** Bei jeder Verwendung das Schema exakt prüfen — `number`, `title`, `bullets`. KEIN `id`, `owner`, `headline`.
+- **TypeScript-Stage-Property-Check ergänzen (Lektion 35):** Statische Verifikation muss TypeScript-Stage-Properties prüfen. Python-Skript-Logik: bei Chevron-Imports die `stages={[...]}`-Aufrufe gegen erlaubte Property-Liste prüfen. **Pattern wiederverwendbar für alle typisierten Komponenten** (ServiceModelArrowsFull, NetworkEvolutionChevron etc.).
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -742,6 +780,8 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Externe Quellen-Listen:** Bei 5+ Quellen 2-Spalten-Grid in dunkler Karte (Lektion 31)
 - [ ] **NetworkEvolutionChevron Stages seiteneigen:** Stages aus seiteneigenen Inhalten ableiten (EDR: Basis → Analyse → Reaktion), nicht Standard-Schema erzwingen (Lektion 32)
 - [ ] **Vergleichstabellen mit Einschraenkungen:** Bei Plattform-Vergleichen (z. B. Android/iOS) qualitative Marker wie 'in Entwicklung', 'eingeschraenkt', 'nur View' statt nur Checkmarks (Lektion 33)
+- [ ] **NetworkEvolutionChevron Stage-Type-Schema:** Stages muessen genau `number: 1|2|3`, `title: string`, `bullets: string[]` enthalten. KEIN `id`, `owner`, `headline`. (Lektion 34)
+- [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
 - [ ] Author `a.busch <a.busch@kpx-it.ch>` gesetzt
