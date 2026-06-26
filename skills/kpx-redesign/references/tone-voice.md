@@ -380,3 +380,15 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     - `components/ServiceModelArrowsFullNetwork.tsx` (Network-Variante, 1 Seite)
     - `components/ServiceModelArrows.tsx` (2-Modelle-Variante, nur von `/it-outsourcing-kmu` verwendet)
     Die `ServiceModelArrows`-Variante ist eine **ältere, schmalere** Chevron-Version und wurde bei Iterations 19+20 übersehen, weil `/it-outsourcing-kmu` nicht auf dem 13-Sektionen-Schema migriert wurde. **Bei Chevron-Schrift-Anpassungen immer alle drei Komponenten prüfen** (`grep -l "font-semibold\|fontSize: \"9px\"" components/ServiceModelArrows*.tsx`). Quelle: User-Feedback nach Commit `e2ef0c2`: „/it-outsourcing-kmu das ist auch ein anderes chevron mit der selben überschrift die müsste auch so angepasst werden" — Commit `d69d872` fixt die ältere Komponente.
+46. **„Störungen"-Grid mit 5 kuratierten Managed Services**: Die „Störungen"-Darstellung (oder jede andere Managed-Services-Card-Liste) zeigt **immer nur 5 kuratierte Services** pro Seite + Link zu `/managed-it-services` für die volle Liste. **Architektur:**
+    ```tsx
+    // produkte.ts bekommt slug-Property pro Eintrag:
+    { title: "Managed Endpoint", slug: "endpoint", href: "...", color: "..." }
+    
+    // Page.tsx:
+    {produkte
+      .filter((p) => ["endpoint", "server", "security", "cloud", "backup"].includes(p.slug ?? "") && p.href !== "/current-url")
+      .map((p) => <a key={p.title} ...>{p.title}</a>)}
+    // + Link: <Link href="/managed-it-services">Alle 13 Managed Services entdecken →</Link>
+    ```
+    Self-Link-Filter (Lektion 39) bleibt aktiv. **Kuration pro Seite** ist individuell (z. B. Security-Seite zeigt Security-Stack, Cloud-Seite zeigt Cloud-Stack). Quelle: User-Feedback „druchsue alle seiten auf denen diese darstellung git und zeige immer nur 5 managed service an" — Commit `58327f2` fixt alle 15 Seiten + `produkte.ts`. Iteration 22.

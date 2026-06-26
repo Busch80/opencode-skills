@@ -810,6 +810,33 @@ interface Stage {
 
 **Lesson (Lektion 45):** Bei Chevron-Schrift-Anpassungen immer **alle drei Komponenten** prüfen (`grep -l "font-semibold\|fontSize: \"9px\"" components/ServiceModelArrows*.tsx`). Pattern-Check ergänzt die Lessons 43+44.
 
+### Iteration 22: „Störungen"-Grid auf 5 kuratierte Services (Commit `58327f2` + Lektion 46)
+
+**Was:** User-Feedback „druchsue alle seiten auf denen diese darstellung git und zeige immer nur 5 managed service an" — das „Störungen"-Grid mit allen 13 Managed Services ist visuell zu dominant.
+
+**Architektur:**
+1. `app/data/produkte.ts`: `slug`-Property pro Eintrag (endpoint, server, edr, security, email-security, m365, cloud, private-cloud, backup, network, firewall, cloud-firewall, mobile-device)
+2. **15 page.tsx-Dateien**: lokal kuratiertes `featuredProducts` Array (5 Slugs pro Seite) + `produkte.filter((p) => featuredProducts.includes(p.slug ?? "") && p.href !== "/current-url").map(...)`
+3. Link „Alle 13 Managed Services entdecken →" zu `/managed-it-services`
+
+**Kuration pro Seite:**
+- Startseite, externe-it-abteilung: endpoint, server, security, cloud, backup
+- endpoint: server, edr, security, firewall, backup
+- server: endpoint, edr, security, cloud, backup
+- cloud: server, backup, m365, security, private-cloud
+- private-cloud: cloud, server, backup, security, endpoint
+- security: edr, firewall, email-security, backup, endpoint
+- email-security: security, edr, endpoint, m365, backup
+- firewall: security, edr, cloud-firewall, endpoint, backup
+- endpoint-detection-response: security, firewall, endpoint, backup, email-security
+- cloud-firewall: firewall, security, edr, endpoint, email-security
+- network-wireless: server, cloud, security, endpoint, backup
+- backup: endpoint, server, cloud, security, edr
+- mobile-device: endpoint, security, edr, email-security, firewall
+- it-outsourcing-kmu: endpoint, server, cloud, security, backup
+
+**Lesson (Lektion 46):** „Störungen"-Grid mit 5 kuratierten Services pro Seite + Link zur Vollständigen Liste. Self-Link-Filter (Lektion 39) bleibt aktiv. Kuration pro Seite ist individuell — Pattern: lokales featuredProducts-Array mit Slugs.
+
 ### Iteration 17: Doppel-Heading + Self-Link-Filter (Commit `34c1146` + Lektionen 38-40)
 
 **Was:** Vercel-URL User-Feedback auf `/managed-it-services/endpoint-detection-response`: NetworkEvolutionChevron doppelt gerendert (Heading + Subheading zweimal sichtbar). Self-Link-Card in Sektion 11 zeigt migrierte Seite selbst.
@@ -882,6 +909,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Chevron-Kategorie-Labels:** IMMER `text-xs font-bold` (700), nie `font-semibold`. (Lektion 43)
 - [ ] **Chevron-HeaderBar prüfen:** Bei Chevron-Anpassungen ALLE Render-Stellen (PhaseCard + HeaderBar) prüfen — HeaderBar hat separate inline-Styles. (Lektion 44)
 - [ ] **DREI Chevron-Komponenten prüfen:** `ServiceModelArrowsFull`, `ServiceModelArrowsFullNetwork`, `ServiceModelArrows` (alle drei bei Chevron-Anpassungen). (Lektion 45)
+- [ ] **Stoerungen-Grid 5 kuratierte Services:** `produkte.filter((p) => ["slug1", ...].includes(p.slug ?? "") && p.href !== "/current-url")` + Link zu `/managed-it-services`. (Lektion 46)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
