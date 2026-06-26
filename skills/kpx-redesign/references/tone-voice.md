@@ -481,3 +481,20 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     - `nextjs`, `prototyp`, `stable`, `staging`, `testing` — verschiedene Feature-Branches
     - `feat/*` — kurzlebige Feature-Branches
     Quelle: User-Feedback nach Iteration 28+29 (`warum versuchst du das nach devel zu pushen?`) — ich hatte fälschlich auf `devel` gepusht, weil die Working-Copy dort ausgecheckt war. Fix: Push-Ziel IMMER explizit angeben (`HEAD:experimental`), nicht auf ausgecheckte Branch verlassen.
+51. **Author ist IMMER `KPX Dev <a.busch@kpx-it.ch>`**: Bei jedem Git-Commit im `kpx-itch` und `opencode-skills` Repo muss der Author auf `KPX Dev <a.busch@kpx-it.ch>` gesetzt sein, NICHT auf den opencode-Worker-Default (`opencode <opencode@users.noreply.github.com>`). Setup einmalig pro Repo nach `git clone`:
+    ```bash
+    # Im Repo-Verzeichnis (kpx-itch oder opencode-skills):
+    git config user.name "KPX Dev"
+    git config user.email "a.busch@kpx-it.ch"
+    
+    # Verifizieren:
+    git config user.name   # → "KPX Dev"
+    git config user.email  # → "a.busch@kpx-it.ch"
+    ```
+    **Repo-local config** (in `.git/config`), NICHT global (`~/.gitconfig` bleibt unberührt — System-Instruction respektiert).
+    **Vor jedem Commit prüfen (Session-Start-Check):**
+    ```bash
+    git log -1 --format='%an <%ae>'   # muss "KPX Dev <a.busch@kpx-it.ch>" zeigen
+    ```
+    Falls die Anzeige `opencode <opencode@users.noreply.github.com>` zeigt: oben stehende `git config`-Befehle ausführen, bevor weiter committed wird.
+    Quelle: User-Feedback „unter welchen namen sollst du immer commited?" — meine 5 Commits auf `experimental` (`f020093`, `95e5ab3`, `eb46819`, `545e3ca`, `34298ac`) waren fälschlich als `opencode <opencode@users.noreply.github.com>` attributed. Fix: Author-Setup wie oben, ab jetzt korrekt. **Alte Commits werden NICHT rewritten** (kein Rebase — User-Entscheidung „nein neu comitted").
