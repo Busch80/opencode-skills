@@ -680,6 +680,30 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 **Lesson:**
 - **NetworkEvolutionChevron mit seiteneigenen 3 Stages (Lektion 32):** Erkennungs-Reifegrade bei EDR sind seiteneigen — Basis-AV vs. KI-Verhalten vs. SOC-Betrieb. Reifegrad-Sequenz kunde → geteilt → kpx bleibt, Inhalte sind Security-spezifisch. Pattern: 5 Bullets pro Stage, max. 8 Wörter pro Bullet.
 
+### Iteration 15: Managed Mobile Device Migration (Commit `8ab1e25` + Lektion 33)
+
+**Was:** Migration von `/managed-mobile-device` auf das 13-Sektionen-Schema. Erste Seite mit **NetworkEvolutionChevron für MDM-Einrichtungs-Stufen** + **Vergleichstabelle Plattform-Features**.
+- Hero (dunkel, radial-gradient mit grün-cyan-Akzent für Mobile-Fokus) + 4 Hero-Punkten
+- CloudFront-URL `kpx-mdm-mobile-device-…webp` antwortet 200 (Audit bestätigt) — wird für OpenGraph verwendet
+- Standard-Stats-Bar (Lektion 22)
+- Problem (light) mit 4 Pain-Points (Smartphones ungeschützt, Verlust/Diebstahl Realität, BYOD unkontrolliert, Aussendienst ohne Tracking)
+- **Lösung (Sektion 4) mit NetworkEvolutionChevron 3 Stages**:
+  - Stage 1 „Manuelle Einrichtung" (kunde, 4px rot Border-Left): jedes Gerät einzeln konfiguriert
+  - Stage 2 „Zero-Touch Enrollment" (geteilt): automatische Konfiguration + zentrale Konsole + BYOD
+  - Stage 3 „Laufende Verwaltung & Sicherheit" (kpx): Remote Wipe in Sekunden + Geolokalisierung + 24/7 KPX-Betrieb
+- Frage (dunkel)
+- Prozess (white, 4 NEUE Schritte: Audit → Stufe wählen → Rollout → Betrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` Mobile-Subheading
+- Context-Block (dunkel) mit 3 SEO-Spalten + **Vergleichstabelle Android vs. iOS** (10 Funktionen × 2 Spalten) mit plattformspezifischen Einschränkungs-Markern (`in Entwicklung`, `eingeschränkt`, `nur View`) + Apple Business Manager / Android Enterprise / NCSC Quellen
+- FAQ (dunkel, 7 native details) — aus Original übernommen
+- Störungen (Sektion 11) 13 produkte-Cards
+- ServicePageFooter für Final-CTA
+- Schema bereits vollständig (Org @id vorhanden), Script am Anfang verschoben
+
+**Lesson:**
+- **Vergleichstabellen mit plattformspezifischen Einschränkungen (Lektion 33):** Android vs. iOS-Tabelle mit ehrlichen Differenzierungen statt nur ✓/–. SEO-relevant (User sucht oft nach „MDM iOS Einschränkungen"), schafft Vertrauen durch Transparenz.
+- **MDM als einzige Seite mit `currentServiceId="mobile-device"`:** Service-URL ist `/managed-mobile-device` (nicht `/managed-it-services/...`), aber `currentServiceId` in ServicePageFooter verwendet slug `mobile-device` (analog zu network/email-security/cloud-firewall).
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -717,6 +741,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **CloudFront-403-Fallback:** Bei 403-Antwort Hero ohne Image rendern, Pattern-Color statt Bild (Lektion 29)
 - [ ] **Externe Quellen-Listen:** Bei 5+ Quellen 2-Spalten-Grid in dunkler Karte (Lektion 31)
 - [ ] **NetworkEvolutionChevron Stages seiteneigen:** Stages aus seiteneigenen Inhalten ableiten (EDR: Basis → Analyse → Reaktion), nicht Standard-Schema erzwingen (Lektion 32)
+- [ ] **Vergleichstabellen mit Einschraenkungen:** Bei Plattform-Vergleichen (z. B. Android/iOS) qualitative Marker wie 'in Entwicklung', 'eingeschraenkt', 'nur View' statt nur Checkmarks (Lektion 33)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
 - [ ] Author `a.busch <a.busch@kpx-it.ch>` gesetzt

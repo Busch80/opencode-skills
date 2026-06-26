@@ -325,4 +325,6 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     - **Firewall** (Iteration 9): Basic Security → Hybrid (Cloud-verwaltet) → Total Protection
     - **Cloud-Firewall** (Iteration 10): Internet Access → Hybrid (VPN-Ersatz) → Total Access
     - **Private Cloud** (Iteration 8): Beim Kunden → Schweizer Rechenzentrum → Hybrid-Option
+    - **MDM** (Iteration 15): Manuelle Einrichtung → Zero-Touch Enrollment → Laufende Verwaltung & Sicherheit
     Reifegrad-Sequenz (kunde → geteilt → kpx) bleibt konsistent, Inhalte sind seitenspezifisch.
+33. **Vergleichstabellen mit plattformspezifischen Einschränkungen**: Wenn eine Seite zwei Plattformen vergleicht (z. B. Android vs. iOS), dürfen die Zellen nicht nur ✓/– sein, sondern auch qualitative Einschränkungen wie „in Entwicklung", „eingeschränkt", „nur View" enthalten. Diese ehrlichen Differenzierungen sind SEO-relevant (User sucht oft „MDM iOS Einschränkungen") und schaffen Vertrauen. Quelle: Iteration 15 (MDM) — Vergleichstabelle Android vs. iOS mit 4 Einschränkungs-Markern (`in Entwicklung` bei Kiosk-Modus, `eingeschränkt` bei Geolokalisierung, `nur View` bei Remote Support).
