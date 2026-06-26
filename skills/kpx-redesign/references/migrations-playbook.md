@@ -939,6 +939,7 @@ interface Stage {
 Vergleichstabellen verwenden `✓` für enthalten, `–` für nicht enthalten. Quellen mit echten `<a href>` Links auf Hersteller-Doku, Schweizer Behörden (EDÖB, BAKOM), Fachverbände.
 
 **Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 14.2s), Exit-Code 0.
+**Push:** Ursprünglich fälschlich auf `devel` (Working-Copy-Checkout), Korrektur: `git push origin devel:experimental --force` + `git push origin e1ee329:devel --force` (Reset). Endstand: `origin/experimental` = `545e3ca`, `origin/devel` zurück auf `e1ee329`. Siehe Lektion 50.
 
 ### Iteration 29: `/cloud` Hub-Schema-Migration (Commit `eb46819` + Lektion 49)
 
@@ -1031,6 +1032,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Grid lg:grid-cols-6 + justify-items-center:** Cards zentriert in Spalten, Inhalt bleibt links. (Lektion 47)
 - [ ] **Context-Block Sektion 9 mit Vergleichstabelle + Quellen-Links:** 3-spaltige Erklaerungen + Vergleichstabelle Basis/Standard/Premium (mit ✓/–) + echte <a href> Quellen-Links auf Hersteller-Doku und Schweizer Behoerden. (Lektion 48)
 - [ ] **Hub-Schema fuer Landing-Pages:** NICHT 13-Sektionen-Service-Schema, sondern 7 Sektionen (Hero + Stats + Sub-Services-Grid + Sub-Typen-Vergleich + Trust-Block + FAQ + CTA). Schema.org LocalBusiness mit Geo + areaServed-Array. (Lektion 49)
+- [ ] **Push-Ziel ist IMMER `experimental`** (kpx-itch): Kanonischer Befehl `git push origin HEAD:experimental --force`. NIEMALS auf ausgecheckte Branch verlassen (kein blankes `git push`). Session-Start-Check: `git rev-parse --abbrev-ref HEAD` muss `experimental` zeigen. Andere Branches (`devel`, `development`, `main`, `nextjs`, `prototyp`, `stable`, `staging`, `testing`, `feat/*`) sind NICHT für Migrations-Arbeit. (Lektion 50)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope

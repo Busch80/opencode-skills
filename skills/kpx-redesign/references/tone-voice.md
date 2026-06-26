@@ -455,3 +455,29 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     ```
     **Schema.org:** LocalBusiness (nicht nur Organization) — analog zu `/it-outsourcing-kmu`. Geo-Koordinaten (47.4135, 8.5849), areaServed als Array (City/State/Country), priceRange „$$".
     **Adresse immer Grindelstrasse 6, 8304 Wallisellen** — NICHT andere Adressen (z. B. „Industriestrasse 10" war fehlerhaft). Quelle: User-Feedback „Adaptiertes Hub-Schema" für `/cloud` Migration, Iteration 29.
+50. **Push-Ziel ist IMMER `experimental`** (kpx-itch): Bei jedem Push von Migrations-Arbeit muss die Ziel-Branch **`experimental`** sein, NIEMALS `devel`, `development`, `main` oder eine andere Branch. **Kanonischer Push-Befehl:**
+    ```bash
+    # Korrekt: explizite Ziel-Branch, unabhängig vom Checkout
+    git push origin HEAD:experimental --force
+    ```
+    **NICHT** verwenden:
+    ```bash
+    # FALSCH — pusht auf die aktuell ausgecheckte Branch
+    git push origin
+    git push origin HEAD
+    
+    # FALSCH — pusht auf devel (fälschlich in Iteration 28+29 passiert)
+    git push origin devel
+    ```
+    **Session-Start-Check (Pflicht):**
+    ```bash
+    git rev-parse --abbrev-ref HEAD   # muss "experimental" zeigen
+    ```
+    Falls die Working-Copy auf einer anderen Branch ist: `git checkout experimental` (lokal aus `origin/experimental` neu erstellen) bevor commited wird.
+    **Welche Branches sind NICHT für Migrations-Arbeit:**
+    - `devel` — für manuelle User-Edits (z. B. `managed-backup`, `it-outsourcing-kmu` Patchwork)
+    - `development` — Default-Branch auf GitHub, separater Pfad (Sitemap-Fixes, Über-uns Edits)
+    - `main` — alter Main-Branch, kein Migrations-Target
+    - `nextjs`, `prototyp`, `stable`, `staging`, `testing` — verschiedene Feature-Branches
+    - `feat/*` — kurzlebige Feature-Branches
+    Quelle: User-Feedback nach Iteration 28+29 (`warum versuchst du das nach devel zu pushen?`) — ich hatte fälschlich auf `devel` gepusht, weil die Working-Copy dort ausgecheckt war. Fix: Push-Ziel IMMER explizit angeben (`HEAD:experimental`), nicht auf ausgecheckte Branch verlassen.
