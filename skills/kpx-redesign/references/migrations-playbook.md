@@ -793,6 +793,23 @@ interface Stage {
 
 **Lesson (Lektion 44):** Bei Component-Refactorings **ALLE Render-Stellen prüfen**, nicht nur die offensichtliche. HeaderBar hatte separate inline-Styles, die bei Iteration 19 übersehen wurden. Pattern: Wenn ein User-Feedback nach erstem Fix sagt „immernoch das gleiche Problem", liegt es meist an einer zweiten Style-Stelle.
 
+### Iteration 21: Dritte Chevron-Komponente `/it-outsourcing-kmu` (Commit `d69d872` + Lektion 45)
+
+**Was:** User-Feedback: „/it-outsourcing-kmu das ist auch ein anderes chevron mit der selben überschrift die müsste auch so angepasst werden" — eine dritte Chevron-Variante wurde bei Iterations 19+20 übersehen.
+
+**Befund:** Es gibt **drei** Chevron-Komponenten:
+- `ServiceModelArrowsFull.tsx` (3-Modelle-Variante, Standard)
+- `ServiceModelArrowsFullNetwork.tsx` (Network-Variante)
+- `ServiceModelArrows.tsx` (2-Modelle-Variante, **ältere, schmalere Version** — nur von `/it-outsourcing-kmu` verwendet)
+
+`/it-outsourcing-kmu` ist eine **alte Seite**, die nicht auf das 13-Sektionen-Schema migriert wurde. Sie nutzt weiterhin die ältere Chevron-Komponente mit den alten Style-Werten.
+
+**Fix:** Analog zu Iterations 19+20 an zwei Stellen in `ServiceModelArrows.tsx`:
+- PhaseCard Zeile 192: `font-semibold` → `font-bold` (700)
+- HeaderBar Zeile 246-260: `fontSize: 9px` → `11px`, `color: #94A3B8` → `oklch(0.32 0.06 250)`, `letterSpacing: 0.07em` → `0.04em`
+
+**Lesson (Lektion 45):** Bei Chevron-Schrift-Anpassungen immer **alle drei Komponenten** prüfen (`grep -l "font-semibold\|fontSize: \"9px\"" components/ServiceModelArrows*.tsx`). Pattern-Check ergänzt die Lessons 43+44.
+
 ### Iteration 17: Doppel-Heading + Self-Link-Filter (Commit `34c1146` + Lektionen 38-40)
 
 **Was:** Vercel-URL User-Feedback auf `/managed-it-services/endpoint-detection-response`: NetworkEvolutionChevron doppelt gerendert (Heading + Subheading zweimal sichtbar). Self-Link-Card in Sektion 11 zeigt migrierte Seite selbst.
@@ -864,6 +881,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Hero-Konsistenz-Check:** `grep -h "radial-gradient.*oklch" app/managed-*/page.tsx` — alle Hue-Werte muessen identisch sein. (Lektion 42)
 - [ ] **Chevron-Kategorie-Labels:** IMMER `text-xs font-bold` (700), nie `font-semibold`. (Lektion 43)
 - [ ] **Chevron-HeaderBar prüfen:** Bei Chevron-Anpassungen ALLE Render-Stellen (PhaseCard + HeaderBar) prüfen — HeaderBar hat separate inline-Styles. (Lektion 44)
+- [ ] **DREI Chevron-Komponenten prüfen:** `ServiceModelArrowsFull`, `ServiceModelArrowsFullNetwork`, `ServiceModelArrows` (alle drei bei Chevron-Anpassungen). (Lektion 45)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope

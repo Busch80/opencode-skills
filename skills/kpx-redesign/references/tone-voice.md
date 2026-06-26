@@ -375,3 +375,8 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     }}
     ```
     Quelle: User-Feedback nach Commit `928fce7` — HeaderBar war noch blass, weil sie eine **separate Style-Stelle** hat, die ich beim ersten Fix übersehen habe. Commit `e2ef0c2` fixt beide Komponenten. **Lesson: Bei Component-Refactorings ALLE Render-Stellen prüfen, nicht nur die offensichtliche.**
+45. **DREI Chevron-Komponenten prüfen, nicht nur zwei**: Es gibt **drei** Chevron-Komponenten, nicht nur `ServiceModelArrowsFull` + `ServiceModelArrowsFullNetwork`:
+    - `components/ServiceModelArrowsFull.tsx` (3-Modelle-Variante, Standard, 12 Seiten)
+    - `components/ServiceModelArrowsFullNetwork.tsx` (Network-Variante, 1 Seite)
+    - `components/ServiceModelArrows.tsx` (2-Modelle-Variante, nur von `/it-outsourcing-kmu` verwendet)
+    Die `ServiceModelArrows`-Variante ist eine **ältere, schmalere** Chevron-Version und wurde bei Iterations 19+20 übersehen, weil `/it-outsourcing-kmu` nicht auf dem 13-Sektionen-Schema migriert wurde. **Bei Chevron-Schrift-Anpassungen immer alle drei Komponenten prüfen** (`grep -l "font-semibold\|fontSize: \"9px\"" components/ServiceModelArrows*.tsx`). Quelle: User-Feedback nach Commit `e2ef0c2`: „/it-outsourcing-kmu das ist auch ein anderes chevron mit der selben überschrift die müsste auch so angepasst werden" — Commit `d69d872` fixt die ältere Komponente.
