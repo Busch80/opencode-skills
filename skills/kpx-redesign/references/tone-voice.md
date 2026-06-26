@@ -352,3 +352,14 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     ./node_modules/.bin/next build      # Voller Build
     ```
     **User-Feedback am 2026-06-26:** „warum testet du den buiold nicht local?" — Lesson: Lektion 24 ist nicht nur ein Verifikations-Schritt, sondern MUSS vor jedem Push ausgeführt werden. Pattern aus Commit `34c1146`: lokaler Build fand 0 Fehler, Push erfolgt.
+41. **Hero-Background IMMER Standard-Blau Hue 245**: Die Hero-Sektion aller Service-Seiten verwendet **ausschliesslich** den KPX-Blau-Hue 245. Service-spezifische Akzentfarben (rot für EDR, grün für MDM, kühleres Blau für email-security etc.) sind **nicht erlaubt** ohne explizite User-Anweisung. **Standard-Pattern:**
+    ```ts
+    background: "radial-gradient(ellipse at top right, oklch(0.28 0.10 245) 0%, oklch(0.22 0.07 250) 45%, oklch(0.18 0.06 250) 100%)"
+    ```
+    Ausnahme: Wenn CloudFront-Hero-URL 403 antwortet (Lektion 29), wird radial-gradient durch Pattern-Color ersetzt — dann aber konsistent dunkelblau (`oklch(0.22 0.07 250)` oder ähnlich).
+    Quelle: User-Feedback „warum haben die heros der letzten beiden seiten so unetrschiedliche farben" — Iterationen 12, 14, 15 hatten eigenmächtig service-spezifische Hero-Farben gewählt. Fix in Commit `f59004c`. **Bei jeder Migration: Hero-Hue-Wert aus den anderen Service-Seiten übernehmen, nicht selbst wählen.**
+42. **Hero-Farb-Konsistenz-Check über alle Service-Seiten**: Vor jeder Migration MÜSSEN alle bestehenden Hero-Backgrounds verglichen werden. **Befehl:**
+    ```bash
+    grep -h "radial-gradient.*oklch" app/managed-*/page.tsx app/managed-mobile-device/page.tsx
+    ```
+    Alle Hero-Hue-Werte sollten identisch sein (`245`). Bei Abweichung → Frage an User, ob Eigenmächtigkeit oder explizite Anweisung. Quelle: Commit `f59004c` — vor dem Fix waren 3 verschiedene Hue-Werte im Bestand (245, 220-240, 20-30, 165-175). Lesson: Inkonsistenzen müssen VOR dem Push aktiv gesucht werden.

@@ -746,6 +746,26 @@ interface Stage {
 - **Self-Link-Filterung in Sektion 11 (Lektion 39):** `produkte.filter((p) => p.href !== "/current-url")` verhindert Self-Link-Card.
 - **Lokaler Build ist Pflicht (Lektion 40):** Vor jedem Push MUSS `./node_modules/bin/{tsc,next build}` Exit-Code 0 liefern.
 
+### Iteration 18: Hero-Farb-Inkonsistenz (Commit `f59004c` + Lektionen 41-42)
+
+**Was:** User-Feedback „warum haben die heros der letzten beiden seiten so unetrschiedliche farben" — visuelle Inkonsistenz in den migrierten Service-Seiten-Heroes. Analyse ergab 4 verschiedene Hue-Werte:
+
+| Seite | Hue | Farbe |
+|---|---|---|
+| firewall, cloud, server, private-cloud, network, cloud-firewall | 245 | Standard-Blau |
+| security | Pattern (kein radial) | Standard-Blau (Fallback) |
+| endpoint-detection-response | 20-30 | rot-orange |
+| managed-mobile-device | 165-175 | grün-cyan |
+| email-security | 220-240 | kühleres Blau (subtil) |
+
+**Ursache:** Iterationen 12 (email-security), 14 (EDR), 15 (MDM) hatten ohne User-Anweisung service-spezifische Hero-Akzentfarben gewählt. Agent-Eigenmächtigkeit ohne dokumentiertes Pattern.
+
+**Fix (Commit `f59004c`):** 3 Seiten auf Standard-Blau (Hue 245) angeglichen.
+
+**Lesson:**
+- **Hero-Background IMMER Hue 245 (Lektion 41):** Service-spezifische Akzentfarben sind nicht erlaubt ohne explizite User-Anweisung. Standard-Pattern dokumentiert.
+- **Hero-Farb-Konsistenz-Check (Lektion 42):** Vor jeder Migration `grep -h "radial-gradient.*oklch" app/managed-*/page.tsx` ausführen, alle Hue-Werte vergleichen, bei Abweichung User fragen.
+
 ### Iteration 17: Doppel-Heading + Self-Link-Filter (Commit `34c1146` + Lektionen 38-40)
 
 **Was:** Vercel-URL User-Feedback auf `/managed-it-services/endpoint-detection-response`: NetworkEvolutionChevron doppelt gerendert (Heading + Subheading zweimal sichtbar). Self-Link-Card in Sektion 11 zeigt migrierte Seite selbst.
@@ -813,6 +833,8 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **NetworkEvolutionChevron kein Wrapper-Heading:** KEIN aeusseres `<h2>` + `<p>` im Sektion-4-Wrapper — Komponente rendert selbst. (Lektion 38)
 - [ ] **Self-Link-Filter:** `produkte.filter((p) => p.href !== "/current-url")` in Sektion 11. (Lektion 39)
 - [ ] **Lokaler Build Pflicht:** `./node_modules/.bin/{tsc,next build}` mit Exit-Code 0 VOR Push. (Lektion 40)
+- [ ] **Hero-Hue 245:** Hero-Background IMMER `oklch(0.28 0.10 245)` (Standard-Blau), keine service-spezifischen Akzentfarben. (Lektion 41)
+- [ ] **Hero-Konsistenz-Check:** `grep -h "radial-gradient.*oklch" app/managed-*/page.tsx` — alle Hue-Werte muessen identisch sein. (Lektion 42)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
