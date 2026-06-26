@@ -610,6 +610,32 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **Statische Checks vs. echter Build:** Statische Checks haben den German-Quotes-Bug bei Iteration 10 erkannt — der Push erfolgte aber trotzdem. Der Fix `fa851ca` musste nachträglich gemacht werden. **Lesson:** Ein echter lokaler Build (`pnpm build`) garantiert 100% Fehler-Erkennung VOR dem Push und ist der „source of truth".
 - **Build-First-Then-Push ist nicht optional:** Lektion 24 in `tone-voice.md` dokumentiert die Regel. Build-Verification.md ergänzt `Schritt 0: Lokaler Build-Versuch` als erste Priorität (vor allen statischen Checks).
 
+### Iteration 12: Managed E-Mail Security Migration (Commit `05e1104` + Lektionen 25-28)
+
+**Was:** Migration von `/managed-it-services/email-security` auf das 13-Sektionen-Schema. Erste Single-Track-Seite (kein Chevron, weil Inhalt keine 3 Reifegrad-Stufen hat).
+- Hero mit radial-gradient (kein Hero-Image)
+- Standard-Stats-Bar (Lektion 22)
+- Problem mit 4 Pain-Points aus E-Mail-Bedrohungs-Lage (90 % Angriffe per Mail, Spam-Filter reicht nicht, Phishing zunehmend gezielt, Domain-Missbrauch)
+- **Lösung (Sektion 4) mit 2 Sub-Blocks plain text h3+ul** (kein Chevron): Grundschutz (6 Features) + Erweiterter Schutz (6 Features)
+- Prozess (Sektion 6) mit 4 NEUEN Schritten (Audit → Schutzumfang → Inbetriebnahme → Betrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` generischem Subheading
+- Context-Block (Sektion 9) mit 3 SEO-Spalten + Vergleichstabelle Grundschutz/Erweiterung (10 Merkmale × 2 Spalten, Zebra) + Quellen (BACS, antiphishing.ch, MELANI)
+- FAQ (Sektion 10) 8 Fragen dark
+- Störungen (Sektion 11) 13 produkte-Cards (NEU: Email Security + Security Operations + MDM hinzugefügt)
+- ServicePageFooter für Final-CTA
+- **Schema ergänzt:** Organization @id war im Original fehlend, nur inline in `provider`
+
+**Querschnitts-Aufgaben einmalig vor Migration 12:**
+1. `produkte.ts` von 10 auf 13 Einträge erweitert (Lektion 27 Self-Link-Disziplin)
+2. Schema-Standard-Block aus `security/page.tsx` als Vorlage extrahiert
+3. CloudFront-URL-Audit per `curl -I` (Lektion 26): Security-Bild antwortet 403
+
+**Lesson:**
+- **Plain-Text-Sektion-4 für Single-Track-Inhalte (Lektion 28):** Email-Security hat keine 3 Reifegrad-Stufen — Grundschutz + Erweiterung sind Erweiterungen, kein Reifegrad. Zwei Sub-Blocks mit h3+ul sind klarer als erzwungene Chevron-Stages.
+- **Schema-Standard-Block als Querschnittsregel (Lektion 25):** Jede Service-Seite MUSS Organization @id + vollständige Adresse + Telefon + E-Mail + Logo haben. Vor Migration prüfen, ob vorhanden.
+- **CloudFront-403 → Hero ohne Image (Lektion 26):** Wenn die CloudFront-URL für den Hero 403 antwortet, wird der Hero komplett ohne Image gerendert (radial-gradient Background). Pattern-Farbe als visuelle Kompensation.
+- **Querschnitts-Aufgaben einmalig dokumentieren:** Wenn eine Migration Querschnitts-Aufgaben triggert (Schema-Block, produkte.ts), diese VOR der ersten Migration ausführen und im Skill dokumentieren — nachfolgende Migrationen profitieren.
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -638,8 +664,11 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Icon-Vollstaendigkeit:** Alle Lucide-Icons in `from "lucide-react"`-Imports
 - [ ] **Keine `as never`-Workarounds** (Lektion 23)
 - [ ] **Stats-Bar 1:1** von Startseite (Lektion 22)
-- [ ] **JSON-LD Schema:** BreadcrumbList + FAQPage + Organization + Service vorhanden
+- [ ] **JSON-LD Schema:** BreadcrumbList + FAQPage + Organization @id + Service vorhanden (Lektion 25)
 - [ ] **German-Quote-Syntax:** Alle `„..."` mit U+201E + U+201C (kein ASCII-Closing!)
+- [ ] **CloudFront-URL-Audit:** `curl -I` fuer alle CloudFront-URLs, 403-Fallback dokumentiert (Lektion 26)
+- [ ] **produkte.ts Self-Link:** Service-Seite ist in `app/data/produkte.ts` eingetragen (Lektion 27)
+- [ ] **Sektion 4 Single-Track:** Bei fehlenden Reifegrad-Stufen plain text h3+ul statt Chevron (Lektion 28)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
 - [ ] Author `a.busch <a.busch@kpx-it.ch>` gesetzt
