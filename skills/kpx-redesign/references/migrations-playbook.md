@@ -486,6 +486,63 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **Sektion-4-Erweiterung (4b) für mehr Inhalt:** Bei Private-Cloud passt die Lösung nicht in eine Sektion — NetworkEvolutionChevron für Stages + separate Sektion 4b für Included Features. Analog Network-Pattern.
 - **Produkte-Array erweitern:** Wenn eine migrierte Seite in Sektion 11 als Service-Card erscheinen soll, muss sie in `produkte.ts` registriert sein. Private-Cloud fehlte dort — wurde bei Migration hinzugefügt. Lesson: vor jeder Migration `produkte.ts` prüfen, ob die Seite eingetragen ist.
 
+### Iteration 9: Hardware-Firewall-Seite Migration (Commit `6263e5f`)
+
+**Was:** Migration von `/managed-it-services/firewall` auf 13-Sektionen-Schema.
+- Hero mit radial-gradient, 4 Hero-Punkte (Cloud-verwaltet, 3 Schutzstufen, SLA, laufendes Monitoring)
+- Standard-Stats-Bar
+- Problem mit 4 Pain-Points (Firewall ohne Betreuung, Lokal-verwaltet-veraltet, Veraltetes Regelwerk, Kein Monitoring)
+- **Lösung (Sektion 4) mit `<NetworkEvolutionChevron>` und 3 Stages:**
+  - Stage 1 „Basic Security" (kunde/hellgrau/rot-Akzent) — Selbstverantwortung mit 6 Standard-Features
+  - Stage 2 „Hybrid (Cloud-verwaltet)" (geteilt/cyan) — KPX übernimmt Cloud-Verwaltung + automatische Updates
+  - Stage 3 „Total Protection" (kpx/dunkelblau) — KPX übernimmt alles + 6 Advanced-Features
+- Sektion 4b: 8 Managed-Leistungen mit Nummer-Circles
+- Prozess (Sektion 6) mit 4 NEUEN Schritten (Firewall-Audit → Schutzstufe wählen → Inbetriebnahme → Laufender Betrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` Firewall-Subheading
+- Context-Block (Sektion 9) mit 3 SEO-Spalten + Vergleichstabelle 10 Merkmale × 3 Schutzstufen (Basic/Hybrid/Total) + Quellen (BACS, NIST, SwissICT)
+- FAQ (Sektion 10) 6 Fragen dark
+- Störungen (Sektion 11) 8 produkte-Cards
+- ServicePageFooter für Final-CTA
+- Schema ergänzt: Organization @id war im Original fehlend
+
+**Lesson:**
+- **3-Stage-Reifegrad auch für bestehende 2-Stufen-Pages:** Die Original-Seite hatte Basic Security + Total Protection (2 Stufen). User wollte 3 Stages mit Hybrid-Option. Lösung: Hybrid-Stufe kombiniert Basic-Features + cloud-basierte Verwaltung (kein neuer Content nötig, nur andere Akzentuierung). Reifegrad-Sequenz kunde → geteilt → kpx bleibt konsistent.
+- **build-verification.md funktioniert:** Das Python-Script aus dem vorherigen Build-Fehler-Fix hat alle Icon-Imports, `as never`-Workarounds und `currentServiceId`-Props abgefangen. Beide Seiten (Firewall + Cloud-Firewall) waren beim ersten Push build-clean.
+
+### Iteration 10: Cloud-Firewall-Seite Migration (Commit `073ccaf`)
+
+**Was:** Migration von `/managed-cloud-firewall` auf 13-Sektionen-Schema. Separate URL (nicht in `/managed-it-services/`), weil Cloud-Firewall separates Produkt ist (Zero Trust vs. klassische Hardware-Firewall).
+- Hero mit radial-gradient, 4 Hero-Punkte (Cloud-native, 3 Schutzstufen, Zero Trust ohne VPN, Remote-Nutzer)
+- Standard-Stats-Bar
+- Problem mit 4 Pain-Points (Remote-Nutzer ungeschützt, VPN-Komplexität, Cloud-Apps nicht abgedeckt, Zero-Trust fehlt)
+- **Lösung (Sektion 4) mit `<NetworkEvolutionChevron>` und 3 Stages:**
+  - Stage 1 „Internet Access" (kunde/hellgrau/rot-Akzent) — Selbstverantwortung mit 8 Web-Schutz-Features
+  - Stage 2 „Hybrid (VPN-Ersatz)" (geteilt/cyan) — Internet Access + Private Application Cloaking + App-Level-Zugriff
+  - Stage 3 „Total Access" (kpx/dunkelblau) — Vollständiges ZTNA + alle 6 Extras
+- Sektion 4b: 8 Managed-Leistungen
+- Prozess (Sektion 6) mit 4 NEUEN Schritten (Schutzanalyse → Onboarding → Richtlinien-Anpassung → Laufender Betrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` Cloud-Firewall-Subheading
+- Context-Block (Sektion 9) mit 3 SEO-Spalten + Vergleichstabelle Cloud vs Hardware (7 Merkmale) + Quellen
+- FAQ (Sektion 10) 6 Fragen dark
+- Störungen (Sektion 11) 8 produkte-Cards
+- ServicePageFooter für Final-CTA
+- Schema ergänzt: Organization @id war im Original fehlend
+
+**Lesson:**
+- **Separate URLs als bewusste Design-Entscheidung:** `/managed-it-services/firewall` (Hardware, im `managed-it-services`-Cluster) und `/managed-cloud-firewall` (Cloud, separat) bleiben beide eigenständige Seiten. Beide sind eigenständige Produkte mit unterschiedlicher Wertproposition — keine Consolidation nötig.
+- **Cross-Linking zwischen verwandten Seiten:** Die Original Cloud-Firewall-Seite hatte Bottom-Links zu „Managed Firewall (Hardware)" und „Managed Security". Diese Struktur ist im neuen Schema weniger prominent (Sektion 11 zeigt beide als Cards), aber die inhaltliche Verknüpfung bleibt über die FAQ-Antworten erhalten.
+- **Vergleichstabellen in Sektion 9 als Differenzierung:** Statt nur 3 SEO-Spalten + Quellen kann Sektion 9 auch Vergleichstabellen enthalten (Cloud-Firewall: Cloud vs Hardware; Hardware-Firewall: 3 Schutzstufen). Pro Seite angepasst an den Content-Schwerpunkt.
+
+### Iteration 9+10 produkte-Erweiterung (Commit `719fe37`)
+
+**Was:** `produkte.ts` um 2 Einträge erweitert (jetzt 10 statt 8):
+- Managed Firewall: `oklch(0.50 0.16 30)` (rot-orange Akzent)
+- Managed Cloud Firewall: `oklch(0.55 0.18 245)` (blauer Akzent für Cloud-Dienste)
+
+**Lesson:**
+- **Firewall-Familie als zusammengehörige Service-Gruppe:** Die beiden Firewall-Seiten haben unterschiedliche Wertproposition (on-prem Hardware vs Cloud SaaS), gehören aber zusammen. Die `produkte.ts`-Einträge spiegeln das mit unterschiedlichen Farben — auf Sektion 11 anderer Seiten erscheinen sie nebeneinander.
+- **`produkte.ts` ist jetzt 10 Einträge** — Performance-Check nicht nötig (kein Virtual-Scrolling), aber bei weiterem Wachstum sollten Pagination oder Filter in Betracht gezogen werden.
+
 ### Was gut funktioniert hat
 - Schrittweise Iterationen mit klaren User-Freigaben
 - Plan-Mode mit Frage-Tool fuer Design-Entscheidungen
