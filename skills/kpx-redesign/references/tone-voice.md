@@ -518,4 +518,20 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     ```
     **Schema.org:** LocalBusiness mit areaServed-Array, Geo-Koordinaten, BreadcrumbList + WebPage + FAQPage. Adresse: IMMER `Grindelstrasse 6, 8304 Wallisellen`.
     **Unterschied zu /cloud (7 Sektionen, Lektion 49):** SEO-Cluster-Seiten sind content-reicher und brauchen den vollen 14-Sektionen-Aufbau für SEO-Wirkung + lokale Vertrauenssignale + Cross-Linking. Cloud-Hub aggregiert nur 4 Sub-Services und braucht kein erklärendes Material.
-    **Wiederverwendbar für 8 SEO-Cluster-Seiten** (siehe `pages-to-migrate.md` Prio 3). Pattern reduziert 1100–1400 Zeilen alte Schema auf ~850–1050 Zeilen (~22% Reduktion) durch konsistente Komponenten-Wiederverwendung (`ServiceModelArrowsFull`, `FaqAccordion`, `getLatestPosts`).
+    **Wiederverwendbar für 8 SEO-Cluster-Seiten** (siehe `pages-to-migrate.md` Prio 3). Pattern reduziert 1100–1400 Zeilen alte Schema auf ~750–850 Zeilen (~22–35% Reduktion) durch konsistente Komponenten-Wiederverwendung (`ServiceModelArrowsFull`, native `<details>` für FAQ, `getLatestPosts`, `<ServicePageFooter>`).
+
+    **Refinement Iteration 30.2 — Annäherung an Managed-Service-Schema:** Für SEO-Cluster-Seiten, die thematisch nah an Managed-Service-Seiten sind (z. B. `/it-dienstleister-zuerich` als breit angelegter IT-Dienstleister), kann das 14-Sektionen-Schema auf das **kanonische 13-Sektionen-Schema** der Managed-Service-Seiten reduziert werden:
+    - Sektion 5 (Was-ist-Thema, 2-Card-Vergleich) → in Sektion 4 (Lösung) als nummerierte Vorteile integriert
+    - Sektion 8 (IT-Beratung) → in Context-Block (Sektion 9) als Sub-Block C integriert
+    - Sektion 10 (Vergleichskarten) → in Context-Block Sub-Block A integriert oder entfernt
+    - Sektion 14 (Manuelle CTA-Sektion) → ersetzt durch `<ServicePageFooter>` mit Pseudo-`currentServiceId`
+    - Sektion 13 (Servicegebiet+Calculator+IT-Wissen) → aufgeteilt in Sektion 12 (IT-Wissen Blog) und Sektion 13 (Servicegebiet+Calculator)
+    - Störungen-Grid (Sektion 11) erweitert um Verwandte-Themen-Cross-Links
+    - 13-Sektionen-Resultat: 782 Zeilen (vs. 931 mit 14-Sektionen-Schema). Wende dieses Refinement an, wenn die Seite visuell „chaotisch" wirkt.
+53. **Commercial-Top / Informational-Bottom-Prinzip**: Jede Seite ist in zwei Phasen geteilt, die durch einen visuellen Bruch (BG-Wechsel) getrennt sind:
+    - **Commercial-Top (Sektionen 1–10 im 13-Sektionen-Schema):** Conversion-orientiert. Hero, Stats, Problem, Lösung, Frage, Prozess + CTA, Chevron. Inhalt verkauft das Angebot oder bereitet den Kauf vor.
+    - **Informational-Bottom (Sektionen 11–13 + ServicePageFooter):** Trust + SEO + Authority. Störungen-Grid, IT-Wissen Blog, Servicegebiet, FAQ (dark), ServicePageFooter (final-CTA). Inhalt bildet Vertrauen, bietet Long-tail-SEO, vernetzt intern.
+    - **Visueller Bruch:** Sektion 10 (white) → Sektion 11 (dunkel) ODER Sektion 8 (light-grey) → Sektion 9 (dunkel) = harter BG-Wechsel signalisiert „jetzt kommt Fachtext".
+    - **Im Context-Block (Sektion 9, dunkel) Sub-Block-A:** KPX-Arbeitsweise (methodisch, KPX-spezifisch) **ZUERST**, dann Sub-Block B (Allgemeine Informationen, neutral) — passt zur User-Erwartung „erst wir, dann Hintergrund".
+    - **Gilt für:** Service-Pages (13 Sektionen), Hub-Pages (7 Sektionen, Bruch bei Sektion 5), SEO-Cluster-Pages (13 Sektionen via Refinement, Bruch bei Sektion 10/11).
+    - **Wichtig:** Niemals zwei gleiche BG-Klassen direkt hintereinander (Lektion section-rhythm.md). Commercial-Top und Informational-Bottom müssen visuell klar getrennt sein.

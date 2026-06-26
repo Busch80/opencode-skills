@@ -1031,6 +1031,53 @@ Jede dieser Migrationen folgt demselben Schema, angepasst an Keyword-Fokus und G
 
 **Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 14.2s), Exit-Code 0. Author: `KPX Dev <a.busch@kpx-it.ch>` (Lektion 51). Push-Ziel: `experimental` (Lektion 50).
 
+### Iteration 30.2: `/it-dienstleister-zuerich` Migration auf 13-Sektionen-Schema (Commit `4390d9b` + Lektionen 52+53 Update)
+
+**Was:** Komplette Umstrukturierung der `/it-dienstleister-zuerich`-Seite nach dem kanonischen 13-Sektionen-Schema der Managed-Service-Seiten. 14 Sektionen → 13 Sektionen + `<ServicePageFooter>`. 931 Zeilen → 782 Zeilen (-16% Reduktion).
+
+**Grund:** User-Feedback „orientiere dich mehr an den managed service seiten das sieht alles zu chaotisch". Die vorherige 14-Sektionen-Struktur (Iteration 30.1) hatte:
+- 3x white-Sektionen direkt hintereinander (Prozess + Sub-Services + IT-Beratung) → BG-Rhythmus-Verletzung
+- Manueller CTA-Bereich am Ende (Sektion 14) statt `<ServicePageFooter>` → Redundanz
+- Keine klare Trennung zwischen Commercial-Top und Informational-Bottom
+
+**13-Sektionen-Mapping (alle Inhalte preserved, aber konsolidiert):**
+
+| Position | Sektion | Quelle (alt) | Transformation |
+|---|---|---|---|
+| 1 | Hero (dunkel) | alt 1 | 1:1 mit `/zurich-hero.jpg` overlay |
+| 2 | Stats-Bar (white) | alt 2 | 1:1 |
+| 3 | Problem (light) | NEU | 4 Pain-Points aus „reaktiv" Card + eigene (Unvorhersehbare Ausfaelle, hohe Notfallkosten, kein SLA, blinde Flecken) |
+| 4 | Loesung (white) | alt 5 (2-Card-Vergleich) + alt 9 (USPs) | Konsolidiert zu 6 nummerierten Vorteilen (plain text h3+ul) |
+| 5 | Frage (dunkel) | alt 4 | 1:1 Cliffhanger-Quote |
+| 6+7 | Prozess + CTA (white) | alt 6 | 1:1 + CTA-Button „Gratis IT-Beratungsgespraech" |
+| 8 | Chevron (light-grey) | alt 3 | verschoben von Position 3 → 8 |
+| 9 | Context-Block (dunkel) | alt 11 + alt 8 (IT-Beratung) + alt 10 (Vergleichskarten) | 3 Sub-Bloecke: A KPX-Arbeitsweise + B Allgemeine Informationen + C IT-Beratung |
+| 10 | FAQ (dunkel) | alt 12 | von `<FaqAccordion>` light → native `<details>` dark mit 3px cyan-Border-Trenner zu Sektion 9 |
+| 11 | Stoerungen (light) | alt 7 + alt 14a (Verwandte) | Konsolidiert: produkte.filter-Grid (6 Cards) + 2 Extra Services + 5 Cross-Links |
+| 12 | IT-Wissen Blog (white) | alt 13c | `getLatestPosts(4)` (vorher 3) |
+| 13 | Servicegebiet (light-grey) | alt 13ab | 1:1 + Calculator mini embedded |
+| — | ServicePageFooter (dunkel) | alt 14b (CTA) | ersetzt manuellen CTA, currentServiceId="it-dienstleister-zuerich" Pseudo-ID |
+
+**Lessons (Lektion 52 Update + Lektion 53 NEU):**
+
+- **Lektion 52 Update:** Hub-Template für SEO-Cluster-Seiten ist flexibel: 14 Sektionen für Hub-Pages mit viel Content (z. B. `/it-dienstleister-zuerich` initial) ODER 13 Sektionen + ServicePageFooter für Hub-Pages nah am Managed-Service-Schema. Reduktion von 1100–1400 Zeilen auf 750–850 Zeilen ist realistisch (~22–35%).
+- **Lektion 53 (NEU):** Commercial-Top / Informational-Bottom-Prinzip gilt für ALLE Seiten-Typen:
+  - Commercial-Top (Sektionen 1–10): Conversion-orientiert
+  - Informational-Bottom (Sektionen 11–13 + Footer): Trust + SEO + Authority
+  - Visueller Bruch: BG-Wechsel zwischen den Phasen (z. B. white → dunkel)
+  - In Context-Block (Sektion 9): KPX-Arbeitsweise (Sub-Block A) ZUERST, dann Allgemeine Informationen (Sub-Block B)
+  - Gilt für: Service-Pages, Hub-Pages, SEO-Cluster-Pages
+
+**BG-Rhythmus (kanonisch, alle managed-service-seiten-konform):**
+```
+dunkel → white → light → white → dunkel → white → light-grey →
+dunkel → dunkel (3px cyan-Border-Trenner) → light → white → light-grey →
+dunkel (ServicePageFooter)
+```
+Keine zwei identischen BGs direkt hintereinander.
+
+**Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 15.3s), Exit-Code 0. Author: `KPX Dev <a.busch@kpx-it.ch>` (Lektion 51). Push-Ziel: `experimental` (Lektion 50).
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -1086,6 +1133,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Push-Ziel ist IMMER `experimental`** (kpx-itch): Kanonischer Befehl `git push origin HEAD:experimental --force`. NIEMALS auf ausgecheckte Branch verlassen (kein blankes `git push`). Session-Start-Check: `git rev-parse --abbrev-ref HEAD` muss `experimental` zeigen. Andere Branches (`devel`, `development`, `main`, `nextjs`, `prototyp`, `stable`, `staging`, `testing`, `feat/*`) sind NICHT für Migrations-Arbeit. (Lektion 50)
 - [ ] **Author IMMER `KPX Dev <a.busch@kpx-it.ch>`:** Repo-local git config einmalig pro Repo setzen mit `git config user.name "KPX Dev" && git config user.email "a.busch@kpx-it.ch"`. Session-Start-Check: `git log -1 --format='%an <%ae>'` muss `KPX Dev <a.busch@kpx-it.ch>` zeigen. NICHT der opencode-Worker-Default `opencode <opencode@users.noreply.github.com>`. (Lektion 51)
 - [ ] **Hub-Template fuer SEO-Cluster-Seiten (14 Sektionen):** 14-Sektionen-Schema fuer `/it-dienstleister-zuerich`, `/it-outsourcing-zuerich`, `/it-firmen-zuerich`, `/it-support-zuerich`, `/it-beratung-kmu`, `/it-sicherheit-kmu`, `/microsoft-365-kmu`, `/it-dienstleister-kmu`. Hero + Stats + Chevron + Mini-CTA + Was-ist + Prozess + Sub-Services + Erklaerung + USPs + Vergleich + Context + FAQ + Servicegebiet+Calculator+IT-Wissen + Verwandte+CTA. Schema.org LocalBusiness + BreadcrumbList + WebPage + FAQPage. (Lektion 52)
+- [ ] **Commercial-Top / Informational-Bottom-Prinzip:** Jede Seite ist in zwei Phasen geteilt. Commercial-Top (Sektionen 1–10) = Conversion-orientiert (Hero, Stats, Problem, Loesung, Frage, Prozess + CTA, Chevron). Informational-Bottom (Sektionen 11–13 + ServicePageFooter) = Trust + SEO + Authority (Stoerungen, IT-Wissen, Servicegebiet, FAQ-dark, Footer). Visueller Bruch zwischen Phasen: BG-Wechsel (z.B. white → dunkel). Im Context-Block (Sektion 9): KPX-Arbeitsweise (Sub-Block A) ZUERST, dann Allgemeine Informationen (Sub-Block B). (Lektion 53)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
