@@ -636,6 +636,27 @@ Chronologische Aufzeichnung der 4 Iterationen mit Begruendungen.
 - **CloudFront-403 → Hero ohne Image (Lektion 26):** Wenn die CloudFront-URL für den Hero 403 antwortet, wird der Hero komplett ohne Image gerendert (radial-gradient Background). Pattern-Farbe als visuelle Kompensation.
 - **Querschnitts-Aufgaben einmalig dokumentieren:** Wenn eine Migration Querschnitts-Aufgaben triggert (Schema-Block, produkte.ts), diese VOR der ersten Migration ausführen und im Skill dokumentieren — nachfolgende Migrationen profitieren.
 
+### Iteration 13: Managed Security Migration (Commit `151e0f0` + Lektionen 29-31)
+
+**Was:** Migration von `/managed-it-services/security` auf das 13-Sektionen-Schema. Erste Seite mit **4+ Schutzebenen** (Endpoint/Netzwerk/Cloud/Mensch).
+- Hero (dunkel, radial-gradient) — **KEIN Hero-Image**, weil CloudFront-URL `kpx-security-swiss-…webp` antwortet 403 (Audit vor Migration bestätigt). Pattern-Color als visueller Ersatz.
+- Standard-Stats-Bar (Lektion 22)
+- Problem (light) mit 4 Pain-Points (Irrtum „zu klein", 200 Vorfälle/Tag laut BACS, sinkendes Vertrauen 42 %, Meldepflicht Art. 74a revISG)
+- **Lösung (Sektion 4) mit 4 Schutzebenen plain text Card-Grid** (kein Chevron weil 4 Ebenen, nicht 3 Reifegrad-Stufen): Endpoint / Netzwerk / Cloud / Mensch — je mit Icon + Titel + Beschreibung + Technologie-Pille
+- Frage (dunkel)
+- Prozess (white, 4 NEUE Schritte: Assessment → Konzept → Umsetzung → Betrieb)
+- Chevron (Sektion 8) mit `<ServiceModelArrowsFull>` SOC-Subheading
+- Context-Block (dunkel) mit 3 SEO-Spalten + Vergleichstabelle 11 SOC-Stufen (Basic/Standard/Premium × 11 Merkmale) + **10 externe Quellen mit echten Links** (BACS, cyberstudie.ch, Mobiliar, ITSec4KMU, ADSS, EDÖB, eBanking, SATW, antiphishing.ch, BACS Lageberichte)
+- FAQ (dunkel, 6 native details) — aus Original übernommen
+- Störungen (Sektion 11) 13 produkte-Cards
+- ServicePageFooter für Final-CTA
+- Schema-Script von Ende an Anfang verschoben (vor Footer statt nach — vorherige Iterationen haben Script am Anfang)
+
+**Lesson:**
+- **CloudFront-403-Fallback (Lektion 29):** Audit-Ergebnisse dokumentiert. Hero ohne Image bei 403 ist sauberer als lokales Fallback-Bild. Pattern-Color radial-gradient liefert visuell gleichwertigen Hero.
+- **Plain-Text-Sektion-4 für N-stufige Strukturen (Lektion 30):** Bei 4+ kategorischen Ebenen (nicht Reifegrad) Grid-Layout mit plain text Card pro Ebene. Chevron ist 3-Stages-fixiert.
+- **Externe Quellen-Listen als SEO-Booster (Lektion 31):** 10+ externe Quellen strukturieren in 2-Spalten-Grid in dunkler Karte. Erhöht SEO-Autorität bei KMU-Themen. Pattern wiederverwendbar für andere Seiten mit Quellen-Sammlungen (z. B. M365, Cloud).
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -669,6 +690,9 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **CloudFront-URL-Audit:** `curl -I` fuer alle CloudFront-URLs, 403-Fallback dokumentiert (Lektion 26)
 - [ ] **produkte.ts Self-Link:** Service-Seite ist in `app/data/produkte.ts` eingetragen (Lektion 27)
 - [ ] **Sektion 4 Single-Track:** Bei fehlenden Reifegrad-Stufen plain text h3+ul statt Chevron (Lektion 28)
+- [ ] **Sektion 4 N-stufige Strukturen:** Bei 4+ kategorischen Ebenen Grid-Layout mit Card pro Ebene statt Chevron (Lektion 30)
+- [ ] **CloudFront-403-Fallback:** Bei 403-Antwort Hero ohne Image rendern, Pattern-Color statt Bild (Lektion 29)
+- [ ] **Externe Quellen-Listen:** Bei 5+ Quellen 2-Spalten-Grid in dunkler Karte (Lektion 31)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
 - [ ] Author `a.busch <a.busch@kpx-it.ch>` gesetzt
