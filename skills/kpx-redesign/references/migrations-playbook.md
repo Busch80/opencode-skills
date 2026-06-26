@@ -766,6 +766,16 @@ interface Stage {
 - **Hero-Background IMMER Hue 245 (Lektion 41):** Service-spezifische Akzentfarben sind nicht erlaubt ohne explizite User-Anweisung. Standard-Pattern dokumentiert.
 - **Hero-Farb-Konsistenz-Check (Lektion 42):** Vor jeder Migration `grep -h "radial-gradient.*oklch" app/managed-*/page.tsx` ausführen, alle Hue-Werte vergleichen, bei Abweichung User fragen.
 
+### Iteration 19: Chevron-Kategorie-Labels kräftiger (Commit `928fce7` + Lektion 43)
+
+**Was:** User-Feedback „kannst du da bitte etwas kräftiger von der schrift machen" — die 4 Kategorie-Spalten-Header im Chevron wirkten zu schwach.
+
+**Fix:** `font-semibold` (600) → `font-bold` (700) in beiden Chevron-Komponenten (`ServiceModelArrowsFull.tsx:195` und `ServiceModelArrowsFullNetwork.tsx:200`).
+
+**Auswirkung:** 12 migrierte Seiten + `/externe-it-abteilung` einheitlich kräftiger. Owner-Badge-Stil (bereits `font-bold uppercase`) bleibt unverändert — jetzt konsistent mit Label.
+
+**Lesson (Lektion 43):** Chevron-Kategorie-Labels IMMER `text-xs font-bold` (700), nie `font-semibold`. Pattern für zukünftige Chevron-Komponenten übernehmen.
+
 ### Iteration 17: Doppel-Heading + Self-Link-Filter (Commit `34c1146` + Lektionen 38-40)
 
 **Was:** Vercel-URL User-Feedback auf `/managed-it-services/endpoint-detection-response`: NetworkEvolutionChevron doppelt gerendert (Heading + Subheading zweimal sichtbar). Self-Link-Card in Sektion 11 zeigt migrierte Seite selbst.
@@ -835,6 +845,7 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Lokaler Build Pflicht:** `./node_modules/.bin/{tsc,next build}` mit Exit-Code 0 VOR Push. (Lektion 40)
 - [ ] **Hero-Hue 245:** Hero-Background IMMER `oklch(0.28 0.10 245)` (Standard-Blau), keine service-spezifischen Akzentfarben. (Lektion 41)
 - [ ] **Hero-Konsistenz-Check:** `grep -h "radial-gradient.*oklch" app/managed-*/page.tsx` — alle Hue-Werte muessen identisch sein. (Lektion 42)
+- [ ] **Chevron-Kategorie-Labels:** IMMER `text-xs font-bold` (700), nie `font-semibold`. (Lektion 43)
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope
