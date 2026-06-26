@@ -85,12 +85,42 @@ print(f'{\"✓ Alle \" + str(len(uses)) + \" Icons\" if not miss else \"✗ FEHL
 | `Cannot find name 'X'` (Lucide-Icon) | Icon in `icon:` oder `<X />` verwendet, aber nicht importiert | Icon zum `from "lucide-react"`-Import hinzufügen |
 | `Property 'X' does not exist on type 'ComponentProps'` | Komponente unterstützt Prop nicht | Prop entfernen oder andere Komponente verwenden |
 | `Type 'X' is not assignable to type 'Y'` | TypeScript-Mismatch (z. B. falscher Union-Typ) | Korrekten Typ verwenden, `as never`-Workarounds VERMEIDEN |
+| `Expected ',', got 'ident'` (Turbopack-Parse-Fehler) | ASCII `"` (U+0022) schliesst JS-String vorzeitig, weil davor ein deutsches `„` (U+201E) als inneres Anführungszeichen steht. Beispiel: `"...„Begriff" mehr Text"` → ASCII `"` terminiert String, `mehr Text` ist außerhalb. | **Beide inneren Quotes als Deutsche verwenden:** `„...\"` mit U+201E + U+201C. Python-Skript zur Validierung siehe unten. **Lesson aus Iteration 10 (Firewall-Migration):** 2 Zeilen hatten den Bug, Build-Check hat ihn gefangen. |
 
 ## Lessons aus Iterations
 
 - **Iteration 6 (Server):** `currentServiceId` auf `<ServiceModelArrowsFull>` → Vercel-Build-Fehler. Fix: Prop entfernt (nur Network-Variante hat es).
 - **Iteration 8 (Private-Cloud):** `DollarSign` und `Clock` Icons fehlten in Imports. Fix: Beide ergänzt.
-- Beide Fehler wurden durch User-Prompt erkannt, nicht durch lokale Verifikation. Mit dem Python-Script oben lassen sich 90% solcher Fehler vorher abfangen.
+- **Iteration 10 (Firewall + Cloud-Firewall):** `„..."` mit ASCII-Closing statt German-Closing → Turbopack-Parse-Fehler `Expected ',', got 'ident'`. Fix: Beide inneren Quotes als Deutsche (U+201E + U+201C).
+- Beide Fehler wurden durch User-Prompt oder explizites Vercel-Log erkannt. Mit dem erweiterten Python-Script oben (das jetzt auch German-Quote-Syntax prüft) lassen sich diese Fehler vorher abfangen.
+
+## German-Quote-Syntax-Validierung (Python)
+
+```python
+import re
+
+file_path = '/path/to/page.tsx'
+with open(file_path) as f:
+    content = f.read()
+
+issues = []
+for i, line in enumerate(content.split('\n'), 1):
+    op_pos = line.find('\u201E')  # German opening „
+    if op_pos >= 0:
+        # Find next ASCII " (potential premature string-closer)
+        ascii_close = line.find('"', op_pos + 1)
+        # Find next German closing " (U+201C)
+        german_close = line.find('\u201C', op_pos + 1)
+        # If ASCII " comes BEFORE German close (or no German close), it's a syntax bug
+        if ascii_close > 0 and (german_close == -1 or ascii_close < german_close):
+            issues.append((i, line.strip()[:100]))
+
+if issues:
+    for line_no, snippet in issues:
+        print(f"  Line {line_no}: {snippet}")
+else:
+    print("  ✓ alle German-quotes korrekt gepaart")
+```
 
 ## Siehe auch
 
