@@ -565,3 +565,87 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     **Pattern wiederverwendbar:** Für alle 9 Lokale Service-Landing-Pages (siehe `pages-to-migrate.md` Prio 3) und für Hub-Pages, die nach SEO-Traffic-Potenzial priorisiert werden.
 
     **Quelle:** User-Anforderung „vorab DataForSEO-Recherche" + User-Anforderung „GSC-Anbindung über Service-Account-JSON in token-Datei". Implementation: Iteration 31 (Phase 3 für `/it-dienstleister-zuerich` als erstes Beispiel).
+55. **Google Search Console Performance-Daten (Phase 5)**: Nach erfolgter Migration (3–4 Wochen später) GSC-Daten holen, um Performance zu validieren und Nachjustierungen zu erkennen.
+
+    **Datenquelle:**
+    - **Service-Account-JSON** unter `/root/kpx-gsc-service-account.json` (NICHT API-Key, OAuth2 erforderlich).
+    - **Property-Format:** Domain-Property (`sc-domain:kpx-it.ch`), NICHT URL-Prefix-Property (`http://kpx-it.ch/`).
+    - **Setup erforderlich:** Service-Account muss in GSC-Oberfläche als „Owner" hinzugefügt werden (Einstellungen → Nutzer und Berechtigungen).
+
+    **Python-Snippet (READ-ONLY Connection-Test):**
+    ```python
+    import json, time, urllib.request, urllib.error, urllib.parse
+    import jwt
+
+    SERVICE_ACCOUNT_FILE = "/root/kpx-gsc-service-account.json"
+    with open(SERVICE_ACCOUNT_FILE) as f:
+        sa = json.load(f)
+
+    # JWT für OAuth2-Token-Austausch erstellen
+    now = int(time.time())
+    payload = {
+        "iss": sa["client_email"],
+        "scope": "https://www.googleapis.com/auth/webmasters.readonly",
+        "aud": sa["token_uri"],
+        "iat": now,
+        "exp": now + 3600,
+    }
+    assertion = jwt.encode(payload, sa["private_key"], algorithm="RS256", headers={"kid": sa["private_key_id"]})
+    data = urllib.parse.urlencode({
+        "grant_type": "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        "assertion": assertion,
+    }).encode()
+    req = urllib.request.Request(sa["token_uri"], data=data)
+    with urllib.request.urlopen(req) as resp:
+        token = json.loads(resp.read())["access_token"]
+
+    # Sites auflisten (Test: Auth funktioniert?)
+    req = urllib.request.Request("https://www.googleapis.com/webmasters/v3/sites", headers={"Authorization": f"Bearer {token}"})
+    with urllib.request.urlopen(req) as resp:
+        sites = json.loads(resp.read())
+    print(f"Verfügbare Properties: {[s['siteUrl'] for s in sites.get('siteEntry', [])]}")
+
+    # SearchAnalytics für Property 'sc-domain:kpx-it.ch'
+    test_body = json.dumps({
+        "startDate": "2026-06-01",
+        "endDate": "2026-06-27",
+        "dimensions": ["query"],
+        "rowLimit": 20
+    }).encode()
+    req = urllib.request.Request(
+        "https://www.googleapis.com/webmasters/v3/sites/sc-domain%3Akpx-it.ch/searchAnalytics/query",
+        data=test_body,
+        headers={"Authorization": f"Bearer {token}", "Content-Type": "application/json"},
+        method="POST"
+    )
+    with urllib.request.urlopen(req) as resp:
+        data = json.loads(resp.read())
+    for row in data.get("rows", []):
+        print(f"{row['keys'][0]}: {row['clicks']} clicks, {row['impressions']} impr, CTR {row['ctr']*100:.1f}%, pos {row['position']:.1f}")
+    ```
+
+    **Wichtige API-Fallen:**
+    - **Property-Format:** IMMER `sc-domain:kpx-it.ch` URL-encoded als `sc-domain%3Akpx-it.ch`. NICHT `kpx-it.ch` oder `https://kpx-it.ch/`.
+    - **Scope:** `https://www.googleapis.com/auth/webmasters.readonly` (read-only, kein Schreibzugriff).
+    - **Rate-Limits:** 1.200 Abfragen/Minute, 30.000/Tag (für unsere Zwecke ausreichend).
+    - **Daten-Verfügbarkeit:** GSC hat 2–3 Tage Verzögerung. Daten von „heute" sind erst in 2–3 Tagen verfügbar.
+    - **Sortierung:** API liefert keine vorgegebene Sortierung. Nach eigenen Kriterien sortieren (z. B. nach `clicks` desc für Top-Performance).
+
+    **Auswertung pro Migration (4–6 Wochen nach Push):**
+    1. **Top-10-Queries nach Clicks:** Welche Keywords liefern tatsächlich Traffic?
+    2. **Hauptkeyword-Position:** Wie hat sich die Position entwickelt?
+    3. **CTR:** Liegt die CTR im Branchen-Durchschnitt (1–5% für Top 10)?
+    4. **Long-Tail-Treffer:** Welche unerwarteten Queries triggern die Seite (→ FAQ-Update)?
+    5. **Vergleich DataForSEO-Schätzung vs. GSC-Realität:** DataForSEO unterschätzt oft. GSC-Daten sind die Realität.
+
+    **Dokumentation:** Ergebnisse in `app/<slug>/seo-research.md` (oder einer neuen `gsc-data.md`-Datei) mit:
+    - Performance-Daten Top 20 Queries
+    - CTR- und Position-Vergleich
+    - Empfehlungen für Nachjustierungen
+
+    **Typische Nachjustierungen:**
+    - CTR < 1% für Position < 10 → Title/Description-Iteration
+    - Position > 20 für Hauptkeyword → mehr interne/externe Verlinkung
+    - Unerwartete Long-Tail-Queries mit Klicks → FAQ ergänzen
+
+    **Quelle:** User-Anforderung „GSC-Daten holen". Implementation: Iteration 31 (Phase 5 für `/it-dienstleister-zuerich`). Service-Account JSON in `/root/kpx-gsc-service-account.json`.
