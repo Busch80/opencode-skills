@@ -15,7 +15,7 @@ Erfordert DataForSEO API-Credentials via Umgebungsvariablen:
     DATAFORSEO_PASSWORD
 
 Erfordert GSC-Service-Account-JSON unter:
-    /root/kpx-gsc-service-account.json
+/root/.config/opencode/secrets/gsc-sa.json
 
 Siehe references/seo-research-workflow.md fuer Details.
 """
@@ -35,7 +35,7 @@ from datetime import datetime, timedelta
 DATAFORSEO_BASE = "https://api.dataforseo.com/v3"
 GSC_BASE = "https://www.googleapis.com/webmasters/v3"
 GSC_PROPERTY_DOMAIN = "sc-domain:kpx-it.ch"
-GSC_SA_FILE = "/root/kpx-gsc-service-account.json"
+GSC_SA_FILE = "/root/.config/opencode/secrets/gsc-sa.json"
 GSC_SCOPES = ["https://www.googleapis.com/auth/webmasters.readonly"]
 
 
