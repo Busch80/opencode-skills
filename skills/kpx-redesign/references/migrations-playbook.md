@@ -1243,3 +1243,55 @@ Vor Abschluss einer Migration pruefen:
 - [ ] Author `a.busch <a.busch@kpx-it.ch>` gesetzt
 - [ ] Push mit `--force-with-lease`
 - [ ] Vercel-Build erfolgreich (manuell durch User verifiziert)
+
+## 13. Iteration 32 — Tausch Sektion 4 ↔ 8 + KPX/AG-Naming (LSL `/it-dienstleister-zuerich`)
+
+User-Wünsche: (1) Sektion 4 (Lösung-Vorteile) und Sektion 8 (Chevron) tauschen. (2) Im Sichttext „KPX" statt „KPX AG" schreiben, ausser bei der Direktkontakt-Adresse.
+
+**Was wurde gemacht:**
+- Sektion 4 NEU = Chevron auf `bg-white`
+- Sektion 8 NEU = 6 nummerierte Vorteile auf light-grey (`oklch(0.97 0.01 220)`)
+- Karten-BG auf `white` für Kontrast
+- Alle Vorkommen von „KPX AG" im Sichttext ersetzt (Hero, 10 FAQs, Schema-Descriptions, Chevron-Subheading, Context-Subtitles, Servicegebiet, ctaDesc, Metadata)
+- Schema `name: "KPX AG"` bleibt für Brand-Erkennung
+- Direktkontakt-Adresse erweitert auf `KPX AG, Grindelstrasse 6`
+
+**Commit:** `e8e4a7b` (kpx-itch), `7193a20` (opencode-skills). Lektionen 57+58.
+
+## 14. Iteration 33 — Frage über Chevron + Vorteile in 2 Spalten
+
+User-Wünsche: (1) Frage-Sektion „Ihre IT läuft. Ihr Betrieb auch?" DIREKT über dem Chevron platzieren. (2) Vorteile in 2 Spalten DIREKT unter dem Chevron.
+
+**Neue Sektion-Reihenfolge:**
+1. Hero | 2. Stats | 3. Problem (light) | **4. Frage (dunkel) ← NEU** | **5. Chevron (weiß) ← verschoben** | **6. Vorteile 2-Spalten (light-grey) ← verschoben** | 7. Prozess (weiß) ← verschoben | 8. Context (dunkel) ← umnummeriert | 9. FAQ (dunkel) | 10. Störungen | 11. IT-Wissen | 12. Servicegebiet
+
+**BG-Rhythmus:** `light → dark → white → light-grey → white → dark` — jeder Übergang zwischen 2 verschiedenen BG-Werten.
+
+**Vorteile-Layout:** `grid grid-cols-1 md:grid-cols-2 gap-4` mit Card-BG `white`.
+
+**Commit:** `1639d8e` (kpx-itch), `e2f7425` (opencode-skills). Lektion 59.
+
+## 15. Iteration 34 — FAQ in 2 Spalten + 10 Artikel
+
+User-Wunsch: „FAQ bereich bitte auch eimmer in 2 spalten und immer 10 Artikel im FAQ".
+
+**Was wurde gemacht:**
+- FAQ-Grid: `space-y-3` → `grid grid-cols-1 md:grid-cols-2 gap-3`
+- Mobile: 1 Spalte | Desktop: 2 Spalten
+- 10 FAQs bereits vorhanden (User-Standard)
+- Schema.org FAQPage muss alle 10 als `mainEntity` enthalten
+
+**Commit:** `edb538e` (kpx-itch), `e152922` (opencode-skills). Lektion 60.
+
+## 16. Iteration 35 — `references/landing-pages.md` (Single-Source-of-Truth für LSL)
+
+User-Wunsch: „date den skill ab für landingpages".
+
+**Was wurde gemacht:**
+- Neue Datei `references/landing-pages.md` (15 Sektionen, ~600 Zeilen)
+- Bündelt alle LSL-relevanten Lektionen (47–60) an einem Ort
+- 13-Sektionen-Schema + Argumentations-Reihenfolge + BG-Rhythmus + FAQ-Layout + KPX/AG-Naming + SEO-Workflow + Hub-Template + Context-Block-Pattern + Prio-Reihenfolge
+- SKILL.md erweitert um 2 neue Referenzen
+- `pages-to-migrate.md` aktualisiert mit GSC-basierten Prio-Reihenfolge für 7 ausstehende Migrationen
+
+**Commit:** `pending` (kpx-itch), `pending` (opencode-skills). Lektion 60 ergänzt.

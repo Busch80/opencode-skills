@@ -52,6 +52,8 @@ Diese Dateien liegen neben der `SKILL.md` und enthalten die vollständigen Spezi
 | `references/migrations-playbook.md` | **NEU** Umfassendes Playbook aus der Network-Migration: Schema, Chevron-Design-System, Iterations-Workflow, Commit-Konventionen, Fehlerquellen, Lessons Learned |
 | `references/build-verification.md` | **NEU** Build-Verifikations-Tools: Icon-Check Python-Script, manuelle Checkliste, häufige Build-Fehler. Vor jedem Push ausführen. |
 | `references/pages-to-migrate.md` | Inventar aller 55 zu migrierenden `app/**/page.tsx` mit Prioritäten, Routing-Konflikten, SEO-Backlog |
+| `references/landing-pages.md` | **NEU** Vollständiger Bau-Guide für Lokale Service-Landing-Pages (LSL): 13-Sektionen-Schema, Argumentations-Reihenfolge, BG-Rhythmus, FAQ-Layout, KPX/AG-Naming, SEO-Research-Workflow, Prio-Reihenfolge 7 ausstehender Migrationen |
+| `references/seo-research-workflow.md` | Vollständiger SEO-Workflow Phase 1 (DataForSEO VOR Migration) + Phase 5 (GSC NACH Migration) inkl. Python-Snippet für OAuth2/JWT |
 | `templates/managed-service-page.tsx` | Blanko-Vorlage für `managed-it-services/*` Subpages (Backup-Blaupause) |
 | `templates/seo-hub-page.tsx` | Blanko-Vorlage für IT-Dienstleister/KMU-Cluster (externe-it-abteilung-Blaupause) |
 

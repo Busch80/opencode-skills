@@ -58,23 +58,30 @@ Vor Migration klärt das mit dem Kunden和提高 nicht durch Agent.
 
 ---
 
-## Priorität 3 — Lokale Service-Landing-Pages (ehemals SEO-Cluster)
+## Priorität 3 — Lokale Service-Landing-Pages (LSL, ehemals SEO-Cluster)
 
-Diese Seiten sind SEO-driven und auf lokale Suchanfragen ausgerichtet (z. B. `it dienstleister zürich`, `it outsourcing zürich`, `it firmen zürich`). Sie bündeln Geo-Bezug (Standort, Region), Service-Page-Struktur (13 Sektionen + ServicePageFooter) und breite Thematik. **Template:** `templates/seo-hub-page.tsx`, **Vorbild:** `app/it-dienstleister-zuerich/page.tsx` (Iteration 30.2).
+Diese Seiten sind SEO-driven und auf lokale Suchanfragen ausgerichtet (z. B. `it dienstleister zürich`, `it outsourcing zürich`, `it firmen zürich`). Sie bündeln Geo-Bezug (Standort, Region), Service-Page-Struktur (13 Sektionen + ServicePageFooter) und breite Thematik. **Vollständiger Bau-Guide:** `references/landing-pages.md`. **Vorbild:** `app/it-dienstleister-zuerich/page.tsx` (Iteration 33+).
+
+**VOR jeder Migration:** SEO-Research Phase 1 mit `scripts/seo_research.py --phase1` durchführen (siehe `references/seo-research-workflow.md`). **NACH Migration (3-4 Wochen):** Phase 5 GSC-Check mit `--gsc`. Output in `app/<slug>/seo-research.md` dokumentieren.
+
+| Prio | Pfad | Keyword-Hint | GSC-Impressions | Anmerkungen |
+|---|---|---|---|---|
+| 1 | `app/it-firmen-zuerich/page.tsx` | `it firmen zürich` | 56 (Juni 2026) | Cluster-Erweiterung |
+| 2 | `app/it-outsourcing-zuerich/page.tsx` | `it outsourcing zürich` | DataForSEO-Recherche | Lokal-Pendant zu `/it-outsourcing-kmu` |
+| 3 | `app/it-support-zuerich/page.tsx` | `it support zürich` | 170 (höchste im Cluster) | Cluster-Erweiterung |
+| 4 | `app/it-beratung-kmu/page.tsx` | `it beratung kmu` | 41 (Juni 2026) | KMU-Ausrichtung |
+| 5 | `app/it-sicherheit-kmu/page.tsx` | `it sicherheit kmu` | DataForSEO-Recherche | Security-Cluster |
+| 6 | `app/microsoft-365-kmu/page.tsx` | `microsoft 365 kmu` | bereits Top 10 (135) | M365 Hub |
+| 7 | `app/it-dienstleister-kmu/page.tsx` | `it dienstleister kmu` | DataForSEO-Recherche | KMU-Spezialisierung |
+| ✅ | `app/it-dienstleister-zuerich/page.tsx` | `it dienstleister zürich` | 292 (Juni 2026) | **Iteriert 33+** — Master-Referenz für LSL |
+
+**Weitere LSL-Kandidaten (User-Ausschluss für jetzt, später migrierbar):**
 
 | Pfad | Keyword-Hint | Anmerkungen |
 |---|---|---|
-| `app/it-outsourcing-zuerich/page.tsx` | `it outsourcing zürich` | Lokal-Pendant zu `/it-outsourcing-kmu`. |
-| `app/it-dienstleister-zuerich/page.tsx` | `it dienstleister zürich` | Hauptseite der Lokalen Service-Landing-Pages per `references/seo-backlog.md`. Iteration 30.2 — 13 Sektionen + ServicePageFooter. |
-| `app/it-dienstleister-kmu/page.tsx` | `it dienstleister kmu` | KMU-Ausrichtung. |
-| `app/it-firmen-zuerich/page.tsx` | `it firmen zürich` | |
-| `app/it-support-zuerich/page.tsx` | `it support zürich` | Prio 3 per `seo-backlog.md`. |
-| `app/it-notfallservice/page.tsx` | `it notfall service / it notfallservice zürich` | **Prio 1 per `seo-backlog.md`** — Ranks #14 ohne dedizierte Seite (Difficulty 6). |
-| `app/it-sicherheit-kmu/page.tsx` | `it sicherheit kmu` | |
-| `app/it-beratung-kmu/page.tsx` | `it beratung kmu` | |
-| `app/microsoft-365-kmu/page.tsx` | `microsoft 365 kmu` | |
-| `app/diese-it-probleme-loesen-wir/page.tsx` | `it probleme lösen` (Variationen) | Hub-Seite; Layout ist bereits `app/diese-it-probleme-loesen-wir/layout.tsx` definiert. |
-| `app/probleme/page.tsx` | short URL / Redirect-Seite | Möglichst 301-Redirect auf `diese-it-probleme-loesen-wir` statt duplicate Content. |
+| `app/it-notfallservice/page.tsx` | `it notfall service` | Prio 1 per `seo-backlog.md` — Difficulty 6, ranks #14 ohne dedizierte Seite |
+| `app/diese-it-probleme-loesen-wir/page.tsx` | `it probleme lösen` | Hub-Seite, Layout bereits in `app/diese-it-probleme-loesen-wir/layout.tsx` |
+| `app/probleme/page.tsx` | short URL | Möglichst 301-Redirect auf `diese-it-probleme-loesen-wir` |
 
 ### SEO-Backlog-Termine `references/seo-backlog.md`
 
