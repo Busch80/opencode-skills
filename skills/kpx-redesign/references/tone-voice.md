@@ -691,3 +691,18 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     7. `/it-dienstleister-kmu` (Spezialisierung KMU)
 
     **Quelle:** User-Anforderung „alles in die skills schreiben". Implementation: Iteration 31 + 32 (Phase-1+5-Dokumentation). Skill-Datei `seo-research-workflow.md` enthält kompletten Workflow.
+57. **Sektion-Tausch-Reihenfolge ≠ Seitennummer-Reihenfolge**: Beim Refinement (z. B. User-Wunsch „Sektion 4 mit Sektion 8 tauschen") ist die Argumentations-Logik wichtiger als die chronologische Reihenfolge. Empfohlene Reihenfolge für lokale Service-Landing-Pages:
+    - **Pain (Problem) → Lösungs-Chevron (3 Modelle als grobe Entscheidungshilfe) → Prozess → Detail-Vorteile (6 nummerierte Mehrwerte)**
+    - Begründung: User trifft Entscheidung anhand Pain → Lösungs-Übersicht → Vertrauensaufbau. Detail-Vorteile am Ende vertiefen die bereits getroffene Entscheidung.
+    - **BG-Rhythmus beim Tausch prüfen:** Zwei gleiche BG hintereinander verletzen Lektion 53. Beim Tausch von Sektion 4 ↔ 8 auf `/it-dienstleister-zuerich` musste Section 4 (neu = Chevron) auf `bg-white` umgefärbt werden, damit nicht `light` → `light-grey` (Problem → Chevron) entsteht; Section 8 (neu = Vorteile) bekam `light-grey` (`oklch(0.97 0.01 220)`), um nicht `white` → `white` (Prozess → Vorteile) zu erzeugen.
+    - **Komponenten-Identität bleibt:** `<ServiceModelArrowsFull>` rendert mit eigenem internen Padding/Margin — Section-BG-Wechsel ist unproblematisch, da das innere Padding-Container das visuelle Layout trägt.
+    - **Karten-in-Vorteile-Sektion:** Bei BG-Wechsel von weiß auf light-grey muss die Karten-BG von `oklch(0.97 0.005 220)` (sehr hell, fast weiß) auf reines `white` wechseln, damit die Karten sich sichtbar vom Section-BG abheben.
+    - **Quelle:** User-Anforderung „Tausch Sektion 4 mit Sektion 8" auf `/it-dienstleister-zuerich` (Iteration 32).
+
+58. **KPX vs. KPX AG Naming**: Sichttext verwendet „KPX" (Markenname, kürzer, schweizerisch), Schema.org + Direktkontakt-Adresse verwenden „KPX AG" (Firmenname, juristisch korrekt).
+    - **Im Sichttext ersetzen:** Hero-Subtitle, Pain-Points, USPs, Vergleichskarten, FAQ-Fragen und -Antworten, ServicePageFooter ctaDesc, Chevron-Subheading, Context-Block-Subtitles, Servicegebiet-Beschreibung
+    - **NICHT ersetzen (bleibt „KPX AG"):** Schema.org `name` in LocalBusiness/Organization (für Google Brand-Erkennung), Schema.org `provider.name`, Direktkontakt-Adresse (User-Anweisung „ausser bei der Adresse"), Metadata `siteName` ist Grauzone (User-Anforderung „immer KPX" wurde auch hier angewendet)
+    - **Implementation:** Direktkontakt-Adresse-Block sollte explizit `KPX AG, Grindelstrasse 6` formatieren, damit die Ausnahme sichtbar wird
+    - **Search-Impact:** Brand-Suchen („kpx ag", „kpx") ranken weiterhin zuverlässig auf Position 1, weil Schema.name die kanonische Brand-Definition für Google bleibt
+    - **Nicht zu ersetzen:** `kpx-` Prefix in CSS-Klassennamen (`kpx-section`, `kpx-section-light`, `kpx-stat-number`, etc.) — das ist kein Sichttext, sondern Code-Identifikator
+    - **Quelle:** User-Anforderung „bitte beachten immer kpx schrieben statt kpx ag ausser bei der andresse" (Iteration 32).
