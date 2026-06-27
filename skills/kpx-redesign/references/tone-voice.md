@@ -706,3 +706,15 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     - **Search-Impact:** Brand-Suchen („kpx ag", „kpx") ranken weiterhin zuverlässig auf Position 1, weil Schema.name die kanonische Brand-Definition für Google bleibt
     - **Nicht zu ersetzen:** `kpx-` Prefix in CSS-Klassennamen (`kpx-section`, `kpx-section-light`, `kpx-stat-number`, etc.) — das ist kein Sichttext, sondern Code-Identifikator
     - **Quelle:** User-Anforderung „bitte beachten immer kpx schrieben statt kpx ag ausser bei der andresse" (Iteration 32).
+
+59. **Argumente-Reihenfolge Pain→Frage→Lösung→Detail→Prozess**: Lokale Service-Landing-Pages folgen einer festen Argumentations-Logik (User-Lesson aus Iteration 33 auf `/it-dienstleister-zuerich`):
+    1. **Schmerz aufzeigen** (Pain/Problem-Sektion, light BG)
+    2. **Frage aufwerfen** (dunkle Sektion mit provokativer Headline + 30-Min-Versprechen)
+    3. **Grobe Entscheidungs-Hilfe** (Chevron-Diagramm mit 3 Modellen, weiß BG)
+    4. **Detail-Vorteile** (6 nummerierte Mehrwerte in 2 Spalten, light-grey BG)
+    5. **Wie gehen wir vor?** (Prozess-Sektion mit 4 Schritten + CTA, weiß BG)
+    6. Kontext, FAQ, Störungen, IT-Wissen, Servicegebiet, Footer
+    - **2-Spalten-Grid für 6 Vorteile** (mobile 1-Spalte, Desktop 2-Spalten `md:grid-cols-2 gap-4`): kompakter, bessere visuelle Balance als single-column mit `space-y-4`. Card-Höhe variabel — `flex items-start` für Title+Description-Anordnung.
+    - **BG-Rhythmus beim Refinement:** `light → dark → white → light-grey → white → dark` — JEDER Übergang zwischen 2 verschiedenen BG-Werten. Verletzt niemals Lektion 53.
+    - **Sektion-Tausch + Positions-Shift:** Wenn Sektionen getauscht werden und gleichzeitig eine Sektion aus dem Bottom-Bereich nach oben verschoben wird, müssen alle nachfolgenden Sektionen umnummeriert werden (Kommentar + Section-Marker).
+    - **Quelle:** User-Anforderung „Frage über Chevron, Vorteile in 2 Spalten darunter" (Iteration 33).
