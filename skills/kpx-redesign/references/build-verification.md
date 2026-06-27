@@ -1,6 +1,6 @@
-# Build-Verifikation für Service-Seiten
+# Build-Verifikation für Service-Seiten und Lokale Service-Landing-Pages
 
-Vor jedem Push einer Service-Page (`app/managed-it-services/*/page.tsx` oder `app/managed-network-wireless/page.tsx`) MUSS die Seite lokal verifiziert werden. Auch wenn `node` im Worker-PATH nicht verfügbar ist (was bei `opencode`-Workern der Fall ist), können die meisten TypeScript-Build-Fehler durch statische Checks abgefangen werden.
+Vor jedem Push einer Service-Page (`app/managed-it-services/*/page.tsx`, `app/managed-network-wireless/page.tsx`) oder einer Lokalen Service-Landing-Page (`app/it-*/page.tsx`, `app/microsoft-365-kmu/page.tsx`) MUSS die Seite lokal verifiziert werden. Auch wenn `node` im Worker-PATH nicht verfügbar ist (was bei `opencode`-Workern der Fall ist), können die meisten TypeScript-Build-Fehler durch statische Checks abgefangen werden.
 
 ## Schritt 0: Lokaler Build-Versuch (vor allen anderen Checks)
 
@@ -38,6 +38,7 @@ Quelle für diese Regel: User-Feedback nach Vercel-Build-Fehler bei Commit `fa85
 | 6 | JSON-LD Schema vollständig | `for entity in BreadcrumbList FAQPage Organization Service; do grep -q "@type.:.*$entity" <file>; done` |
 | 7 | Stats-Bar 1:1 | `grep -c "Jahre IT-Praxis"` = 1, `grep -c "Schweizer KMU"` = 1 |
 | 8 | BG-Rhythmus | Keine zwei `kpx-section-dark` direkt hintereinander (siehe `section-rhythm.md` §19 für Ausnahme) |
+| 9 | **Umlaut-Regel (de-CH, NEU ab Iteration 31)** | `grep -nP 'ß' app/<slug>/page.tsx` muss LEER sein (kein `ß`, immer `ss`). `grep -c '[äöüÄÖÜéèà]' app/<slug>/page.tsx` muss > 0 sein (echte Umlaute statt ASCII-Ersatz). ASCII nur in Skill-Kommentaren, nicht in JSX/Skill-Beispielen. |
 
 ## Python-Script: Icon-Vollständigkeit prüfen
 
@@ -151,5 +152,34 @@ else:
 
 ## Siehe auch
 
-- `references/tone-voice.md` Lektion 23 (Lokale Build-Verifikation vor Push)
+- `references/tone-voice.md` Lektion 23 (Lokale Build-Verifikation vor Push), Lektion 54 (SEO-Research-Workflow)
 - `references/migrations-playbook.md` §11 Cross-References
+
+## Umlaut-Regel (de-CH) — statischer Pre-Commit-Check
+
+Vor jedem Commit einer Service-Page oder Lokalen Service-Landing-Page prüfen:
+
+```bash
+# 1. Kein ß (immer ss statt ß)
+grep -nP 'ß' app/<slug>/page.tsx
+# Erwartet: LEER. Wenn Treffer: ersetzen mit ss.
+
+# 2. Echte Umlaute vorhanden (nicht versehentlich ASCII-Ersatz verwendet)
+grep -c '[äöüÄÖÜéèà]' app/<slug>/page.tsx
+# Erwartet: > 0. Wenn 0: Umlaute sind versehentlich als ae/oe/ue geschrieben.
+
+# 3. Optional: ASCII-Kommentare (Skill-Texte) prüfen — erlaubt
+grep -c '[äöüÄÖÜéèà]' .opencode/skills/kpx-redesign/references/*.md
+# Erwartet: > 0 in Skill-Beispielen, aber ASCII in Code-Kommentaren OK.
+```
+
+**Regeln:**
+- **Im JSX/Skill-Beispielen:** Echte Umlaute (ä, ö, ü, Ä, Ö, Ü, é, è, à) statt ASCII-Ersatz (ae, oe, ue).
+- **Immer `ss`** statt `ß` (de-CH Standarddeutsch).
+- **In Code-Kommentaren:** ASCII erlaubt (für Lesbarkeit).
+- **In Commit-Messages:** ASCII erlaubt.
+
+**Quelle:** User-Anforderung „umlaute bitte richtig ausschreiben verwende Ü Ö Ä anstatt ae oe und ue" (Session vor Iteration 31). Konsistent mit beiden Skills:
+- `kpx-redesign` Lektion 10 (Umlaute statt ae/oe/ue in JSX)
+- `kpx-schweiz-marketing` (Beispiel: „Übertriebenes Eigenlob" mit echtem Ü)
+- `kpx-redesign` Lektion 2 (`ß` immer durch `ss` ersetzen)

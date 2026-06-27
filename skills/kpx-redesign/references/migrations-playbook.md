@@ -980,7 +980,7 @@ Vergleichstabellen verwenden `✓` für enthalten, `–` für nicht enthalten. Q
 
 **Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 15.3s), Exit-Code 0.
 
-### Iteration 30: `/it-dienstleister-zuerich` Hub-Template-Migration (Commit `74307b8` + Lektion 52)
+### Iteration 30: `/it-dienstleister-zuerich` Lokale Service-Landing-Page (14 Sektionen, Commit `74307b8` + Lektion 52)
 
 **Was:** Erste Anwendung des **14-Sektionen-Hub-Templates** für SEO-Cluster-Seiten auf `/it-dienstleister-zuerich`. 1128 Zeilen → 878 Zeilen (~22% Reduktion) durch konsistente Komponenten-Wiederverwendung, ohne Inhalt zu verlieren.
 
@@ -1078,6 +1078,27 @@ Keine zwei identischen BGs direkt hintereinander.
 
 **Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 15.3s), Exit-Code 0. Author: `KPX Dev <a.busch@kpx-it.ch>` (Lektion 51). Push-Ziel: `experimental` (Lektion 50).
 
+### Iteration 31: SEO-Research-Workflow + DataForSEO-Validierung `/it-dienstleister-zuerich` (Commit TBD + Lektion 54)
+
+**Was:** Nachträgliche DataForSEO-Validierung der bereits migrierten `/it-dienstleister-zuerich`-Seite (Iteration 30.2). Vor jeder zukünftigen Migration soll DataForSEO-Recherche VOR der Code-Migration stattfinden (Lektion 54). Für die bereits migrierte Seite dient diese Iteration als Validierung und Potenzial-Analyse.
+
+**Datenquellen:**
+- **DataForSEO:** Suchvolumen, Keyword-Difficulty, Suchintention, Wettbewerber, Long-Tail-Cluster. Location: `Switzerland`, `language_code="de"`.
+- **GSC:** Service-Account-JSON in `/root/kpx-gsc-service-account.json` (NICHT API-Key). Owner-Setup in GSC-Oberfläche erforderlich (User-Aktion).
+
+**Recherche-Workflow:**
+1. `keyword_overview` für „it dienstleister zürich" + 5 Wortvarianten + 5 Long-Tails.
+2. `search_intent` pro Keyword.
+3. `serp_organic_live_advanced` für Top-10-Wettbewerber.
+4. `related_keywords` für FAQ-Themen.
+5. `bulk_keyword_difficulty` für Priorisierung.
+
+**Dokumentation:** Ergebnisse in `app/it-dienstleister-zuerich/seo-research.md` (Hauptkeyword-Volumen, Wettbewerber, Long-Tail-Cluster, Empfehlungen für Pain-Points/FAQs/Title).
+
+**Lessons (Lektion 54):** SEO-Research-Workflow als fester Bestandteil jeder Lokale Service-Landing-Page-Migration. Erst recherchieren (Suchvolumen + Difficulty + Intent + Wettbewerber), dann implementieren (Title, H1, Pain-Points, FAQs). Pattern wiederverwendbar für alle 9 Lokalen Service-Landing-Pages (siehe `pages-to-migrate.md` Prio 3).
+
+**Umlaut-Regel (User-Anforderung):** Echte Umlaute (ä, ö, ü, Ä, Ö, Ü, é, è, à) statt ASCII-Ersatz in JSX und Skill-Beispielen. NIEMALS `ß` — immer `ss`. Statischer Pre-Commit-Check: `grep -nP 'ß' app/<slug>/page.tsx` muss LEER sein.
+
 ## 11. Cross-References
 
 | Thema | Datei |
@@ -1134,6 +1155,8 @@ Vor Abschluss einer Migration pruefen:
 - [ ] **Author IMMER `KPX Dev <a.busch@kpx-it.ch>`:** Repo-local git config einmalig pro Repo setzen mit `git config user.name "KPX Dev" && git config user.email "a.busch@kpx-it.ch"`. Session-Start-Check: `git log -1 --format='%an <%ae>'` muss `KPX Dev <a.busch@kpx-it.ch>` zeigen. NICHT der opencode-Worker-Default `opencode <opencode@users.noreply.github.com>`. (Lektion 51)
 - [ ] **Hub-Template fuer SEO-Cluster-Seiten (14 Sektionen):** 14-Sektionen-Schema fuer `/it-dienstleister-zuerich`, `/it-outsourcing-zuerich`, `/it-firmen-zuerich`, `/it-support-zuerich`, `/it-beratung-kmu`, `/it-sicherheit-kmu`, `/microsoft-365-kmu`, `/it-dienstleister-kmu`. Hero + Stats + Chevron + Mini-CTA + Was-ist + Prozess + Sub-Services + Erklaerung + USPs + Vergleich + Context + FAQ + Servicegebiet+Calculator+IT-Wissen + Verwandte+CTA. Schema.org LocalBusiness + BreadcrumbList + WebPage + FAQPage. (Lektion 52)
 - [ ] **Commercial-Top / Informational-Bottom-Prinzip:** Jede Seite ist in zwei Phasen geteilt. Commercial-Top (Sektionen 1–10) = Conversion-orientiert (Hero, Stats, Problem, Loesung, Frage, Prozess + CTA, Chevron). Informational-Bottom (Sektionen 11–13 + ServicePageFooter) = Trust + SEO + Authority (Stoerungen, IT-Wissen, Servicegebiet, FAQ-dark, Footer). Visueller Bruch zwischen Phasen: BG-Wechsel (z.B. white → dunkel). Im Context-Block (Sektion 9): KPX-Arbeitsweise (Sub-Block A) ZUERST, dann Allgemeine Informationen (Sub-Block B). (Lektion 53)
+- [ ] **SEO-Research-Workflow (DataForSEO + GSC):** Bei jeder Lokale Service-Landing-Page-Migration VOR der Code-Migration: DataForSEO `keyword_overview` (Hauptkeyword + 3–5 Wortvarianten), `keyword_ideas` (5–10 Long-Tails), `search_intent` (Intent-Validierung), `serp_organic_live_advanced` (Top-10-Wettbewerber), `related_keywords` (FAQ-Themen), `bulk_keyword_difficulty` (Priorisierung). Location: Switzerland, de. Ergebnisse in `app/<slug>/seo-research.md`. Nach Migration 4–6 Wochen später GSC-Daten prüfen. GSC-Anbindung via Service-Account-JSON in `/root/kpx-gsc-service-account.json` (NICHT API-Key, OAuth2 erforderlich). (Lektion 54)
+- [ ] **Umlaut-Regel in JSX und Skill-Markdown:** Echte Umlaute (ä, ö, ü, Ä, Ö, Ü, é, è, à) statt ASCII-Ersatz (ae, oe, ue). NIEMALS `ß` — immer `ss`. Statischer Pre-Commit-Check: `grep -nP 'ß' app/<slug>/page.tsx` muss LEER sein, `grep -c '[äöüÄÖÜ]' app/<slug>/page.tsx` muss > 0 sein. Build-Script in `build-verification.md` ergänzen. Gilt für sichtbare Texte (JSX, H1, H2, FAQ, CTAs) und Skill-Beispiele. ASCII nur in Code-Kommentaren und Markdown-Meta-Kommentaren.
 - [ ] **TypeScript-Stage-Property-Check:** Bei jeder Verwendung einer Chevron-Komponente (NetworkEvolutionChevron, ServiceModelArrowsFull etc.) TypeScript-Schema pruefen (Lektion 35)
 - [ ] Skill-Mirror nach `opencode-skills` synchron
 - [ ] Commit-Message mit korrektem Typ und Scope

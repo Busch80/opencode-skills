@@ -498,11 +498,11 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     ```
     Falls die Anzeige `opencode <opencode@users.noreply.github.com>` zeigt: oben stehende `git config`-Befehle ausführen, bevor weiter committed wird.
     Quelle: User-Feedback „unter welchen namen sollst du immer commited?" — meine 5 Commits auf `experimental` (`f020093`, `95e5ab3`, `eb46819`, `545e3ca`, `34298ac`) waren fälschlich als `opencode <opencode@users.noreply.github.com>` attributed. Fix: Author-Setup wie oben, ab jetzt korrekt. **Alte Commits werden NICHT rewritten** (kein Rebase — User-Entscheidung „nein neu comitted").
-52. **Hub-Template für SEO-Cluster-Seiten (14 Sektionen)**: SEO-Cluster-Seiten (`it-dienstleister-zuerich`, `it-outsourcing-zuerich`, `it-firmen-zuerich`, `it-support-zuerich`, `it-beratung-kmu`, `it-sicherheit-kmu`, `microsoft-365-kmu`, `it-dienstleister-kmu`) verwenden das **14-Sektionen-Hub-Template**. Architektur:
+52. **Lokale Service-Landing-Page (13/14 Sektionen, ehemals SEO-Cluster)**: Lokale Service-Landing-Pages (`it-dienstleister-zuerich`, `it-outsourcing-zuerich`, `it-firmen-zuerich`, `it-support-zuerich`, `it-beratung-kmu`, `it-sicherheit-kmu`, `microsoft-365-kmu`, `it-dienstleister-kmu`, `it-notfallservice`) verwenden das **14-Sektionen-Hub-Template** ODER das **13-Sektionen-Schema mit ServicePageFooter** (siehe Refinement unten). Architektur (14 Sektionen):
     ```tsx
     // 1.  Hero (dunkel, Hue 245 radial-gradient + optionales <img> overlay)
     //     CloudFront 200 OK → opacity 0.18, hero points, Standort-Badges
-    // 2.  Stats-Bar (white, 1:1 von Startseite)
+    // 2.  Stats-Bar (white, 1:1 von Startseite — Lektion 22)
     // 3.  Chevron (light-grey, <ServiceModelArrowsFull />)
     // 4.  Mini-CTA Cliffhanger (dunkel)
     // 5.  Was-ist-Thema (light-grey, 2-Card-Vergleich reaktiv vs proaktiv)
@@ -517,10 +517,10 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     // 14. Verwandte Themen + CTA (dunkel, 5 Cross-Links + 2 Buttons + Trust-Badges)
     ```
     **Schema.org:** LocalBusiness mit areaServed-Array, Geo-Koordinaten, BreadcrumbList + WebPage + FAQPage. Adresse: IMMER `Grindelstrasse 6, 8304 Wallisellen`.
-    **Unterschied zu /cloud (7 Sektionen, Lektion 49):** SEO-Cluster-Seiten sind content-reicher und brauchen den vollen 14-Sektionen-Aufbau für SEO-Wirkung + lokale Vertrauenssignale + Cross-Linking. Cloud-Hub aggregiert nur 4 Sub-Services und braucht kein erklärendes Material.
-    **Wiederverwendbar für 8 SEO-Cluster-Seiten** (siehe `pages-to-migrate.md` Prio 3). Pattern reduziert 1100–1400 Zeilen alte Schema auf ~750–850 Zeilen (~22–35% Reduktion) durch konsistente Komponenten-Wiederverwendung (`ServiceModelArrowsFull`, native `<details>` für FAQ, `getLatestPosts`, `<ServicePageFooter>`).
+    **Unterschied zu /cloud (7 Sektionen, Lektion 49):** Lokale Service-Landing-Pages sind content-reicher und brauchen den vollen 14-Sektionen-Aufbau für SEO-Wirkung + lokale Vertrauenssignale + Cross-Linking. Cloud-Hub aggregiert nur 4 Sub-Services und braucht kein erklärendes Material.
+    **Wiederverwendbar für 9 Lokale Service-Landing-Pages** (siehe `pages-to-migrate.md` Prio 3). Pattern reduziert 1100–1400 Zeilen alte Schema auf ~750–850 Zeilen (~22–35% Reduktion) durch konsistente Komponenten-Wiederverwendung (`ServiceModelArrowsFull`, native `<details>` für FAQ, `getLatestPosts`, `<ServicePageFooter>`).
 
-    **Refinement Iteration 30.2 — Annäherung an Managed-Service-Schema:** Für SEO-Cluster-Seiten, die thematisch nah an Managed-Service-Seiten sind (z. B. `/it-dienstleister-zuerich` als breit angelegter IT-Dienstleister), kann das 14-Sektionen-Schema auf das **kanonische 13-Sektionen-Schema** der Managed-Service-Seiten reduziert werden:
+    **Refinement Iteration 30.2 — Annäherung an Managed-Service-Schema:** Für Lokale Service-Landing-Pages, die thematisch nah an Managed-Service-Seiten sind (z. B. `/it-dienstleister-zuerich` als breit angelegter IT-Dienstleister), kann das 14-Sektionen-Schema auf das **kanonische 13-Sektionen-Schema** der Managed-Service-Seiten reduziert werden:
     - Sektion 5 (Was-ist-Thema, 2-Card-Vergleich) → in Sektion 4 (Lösung) als nummerierte Vorteile integriert
     - Sektion 8 (IT-Beratung) → in Context-Block (Sektion 9) als Sub-Block C integriert
     - Sektion 10 (Vergleichskarten) → in Context-Block Sub-Block A integriert oder entfernt
@@ -533,5 +533,35 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     - **Informational-Bottom (Sektionen 11–13 + ServicePageFooter):** Trust + SEO + Authority. Störungen-Grid, IT-Wissen Blog, Servicegebiet, FAQ (dark), ServicePageFooter (final-CTA). Inhalt bildet Vertrauen, bietet Long-tail-SEO, vernetzt intern.
     - **Visueller Bruch:** Sektion 10 (white) → Sektion 11 (dunkel) ODER Sektion 8 (light-grey) → Sektion 9 (dunkel) = harter BG-Wechsel signalisiert „jetzt kommt Fachtext".
     - **Im Context-Block (Sektion 9, dunkel) Sub-Block-A:** KPX-Arbeitsweise (methodisch, KPX-spezifisch) **ZUERST**, dann Sub-Block B (Allgemeine Informationen, neutral) — passt zur User-Erwartung „erst wir, dann Hintergrund".
-    - **Gilt für:** Service-Pages (13 Sektionen), Hub-Pages (7 Sektionen, Bruch bei Sektion 5), SEO-Cluster-Pages (13 Sektionen via Refinement, Bruch bei Sektion 10/11).
+    - **Gilt für:** Service-Pages (13 Sektionen), Hub-Pages (7 Sektionen, Bruch bei Sektion 5), Lokale Service-Landing-Pages (13 Sektionen via Refinement, Bruch bei Sektion 10/11).
     - **Wichtig:** Niemals zwei gleiche BG-Klassen direkt hintereinander (Lektion section-rhythm.md). Commercial-Top und Informational-Bottom müssen visuell klar getrennt sein.
+54. **SEO-Research-Workflow (DataForSEO + GSC)**: Bei jeder **Lokale Service-Landing-Page**-Migration folgende Schritte VOR der Code-Migration ausführen. Erst recherchieren, dann implementieren — niemals „best-guess" bei Title/H1/FAQ/Pain-Points.
+
+    **Datenquellen:**
+    - **DataForSEO** für Suchvolumen, Keyword-Difficulty, Suchintention, Wettbewerber-Analyse, Long-Tail-Cluster (Tools: `dataforseo_dataforseo_labs_google_keyword_overview`, `keyword_ideas`, `search_intent`, `google_related_keywords`, `bulk_keyword_difficulty`, `google_serp_competitors`, `serp_organic_live_advanced`).
+    - **Google Search Console (GSC)** für Performance-Daten der bestehenden Seiten (Queries, CTR, Position, Klicks). Service-Account-JSON in `/root/kpx-gsc-service-account.json` (oder ähnlich). **Wichtig:** GSC akzeptiert keine API-Keys — nur OAuth2 oder Service-Account-Credentials. Service-Account muss in GSC-Oberfläche als „Owner" hinzugefügt werden.
+
+    **Workflow pro Lokale Service-Landing-Page:**
+    1. **Hauptkeyword-Recherche** (z. B. `it dienstleister zürich`): `keyword_overview` für Suchvolumen + Difficulty + CPC + Competition.
+    2. **Wortvarianten** (z. B. `IT-Dienstleister Zürich`, `IT Dienstleister Zuerich`, `it dienstleister in zürich`): ebenfalls `keyword_overview`.
+    3. **Long-Tail-Cluster**: `keyword_ideas` mit Hauptkeyword als Seed. Mindestens 5–10 Long-Tail-Varianten.
+    4. **Suchintention**: `search_intent` pro Keyword (informational/commercial/transactional/navigational). Wenn Intent ≠ commercial → ggf. andere Page-Variante wählen.
+    5. **Wettbewerber-SERP**: `serp_organic_live_advanced` für Top 10 der Hauptkeyword-SERP. Domain-Authority + Content-Lücken identifizieren.
+    6. **FAQ-Themen**: `related_keywords` extrahieren für FAQ-Inhalte (Long-Tail-Fragen).
+    7. **Bulk-Difficulty**: `bulk_keyword_difficulty` für Priorisierung (Schwierigkeit < 30 = einfach, < 50 = mittel, > 50 = schwer).
+
+    **Location:** `location_name="Switzerland"`, `language_code="de"`.
+
+    **Dokumentation:** Ergebnisse in `app/<slug>/seo-research.md` ablegen mit:
+    - Hauptkeyword + Suchvolumen + Difficulty + Intent
+    - Top-10-Wettbewerber (URLs + Domain-Authority)
+    - Long-Tail-Cluster mit monatlichem Suchvolumen
+    - Empfehlungen für Title, H1, Pain-Points, FAQs
+
+    **Wann nachjustieren:** Falls Pain-Points / FAQs / Title nicht zu den Suchvolumen-Daten passen, vor Push nachjustieren. Beispiel: Wenn „Was kostet IT-Dienstleister in Zürich?" Suchvolumen > 100/Monat hat, muss diese Frage in den FAQs sein.
+
+    **GSC-Anbindung:** Nach erfolgter Migration GSC-Daten 4–6 Wochen später prüfen (Queries, Position, CTR). Bei Verbesserungsbedarf Pain-Points / FAQs / Title nachschärfen.
+
+    **Pattern wiederverwendbar:** Für alle 9 Lokale Service-Landing-Pages (siehe `pages-to-migrate.md` Prio 3) und für Hub-Pages, die nach SEO-Traffic-Potenzial priorisiert werden.
+
+    **Quelle:** User-Anforderung „vorab DataForSEO-Recherche" + User-Anforderung „GSC-Anbindung über Service-Account-JSON in token-Datei". Implementation: Iteration 31 (Phase 3 für `/it-dienstleister-zuerich` als erstes Beispiel).

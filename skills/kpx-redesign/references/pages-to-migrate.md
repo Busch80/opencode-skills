@@ -58,14 +58,14 @@ Vor Migration klärt das mit dem Kunden和提高 nicht durch Agent.
 
 ---
 
-## Priorität 3 — IT-Dienstleister / SEO-Cluster (SEO-Hub-Template)
+## Priorität 3 — Lokale Service-Landing-Pages (ehemals SEO-Cluster)
 
-Diese Seiten sind SEO-driven, zielen auf `it dienstleister …`, `it outsourcing …`, `it firmen …` Suchanfragen in der Schweiz. **Template:** `templates/seo-hub-page.tsx`, **Vorbild:** `app/externe-it-abteilung/page.tsx` oder `app/it-outsourcing-kmu/page.tsx`.
+Diese Seiten sind SEO-driven und auf lokale Suchanfragen ausgerichtet (z. B. `it dienstleister zürich`, `it outsourcing zürich`, `it firmen zürich`). Sie bündeln Geo-Bezug (Standort, Region), Service-Page-Struktur (13 Sektionen + ServicePageFooter) und breite Thematik. **Template:** `templates/seo-hub-page.tsx`, **Vorbild:** `app/it-dienstleister-zuerich/page.tsx` (Iteration 30.2).
 
 | Pfad | Keyword-Hint | Anmerkungen |
 |---|---|---|
 | `app/it-outsourcing-zuerich/page.tsx` | `it outsourcing zürich` | Lokal-Pendant zu `/it-outsourcing-kmu`. |
-| `app/it-dienstleister-zuerich/page.tsx` | `it dienstleister zürich` | Hauptseite des SEO-Clusters per `references/seo-backlog.md`. |
+| `app/it-dienstleister-zuerich/page.tsx` | `it dienstleister zürich` | Hauptseite der Lokalen Service-Landing-Pages per `references/seo-backlog.md`. Iteration 30.2 — 13 Sektionen + ServicePageFooter. |
 | `app/it-dienstleister-kmu/page.tsx` | `it dienstleister kmu` | KMU-Ausrichtung. |
 | `app/it-firmen-zuerich/page.tsx` | `it firmen zürich` | |
 | `app/it-support-zuerich/page.tsx` | `it support zürich` | Prio 3 per `seo-backlog.md`. |
@@ -82,6 +82,7 @@ Diese Seiten sind SEO-driven, zielen auf `it dienstleister …`, `it outsourcing
 - `/it-outsourcing-kmu` Prio 2 — bereits erledigt (Referenzseite)
 - `/it-support-zuerich` Prio 3
 - Nationale keywords (`it dienstleister schweiz`, `it unternehmen schweiz`, `it firmen schweiz`, `it consulting schweiz`, `it support schweiz`, `schweizer it firmen`) organisch auf der Homepage und der `/it-dienstleister-zuerich` Hauptseite verwweben (keine neuen Standalone-Seiten nötig).
+- **Vor jeder Migration: DataForSEO-Recherche** durchführen (Suchvolumen, Difficulty, Suchintention, Wettbewerber). Pattern: siehe Lektion 54 in `tone-voice.md`.
 
 ---
 
