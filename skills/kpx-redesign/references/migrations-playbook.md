@@ -1078,26 +1078,106 @@ Keine zwei identischen BGs direkt hintereinander.
 
 **Lokaler Build:** `tsc --noEmit` + `next build` (46/46 Seiten in 15.3s), Exit-Code 0. Author: `KPX Dev <a.busch@kpx-it.ch>` (Lektion 51). Push-Ziel: `experimental` (Lektion 50).
 
-### Iteration 31: SEO-Research-Workflow + DataForSEO-Validierung `/it-dienstleister-zuerich` (Commit TBD + Lektion 54)
+### Iteration 31: SEO-Research-Workflow + DataForSEO-Validierung `/it-dienstleister-zuerich` (Commits `f7d8da2` + `4d5b342` + Lektionen 54+55+56)
 
-**Was:** Nachträgliche DataForSEO-Validierung der bereits migrierten `/it-dienstleister-zuerich`-Seite (Iteration 30.2). Vor jeder zukünftigen Migration soll DataForSEO-Recherche VOR der Code-Migration stattfinden (Lektion 54). Für die bereits migrierte Seite dient diese Iteration als Validierung und Potenzial-Analyse.
+**Was:** Nachträgliche DataForSEO-Recherche für die bereits migrierte `/it-dienstleister-zuerich`-Seite (Iteration 30.2) + GSC-Performance-Monitoring für die ausgelieferte Seite. Vor jeder zukünftigen Migration soll DataForSEO-Recherche VOR der Code-Migration stattfinden (Lektion 54) + GSC-Performance-Daten 3–4 Wochen NACH Migration geholt werden (Lektion 55).
+
+**Drei-Phasen-Workflow (siehe `seo-research-workflow.md`):**
+
+### Phase 1: DataForSEO-Recherche (Commit `f7d8da2`)
 
 **Datenquellen:**
-- **DataForSEO:** Suchvolumen, Keyword-Difficulty, Suchintention, Wettbewerber, Long-Tail-Cluster. Location: `Switzerland`, `language_code="de"`.
-- **GSC:** Service-Account-JSON in `/root/kpx-gsc-service-account.json` (NICHT API-Key). Owner-Setup in GSC-Oberfläche erforderlich (User-Aktion).
+- **DataForSEO** (via `dataforseo_*` Tools, im opencode-Worker verfügbar)
+- Location: `Switzerland`, `language_code="de"`
 
-**Recherche-Workflow:**
-1. `keyword_overview` für „it dienstleister zürich" + 5 Wortvarianten + 5 Long-Tails.
-2. `search_intent` pro Keyword.
-3. `serp_organic_live_advanced` für Top-10-Wettbewerber.
-4. `related_keywords` für FAQ-Themen.
-5. `bulk_keyword_difficulty` für Priorisierung.
+**Recherche-Workflow (8 API-Calls pro Migration):**
+1. `dataforseo_dataforseo_labs_google_keyword_overview` für Hauptkeyword + 3–5 Wortvarianten
+2. `dataforseo_dataforseo_labs_search_intent` für Suchintention-Validierung
+3. `dataforseo_dataforseo_labs_google_keyword_ideas` für Long-Tail-Ideen (breit, manuelle Filterung nötig)
+4. `dataforseo_dataforseo_labs_google_related_keywords` für thematisch fokussierte Long-Tail-Cluster (EMPFOHLEN)
+5. `dataforseo_dataforseo_labs_bulk_keyword_difficulty` für Schwierigkeit (0–100)
+6. `dataforseo_dataforseo_labs_google_serp_competitors` für Wettbewerber-Domain-Authority
+7. `dataforseo_serp_organic_live_advanced` für Top-10-SERP + Local Pack + People Also Search
 
-**Dokumentation:** Ergebnisse in `app/it-dienstleister-zuerich/seo-research.md` (Hauptkeyword-Volumen, Wettbewerber, Long-Tail-Cluster, Empfehlungen für Pain-Points/FAQs/Title).
+**Kosten:** ~$0.008 pro Migration (praktisch kostenlos).
 
-**Lessons (Lektion 54):** SEO-Research-Workflow als fester Bestandteil jeder Lokale Service-Landing-Page-Migration. Erst recherchieren (Suchvolumen + Difficulty + Intent + Wettbewerber), dann implementieren (Title, H1, Pain-Points, FAQs). Pattern wiederverwendbar für alle 9 Lokalen Service-Landing-Pages (siehe `pages-to-migrate.md` Prio 3).
+**Dokumentation:** `app/it-dienstleister-zuerich/seo-research.md` (442 Zeilen, dokumentiert Hauptkeyword + 11 API-Calls + Top-10-Wettbewerber + Long-Tail-Cluster).
 
-**Umlaut-Regel (User-Anforderung):** Echte Umlaute (ä, ö, ü, Ä, Ö, Ü, é, è, à) statt ASCII-Ersatz in JSX und Skill-Beispielen. NIEMALS `ß` — immer `ss`. Statischer Pre-Commit-Check: `grep -nP 'ß' app/<slug>/page.tsx` muss LEER sein.
+### Phase 2: GSC-Performance (Commit `4d5b342`)
+
+**Auth-Setup:**
+- Service-Account-JSON in `/root/kpx-gsc-service-account.json`
+- OAuth2 via JWT-Token (NICHT API-Key, GSC akzeptiert keine API-Keys)
+- Owner-Berechtigung in GSC-Oberfläche erforderlich
+
+**Wichtige API-Fallen:**
+- Property-Format: IMMER `sc-domain:kpx-it.ch` URL-encoded als `sc-domain%3Akpx-it.ch`
+- NICHT `kpx-it.ch` oder `https://kpx-it.ch/` (URL-Property — Berechtigung verweigert)
+- Rate-Limits: 1.200 Abfragen/Minute, 30.000/Tag
+- Daten-Verfügbarkeit: 2–3 Tage verzögert
+
+**Python-Snippet:** JWT-basiertes OAuth2 + SearchAnalytics für Top-Queries. Siehe `tone-voice.md` Lektion 55 für komplettes Code-Snippet.
+
+**Ergebnisse für `/it-dienstleister-zuerich` (Juni 2026, 27 Tage):**
+- Hauptkeyword „it dienstleister zürich": 292 Impressions, 2 Clicks, CTR 0.68%, Position 20.6
+- „microsoft 365 sicherheit kmu": 135 Impressions, Position 5.9 (bereits Top 10!)
+- „datensicherung für kmu": 108 Impressions (Backup-Thema validiert)
+- „it firmen zürich": 56 Impressions (`/it-firmen-zuerich` priorisiert)
+- Brand „kpx ag": Position 1, 33.3% CTR (perfekt)
+
+### Lessons (Lektionen 54 + 55 + 56)
+
+**Lektion 54 — SEO-Research-Workflow (Phase 1, VOR Migration):**
+- DataForSEO-Recherche als fester Bestandteil jeder Lokale Service-Landing-Page-Migration
+- Suchvolumen + Difficulty + Suchintention + Wettbewerber-Daten als Code-Migration-Grundlage
+- Pattern wiederverwendbar für alle 9 Lokalen Service-Landing-Pages
+
+**Lektion 55 — Google Search Console Performance-Daten (Phase 5, 3–4 Wochen NACH Migration):**
+- Service-Account-Setup (OAuth2, NICHT API-Key)
+- Property-Format `sc-domain:` (Domain-Property)
+- Python-Snippet für SearchAnalytics-Abruf
+- Top-Queries, CTR, Position-Analyse
+- Empfehlungen für Nachjustierungen (Title-Iteration, FAQ-Update)
+
+**Lektion 56 — Vollständiger SEO-Research-Workflow:**
+- Kombination Phase 1 (DataForSEO) + Phase 5 (GSC)
+- 10 detaillierte Lessons aus Iteration 31
+- Prio-Reihenfolge für 7 ausstehende Migrationen basierend auf GSC-Daten
+
+**Wichtigste Erkenntnisse (Lessons aus Iteration 31):**
+1. **DataForSEO-Schätzungen unterschätzen oft um Faktor 2** (140 vs. 292 Impressions) — GSC ist Realität.
+2. **Local Pack dominiert für lokale Suchen** — Google My Business ist kritisch (User-Aktion).
+3. **Brand-Suchen ranken zuverlässig auf Position 1** (z. B. „kpx ag", „kpx").
+4. **Long-Tail-Queries mit Impressionen aber 0 Klicks** sind Indikatoren für Title/Description-Optimierung.
+5. **DataForSEO gruppiert Synonyme** — Wortvarianten mit/ohne Bindestrich liefern oft identische Zahlen.
+6. **`related_keywords`** liefert thematisch fokussierte Long-Tails, `keyword_ideas` ist breit.
+7. **API-Fehler 403 trotz Owner-Setup** deutet auf falsches Property-Format hin (Domain- statt URL-Property).
+8. **Long-Tail-Cluster via `related_keywords`** sind die besten Quellen für FAQ-Themen.
+
+### Umlaut-Regel (User-Anforderung)
+
+Echte Umlaute (ä, ö, ü, Ä, Ö, Ü, é, è, à) statt ASCII-Ersatz in JSX und Skill-Beispielen. NIEMALS `ß` — immer `ss`. Statischer Pre-Commit-Check: `grep -nP 'ß' app/<slug>/page.tsx` muss LEER sein.
+
+### Pattern für 7 ausstehende Migrationen
+
+| Prio | Page | Begründung |
+|---|---|---|
+| 1 | `/it-firmen-zuerich` | 56 Impressions bestätigen Suchinteresse (GSC-Daten) |
+| 2 | `/it-outsourcing-zuerich` | Cluster-Schwerpunkt |
+| 3 | `/it-support-zuerich` | 170 Impressions — höchste im Cluster |
+| 4 | `/it-beratung-kmu` | 41 Impressions (GSC-Daten) |
+| 5 | `/it-sicherheit-kmu` | DataForSEO-Recherche nötig |
+| 6 | `/microsoft-365-kmu` | M365 bereits stark (Top 10) |
+| 7 | `/it-dienstleister-kmu` | Spezialisierung KMU |
+| 8 | `/it-notfallservice` (Prio 1) | laut SEO-Backlog dringend |
+
+Pro Migration: Phase 1 (10–15 min) + Phase 2 (45–60 min) + Build+Push (10 min) = ~75 min.
+
+### Skill-Update
+
+Neue Skill-Datei: `references/seo-research-workflow.md` (vollständige Anleitung).
+Lektion 56 in `tone-voice.md` ergänzt.
+`pages-to-migrate.md` mit „Vor jeder Migration: SEO-Research" Sektion.
 
 ## 11. Cross-References
 

@@ -173,3 +173,16 @@ Long-tail; nicht im Unit-Task zu erledigen. Realistisch als Folge von kleinen PR
 - [ ] Keine `ß` characters (de-CH check); `grep -ri 'ß' app/<path>/page.tsx` muss leer sein
 - [ ] Hero-Wellen-SVG vorhanden und sticky am unteren End der Hero
 - [ ] FAQ in Schema und Render identische Texte (kein Schema-vs-Content mismatch)
+
+## Vor jeder Migration: SEO-Research durchführen
+
+Vor jeder Lokale Service-Landing-Page-Migration (siehe Prio 3 oben) **MUSS** eine SEO-Recherche via DataForSEO durchgeführt werden. Vollständige Anleitung in `references/seo-research-workflow.md`. Workflow:
+
+1. `keyword_overview` für Hauptkeyword + 3–5 Wortvarianten
+2. `search_intent` für Suchintention-Validierung
+3. `related_keywords` für Long-Tail-Cluster
+4. `bulk_keyword_difficulty` für Schwierigkeit
+5. `serp_organic_live_advanced` für Top-10-Wettbewerber + Local Pack
+6. Ergebnisse in `app/<slug>/seo-research.md` dokumentieren
+
+**GSC-Daten 3–4 Wochen nach Migration holen** (Phase 5, siehe Lektion 55). Service-Account-JSON in `/root/kpx-gsc-service-account.json`, Owner-Setup in GSC-Oberfläche erforderlich.

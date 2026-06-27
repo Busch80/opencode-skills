@@ -649,3 +649,45 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     - Unerwartete Long-Tail-Queries mit Klicks → FAQ ergänzen
 
     **Quelle:** User-Anforderung „GSC-Daten holen". Implementation: Iteration 31 (Phase 5 für `/it-dienstleister-zuerich`). Service-Account JSON in `/root/kpx-gsc-service-account.json`.
+56. **Vollständiger SEO-Research-Workflow**: Kombination aus Phase 1 (DataForSEO-Recherche VOR Migration) und Phase 5 (GSC-Performance NACH Migration). Detaillierte Anleitung in `references/seo-research-workflow.md`. Kernaussagen:
+
+    **Phase 1 — DataForSEO-Recherche (VOR jeder Migration):**
+    1. `keyword_overview` für Hauptkeyword + 3–5 Wortvarianten
+    2. `search_intent` für Suchintention-Validierung (commercial > 70% empfohlen für Conversion-Seiten)
+    3. `related_keywords` für Long-Tail-Cluster (thematisch fokussiert, besser als `keyword_ideas`)
+    4. `bulk_keyword_difficulty` für Schwierigkeit
+    5. `serp_organic_live_advanced` für Top-10-Wettbewerber + Local Pack + People Also Search
+    6. Ergebnisse in `app/<slug>/seo-research.md` dokumentieren
+
+    **Phase 2 — Code-Migration:**
+    - Title/Description/H1 an Suchvolumen + Intent anpassen
+    - Pain-Points mit Long-Tail-Keywords abgleichen
+    - FAQ-Fragen an `related_keywords` ausrichten
+
+    **Phase 3 — GSC-Performance (3–4 Wochen NACH Migration):**
+    1. Service-Account-JSON unter `/root/kpx-gsc-service-account.json`
+    2. Service-Account in GSC-Oberfläche als „Owner" hinzufügen
+    3. Property-Format: `sc-domain:kpx-it.ch` (NICHT URL-Prefix)
+    4. Python-Snippet via JWT/OAuth2 (siehe Lektion 55)
+    5. Top-20-Queries extrahieren, CTR und Position analysieren
+    6. Vergleich DataForSEO-Schätzung vs. GSC-Realität dokumentieren
+    7. Ergebnisse in `app/<slug>/seo-research.md` ergänzen
+
+    **Wichtige Erkenntnisse aus Iteration 31:**
+    - **DataForSEO unterschätzt oft um Faktor 2** — GCS-Daten sind Realität
+    - **Local Pack dominiert für lokale Suchen** — Google My Business ist kritisch (User-Aktion)
+    - **Brand-Suchen** ranken zuverlässig auf Position 1 (z. B. „kpx ag")
+    - **Long-Tail-Queries mit Impressionen aber 0 Klicks** sind Indikatoren für Title/Description-Optimierung
+    - **DataForSEO-Kosten:** ~$0.008 pro Migration (praktisch kostenlos)
+    - **GSC-Kosten:** KOSTENLOS
+
+    **Pattern für 7 ausstehende Migrationen (Prio-Reihenfolge):**
+    1. `/it-firmen-zuerich` (56 Impressions bestätigen Suchinteresse — GSC-Daten)
+    2. `/it-outsourcing-zuerich` (Cluster-Schwerpunkt)
+    3. `/it-support-zuerich` (170 Impressions — höchste im Cluster, GSC-Daten)
+    4. `/it-beratung-kmu` (41 Impressions — GSC-Daten)
+    5. `/it-sicherheit-kmu` (DataForSEO-Recherche nötig)
+    6. `/microsoft-365-kmu` (M365 bereits stark, Hub-View)
+    7. `/it-dienstleister-kmu` (Spezialisierung KMU)
+
+    **Quelle:** User-Anforderung „alles in die skills schreiben". Implementation: Iteration 31 + 32 (Phase-1+5-Dokumentation). Skill-Datei `seo-research-workflow.md` enthält kompletten Workflow.
