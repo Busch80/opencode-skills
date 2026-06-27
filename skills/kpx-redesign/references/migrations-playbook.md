@@ -1295,3 +1295,68 @@ User-Wunsch: „date den skill ab für landingpages".
 - `pages-to-migrate.md` aktualisiert mit GSC-basierten Prio-Reihenfolge für 7 ausstehende Migrationen
 
 **Commit:** `pending` (kpx-itch), `pending` (opencode-skills). Lektion 60 ergänzt.
+
+## 17. Iteration 36-37 — GSC MCP-Server global + Sitemap-Cleanup
+
+**Iteration 36:** GSC MCP-Server als globaler MCP-Server für alle opencode-Workspaces.
+- Service-Account-JSON von `/root/kpx-gsc-service-account.json` → `/root/.config/opencode/secrets/gsc-sa.json` (chmod 600)
+- Python MCP-Server mit 5 Tools (list_sites, search_analytics, query_filter, url_inspection, sitemaps)
+- opencode.json mit `type: "local"` und `environment` (WICHTIG: nicht `env`)
+- Plugin-System für zukünftige Projekte (DataForSEO, GitHub, etc.)
+- Skill-Datei `gsc-mcp-server.md` (~280 Zeilen, 8 Sektionen)
+- **Commit:** `f27c283` (opencode-skills), `fdf6ee8` (kpx-itch)
+
+**Iteration 37:** Sitemap-Cleanup + GSC-Quick-Wins.
+- 10 URL-Duplikate via Set-basierte Dedup-Logik entfernt
+- `/probleme` komplett aus Sitemap (per 301-Redirect)
+- `/ueber-uns/engagement` Priorität 0.6 → 0.7
+- **Ergebnis:** 70 saubere URLs statt ~80 mit Duplikaten
+- **Commit:** `e302a8a` (kpx-itch)
+
+**GSC-URL-Inspection für 51 kpx-it.ch-Seiten:**
+- 41/51 indexiert (80%)
+- 10 nicht indexiert: 4 absichtlich (noindex Legals + 2 Redirects) + 4 echte Probleme
+- Probleme: /it-loesungen/{handwerk,treuhand}, /managed-cloud-firewall, /ueber-uns/engagement, /probleme
+- Lösung: Sitemap-Cleanup + GSC Request Indexing (manuell, User-Aktion)
+
+## 18. Iteration 38 — KPX Multi-Project Dashboard (FastAPI)
+
+User-Anforderung: Webserver für GSC-Dashboards und zukünftige Projekte (DataForSEO, GitHub, etc.).
+
+**Was wurde gebaut:**
+- FastAPI + Jinja2 + Plotly.js (statt Plotly Dash — Multi-Projekt-Architektur wichtiger)
+- `/root/dashboards/` mit Plugin-System (`projects/`-Verzeichnis)
+- GSC-Plugin mit 4 Charts (Top-Performer Bubble, Quick-Wins Bar, Trend Line, Position/URL Treemap)
+- Date-Picker, Property-Switcher (kpx-itch / kpx-itde), Cache-Invalidation
+- systemd-Service `kpx-dashboards.service` auf `172.19.99.1:4443`
+- URL: `http://172.19.99.1:4443/gsc/kpx-itch`
+
+**Architektur-Highlights:**
+- Multi-Projekt via Path-Parameter (`/gsc/{slug}`)
+- Plugin-Auto-Discovery via importlib
+- Plotly-JSON-API für AJAX-loaded Charts
+- 5-Min-Cache für GSC-API-Quota
+- Service-Account-Pfad konsistent mit MCP-Server
+
+**Erkenntnisse:**
+- Starlette 1.3.1 hat neue TemplateResponse-API: `templates.TemplateResponse(request, name, context)` (request ZUERST)
+- Multi-Directory Templates via `Jinja2Templates(directory=[dir1, dir2])`
+- opencode-Dashboard-Pfad: `/gsc/kpx-itch` (URL-Slug, NICHT Domain-Format)
+- Slug-Domain-Mapping: `kpx-itch` → `sc-domain:kpx-it.ch`
+
+## 19. Iteration 39 — Quick-Wins-Cluster-Analyse + `/it-firmen-zuerich` Migration
+
+User-Anforderung: „welche quickwins würdest du in ein serp cluster zusammenfassen".
+
+**Quick-Wins-Analyse:**
+- 51 GSC-Queries in Position 11-30 (Mai/Juni 2026)
+- 8 Cluster identifiziert: Backup/Datensicherung (10), Externe IT-Betreuung (8), Cloud KMU (11), IT-Firmen (3), IT-Beratung (4), Datenschutz (verworfen), IT-Support (4), Sonstige
+
+**Migration `/it-firmen-zuerich` (Cluster D, Prio 1):**
+- 13-Sektionen-Schema nach `landing-pages.md`
+- 10 FAQ-Fragen mit Cluster-Keywords (it firma kosten, it firma pro stunde, etc.)
+- SEO-Optimierungen: Title/Description mit „Persönlicher IT-Partner für KMU"
+- Schema: LocalBusiness + Service + WebPage + FAQPage
+- Erwarteter Impact: „it firmen" Pos 25.7 → Top 10, CTR 14.29% → massiver Traffic
+
+**Commit:** `2562f56` (kpx-itch).
