@@ -718,3 +718,12 @@ Nach jeder Endpoint-/Service-Seiten-Migration diese grep-Checks ausfuehren:
     - **BG-Rhythmus beim Refinement:** `light → dark → white → light-grey → white → dark` — JEDER Übergang zwischen 2 verschiedenen BG-Werten. Verletzt niemals Lektion 53.
     - **Sektion-Tausch + Positions-Shift:** Wenn Sektionen getauscht werden und gleichzeitig eine Sektion aus dem Bottom-Bereich nach oben verschoben wird, müssen alle nachfolgenden Sektionen umnummeriert werden (Kommentar + Section-Marker).
     - **Quelle:** User-Anforderung „Frage über Chevron, Vorteile in 2 Spalten darunter" (Iteration 33).
+
+60. **FAQ-Layout-Standard**: Alle FAQ-Sektionen verwenden 2-Spalten-Grid (mobile 1-Spalte, Desktop 2-Spalten) und enthalten genau 10 Artikel.
+    - **Grid-Klasse:** `<div className="grid grid-cols-1 md:grid-cols-2 gap-3">` ersetzt `<div className="space-y-3">`
+    - **Card bleibt:** `<details>` mit `<summary>` + ChevronDown + `<p>` Antwort — Layout-unabhängig
+    - **Anzahl: 10 FAQs pro Sektion** — User-Standard aus Iteration 34 (`/it-dienstleister-zuerich`)
+    - **Visuelle Begründung:** 10 FAQs in 2 Spalten = 5 Reihen, kompakter als 10 in 1 Spalte, gleicher Lesefluss, weniger Scroll-Tiefe
+    - **Schema.org FAQPage** muss alle 10 FAQs als `mainEntity` enthalten — SchemaBlock zentral, kein Duplizieren
+    - **Bestehend:** Andere Seiten, die noch `space-y-3` verwenden, sollten bei Gelegenheit migriert werden (z. B. `/managed-it-services/m365`, `/managed-it-services/cloud`, etc.)
+    - **Quelle:** User-Anforderung „FAQ bereich bitte auch eimmer in 2 spalten und immer 10 Artikel im FAQ" (Iteration 34).
